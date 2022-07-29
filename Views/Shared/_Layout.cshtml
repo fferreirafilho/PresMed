@@ -4,21 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PresMed</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min-flatly.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/navbar.css" />
 </head>
 <body>
-    
+
     <!-- The sidebar -->
-    <div class="top"></div>
+    <div class="top "><span> PresMed - Secretaria</span></div>
     <div class="sidebar">
-        <a asp-controller="" asp-action="" class="logout" > <img src="~/images/logout.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Fernando</span> </a>
-        <a id="item1" class="" asp-controller="Home" asp-action="Index">Pagina Inicial</a>
-        <a id="item2" class="" asp-controller="Home" asp-action="Privacy" >Pacientes</a>
-        <a id="item3" class="" asp-controller="Doctor" asp-action="Index" >Medicos</a>
-        <a id="item4" class="" asp-controller="" asp-action="" >Secretaria</a>
-        <a id="item5" class="" asp-controller="" asp-action="" >Agendamentos</a>
+        <a id="item1" class="" asp-controller="Home" asp-action="Index">  <img src="~/images/home.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Pagina Inicial</span> </a>
+        <a id="item2" class="" asp-controller="Home" asp-action="Privacy">  <img src="~/images/paciente.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Pacientes</span> </a>
+        <a id="item3" class="" asp-controller="Doctor" asp-action="Index">  <img src="~/images/medico.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Medicos</span> </a>
+        <a id="item4" class="" asp-controller="" asp-action="">  <img src="~/images/secretaria.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Secretaria</span> </a>
+        <a id="item5" class="" asp-controller="" asp-action="">  <img src="~/images/agenda.png" width="20px" height="20px" style=" float:left; margin-top:3px " /> <span style="margin-left:2rem;">Agendamentos</span> </a>
+        <a asp-controller="" asp-action="" class="fixed-bottom logout"> <img src="~/images/logout.png" width="20px" height="20px" style=" float:left; margin-top:3px " />   <span style="margin-left:2rem;">Fernando</span> </a>
     </div>
 
     <!-- Page content -->

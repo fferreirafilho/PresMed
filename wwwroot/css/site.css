@@ -79,10 +79,33 @@ body {
 .top {
     height: 50px;
     width: 100%;
-    background-color: #F35D5D;
+    background-color: rgba(243,93,93,0.75);
+    text-align: center;
 }
 
+    .top span {
+        height: 50px;
+        text-align: center;
+        display: inline-block;
+        line-height: 50px;
+        color: white;
+    }
+
 .logout {
-    background-color: rgba(27,29,49,0.5);
+    background-color: rgba(27,29,49,0.05);
     color: white;
+    width: 200px;
+}
+
+/*
+    -------------------------------------------*/
+.items {
+    padding: 16px;
+    background-color: #F6F6F6;
+    border-radius: 5px;
+    width: 95%;
+}
+
+.display-6 {
+    margin-top: 08px;
 }
