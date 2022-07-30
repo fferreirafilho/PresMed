@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Medicos";
+    ViewData["Title"] = "Pacientes";
 }
 
 <div class="">
@@ -8,11 +8,12 @@
 <hr />
 
 <div class="d-block me-sm-5 ">
-    <span class="display-4">Listagem de medicos</span>
+    <span class="display-4">Listagem de pacientes</span>
     <div class="d-inline-block float-sm-end">
-        <a asp-action="New" asp-controller="Doctor" class="link-dark"><img src="~/images/add.png" height="32px" width="32px" class="d-block" /><span>Novo</span></a>
+        <a asp-action="New" asp-controller="Patient" class="link-dark"><img src="~/images/add.png" height="32px" width="32px" class="d-block" /><span>Novo</span></a>
     </div>
 </div>
+
 <br />
 
 <table class="table table-striped text-center" id="table-contacts">
@@ -22,7 +23,6 @@
             <th class="text-center" scope="col">Nome</th>
             <th class="text-center" scope="col">Usuario</th>
             <th class="text-center" scope="col">E-mail</th>
-            <th class="text-center" scope="col">CRM</th>
             <th class="text-center" scope="col">Ações</th>
         </tr>
     </thead>
@@ -32,7 +32,6 @@
             <td>Fernando Ferreira</td>
             <td>FFERREIRA</td>
             <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
             <td>
                 <div class="btn-group" role="group">
                     <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
@@ -46,7 +45,6 @@
             <td>Fernando Ferreira</td>
             <td>FFERREIRA</td>
             <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
             <td>
                 <div class="btn-group" role="group">
                     <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
@@ -60,7 +58,6 @@
             <td>Fernando Ferreira</td>
             <td>FFERREIRA</td>
             <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
             <td>
                 <div class="btn-group" role="group">
                     <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
