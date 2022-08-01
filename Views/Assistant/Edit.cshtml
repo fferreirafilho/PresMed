@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Cadastrar paciente";
+    ViewData["Title"] = "Cadastrar assistente";
 }
 
 
@@ -17,6 +17,10 @@
     <div class="col-md-6">
         <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
         <input type="email" class="form-control" id="email" placeholder="Digite o e-mail">
+    </div>
+    <div class="col-md-6">
+        <label for="user" class="form-label">Usuario <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
     </div>
     <div class="col-md-6">
         <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
@@ -55,10 +59,7 @@
         <label class="form-label" for="uf">Estado</label>
         <input value="" class="form-control" type="text" id="uf" disabled="disabled">
     </div>
-    <div class="col-md-6">
-        <label class="form-label" for="numero">Número</label>
-        <input value="" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
-    </div>
+ 
 
     <div class="col-12">
         <button type="submit" class="btn btn-success">Cadastrar</button>

@@ -1,6 +1,6 @@
 using System;
 
-namespace PresMed.Models {
+namespace PresMed.Models.ViewModels {
     public class ErrorViewModel {
         public string RequestId { get; set; }
 

@@ -8,5 +8,9 @@ namespace PresMed.Controllers {
         public IActionResult New() {
             return View();
         }
+
+        public IActionResult Edit() {
+            return View();
+        }
     }
 }
