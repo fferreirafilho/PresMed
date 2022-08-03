@@ -1,5 +1,85 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model PresMed.Models.Doctor
+
 @{
+    ViewData["Title"] = "Editar medicos";
 }
+
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+
+<form class="row g-3" asp-action="Edit">
+    <div class="col-md-6">
+        <label for="nome" class="form-label">Nome completo<span class="text-danger">*</span> </label>
+        <input asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo">
+    </div>
+    <div class="col-md-6">
+        <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
+        <input asp-for="@Model.Email" type="email" class="form-control" id="email" placeholder="Digite o e-mail">
+    </div>
+    <div class="col-md-6">
+        <label for="user" class="form-label">Usuario <span class="text-danger">*</span></label>
+        <input asp-for="@Model.User" type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
+    </div>
+    <div class="col-md-6">
+        <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
+        <input asp-for="@Model.Phone" type="text" class="form-control" id="phone" placeholder="Digite o numero de telefone">
+    </div>
+    <div class="col-md-6">
+        <label for="phone" class="form-label">CRM <span class="text-danger">*</span></label>
+        <input asp-for="@Model.Crm" type="text" class="form-control" id="phone" placeholder="Digite o numero do CRM do médico">
+    </div>
+    <div class="col-md-6">
+        <label for="phone" class="form-label">Especialidade <span class="text-danger">*</span></label>
+        <input asp-for="@Model.Speciality" type="text" class="form-control" id="phone" placeholder="Digite a especialidade do médico">
+    </div>
+    <div class="col-md-6">
+        <label for="phone" class="form-label">CPF <span class="text-danger">*</span></label>
+        <input asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do medico">
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <label for="cep" class="form-label">CEP <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP">
+        </div>
+        <div class="col-md-1">
+            <label for="cep" class="form-label">Pesquisar </label>
+            <a class="btn btn-info pesquisar"><i class="fas fa-search"></i></a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" for="logradouro">Logradouro </label>
+        <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" for="complemento">Complemento </label>
+        <input asp-for="@Model.Complement" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="bairro">Bairro </label>
+        <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="localidade">Cidade </label>
+        <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="uf">Estado </label>
+        <input asp-for="@Model.State" class="form-control" type="text" id="uf">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="numero">Número</label>
+        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
+    </div>
+
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-success">Editar</button>
+        <a role="button" class="btn btn-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
+    </div>
+
+</form>

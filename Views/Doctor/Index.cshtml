@@ -1,11 +1,28 @@
-﻿@{
-    ViewData["Title"] = "Medicos";
+﻿@model IEnumerable<PresMed.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Listagem de medicos";
 }
 
 <div class="">
     <h3 class="display-6">@ViewData["TItle"]</h3>
 </div>
 <hr />
+
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alerts alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <div class="d-block me-sm-5 ">
     <span class="display-4">Listagem de medicos</span>
@@ -19,56 +36,37 @@
     <thead>
         <tr>
             <th class="text-center" scope="col">#</th>
-            <th class="text-center" scope="col">Nome</th>
-            <th class="text-center" scope="col">Usuario</th>
-            <th class="text-center" scope="col">E-mail</th>
-            <th class="text-center" scope="col">CRM</th>
-            <th class="text-center" scope="col">Ações</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Email)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.User)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Crm)</th>
+            @if (Model != null && Model.Any()) {
+                <th class="text-center" scope="col">Ações</th>
+            }
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>01</td>
-            <td>Fernando Ferreira</td>
-            <td>FFERREIRA</td>
-            <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
-            <td>
-                <div class="btn-group" role="group">
-                    <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
-                    <a role="button" class="btn btn-danger" asp-route-id="" asp-controller="Doctor" asp-action="Delete">Apagar</a>
-                </div>
-            </td>
-
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>Fernando Ferreira</td>
-            <td>FFERREIRA</td>
-            <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
-            <td>
-                <div class="btn-group" role="group">
-                    <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
-                    <a role="button" class="btn btn-danger" asp-route-id="" asp-controller="Doctor" asp-action="Delete">Apagar</a>
-                </div>
-            </td>
-
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>Fernando Ferreira</td>
-            <td>FFERREIRA</td>
-            <td>fernando@gmail.com</td>
-            <td>GO-7854</td>
-            <td>
-                <div class="btn-group" role="group">
-                    <a role="button" class="btn btn-primary" asp-route-id="" asp-controller="Doctor" asp-action="Edit">Editar</a>
-                    <a role="button" class="btn btn-danger" asp-route-id="" asp-controller="Doctor" asp-action="Delete">Apagar</a>
-                </div>
-            </td>
-
-        </tr>
+        @if (Model != null && Model.Any()) {
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.User</td>
+                    <td>@item.Crm</td>
+                    <td>
+                        <div class="btn-group-sm" role="group">
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Edit">Editar</a>
+                            <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Details">Detalhes</a>
+                            <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Delete">Desativar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="5">Nenhum medico encontrado</td></tr>
+        }
 
     </tbody>
 </table>
