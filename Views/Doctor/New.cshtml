@@ -29,20 +29,20 @@
         <input asp-for="@Model.Phone" type="text" class="form-control" id="phone" placeholder="Digite o numero de telefone">
     </div>
     <div class="col-md-6">
-        <label for="phone" class="form-label">CRM <span class="text-danger">*</span></label>
+        <label for="crm" class="form-label">CRM <span class="text-danger">*</span></label>
         <input asp-for="@Model.Crm" type="text" class="form-control" id="phone" placeholder="Digite o numero do CRM do médico">
     </div>
     <div class="col-md-6">
-        <label for="phone" class="form-label">Especialidade <span class="text-danger">*</span></label>
+        <label for="speciality" class="form-label">Especialidade <span class="text-danger">*</span></label>
         <input asp-for="@Model.Speciality" type="text" class="form-control" id="phone" placeholder="Digite a especialidade do médico">
     </div>
     <div class="col-md-6">
-        <label for="phone" class="form-label">CPF <span class="text-danger">*</span></label>
+        <label for="cpf" class="form-label">CPF <span class="text-danger">*</span></label>
         <input asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do medico">
     </div>
     <div class="row mt-4">
         <div class="col-md-2">
-            <label for="cep" class="form-label">CEP <span class="text-danger">*</span></label>
+            <label for="cep" class="form-label">CEP </label>
             <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP">
         </div>
         <div class="col-md-1">
@@ -52,7 +52,7 @@
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" for="logradouro">Logradouro </label>
+        <label class="form-label" for="logradouro">Logradouro<span class="text-danger">*</span> </label>
         <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
     </div>
 
@@ -61,15 +61,15 @@
         <input asp-for="@Model.Complement" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
     </div>
     <div class="col-md-6">
-        <label class="form-label" for="bairro">Bairro </label>
+        <label class="form-label" for="bairro">Bairro <span class="text-danger">*</span></label>
         <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
     </div>
     <div class="col-md-6">
-        <label class="form-label" for="localidade">Cidade </label>
+        <label class="form-label" for="localidade">Cidade <span class="text-danger">*</span></label>
         <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
     </div>
     <div class="col-md-6">
-        <label class="form-label" for="uf">Estado </label>
+        <label class="form-label" for="uf">Estado<span class="text-danger">*</span> </label>
         <input asp-for="@Model.State" class="form-control" type="text" id="uf">
     </div>
     <div class="col-md-6">

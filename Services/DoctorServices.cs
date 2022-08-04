@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
+using PresMed.Models.Enums;
 
 namespace PresMed.Services {
     public class DoctorServices : IDoctorServices {
@@ -14,15 +16,69 @@ namespace PresMed.Services {
         }
 
         public async Task InsertAsync(Doctor doctor) {
-            _context.Doctor.Add(doctor);
-            await _context.SaveChangesAsync();
+            try {
+                _context.Doctor.Add(doctor);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e) {
+                throw new Exception($"Houve um erro ao salvar o usuario tente mais tarde, ERRO: {e.Message}");
+            }
         }
 
-        public async Task<List<Doctor>> FindAllAsync() {
-            return await _context.Doctor.ToListAsync();
+        public async Task<List<Doctor>> FindAllDisableAsync() {
+
+            try {
+                var list = await _context.Doctor.ToListAsync();
+                return list.Where(x => x.Status == UserStatus.Inativado).ToList();
+
+            }
+            catch (Exception e) {
+                throw new Exception($"Houve um erro para listar os usuarios tente mais tarde, ERRO: {e.Message}");
+            }
         }
+
+        public async Task<List<Doctor>> FindAllActiveAsync() {
+
+            try {
+                var list = await _context.Doctor.ToListAsync();
+                return list.Where(x => x.Status == UserStatus.Ativo).ToList();
+            }
+            catch (Exception e) {
+                throw new Exception($"Houve um erro para listar os usuarios tente mais tarde, ERRO: {e.Message}");
+            }
+        }
+
         public async Task<Doctor> FindByIdAsync(int id) {
-            return await _context.Doctor.FirstOrDefaultAsync(obj => obj.Id == id);
+
+            try {
+                return await _context.Doctor.FirstOrDefaultAsync(obj => obj.Id == id);
+            }
+            catch (Exception e) {
+                throw new Exception($"Houve um erro para encontrar o usuario tente mais tarde, ERRO: {e.Message}");
+            }
+        }
+
+        public async Task UpdateAsync(Doctor doctor) {
+
+            try {
+                bool hasAny = await _context.Doctor.AnyAsync(x => x.Id == doctor.Id);
+
+                if (!hasAny) {
+                    throw new Exception("Id not found");
+                }
+                try {
+                    _context.Doctor.Update(doctor);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception e) {
+                    throw new Exception(e.Message);
+                }
+            }
+            catch (Exception e) {
+                throw new Exception(e.Message);
+            }
+
+
         }
     }
 }

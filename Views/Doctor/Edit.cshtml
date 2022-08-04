@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-6">
         <label for="user" class="form-label">Usuario <span class="text-danger">*</span></label>
-        <input asp-for="@Model.User" type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
+        <input asp-for="@Model.User" type="text" class="form-control disabled" id="user" placeholder="Digite o nome de usuario" disabled>
     </div>
     <div class="col-md-6">
         <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
@@ -38,7 +38,7 @@
     </div>
     <div class="col-md-6">
         <label for="phone" class="form-label">CPF <span class="text-danger">*</span></label>
-        <input asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do medico">
+        <input asp-for="@Model.Cpf" type="text" class="form-control disabled" id="phone" placeholder="Digite o CPF do medico" disabled>
     </div>
     <div class="row mt-4">
         <div class="col-md-2">
@@ -78,7 +78,7 @@
     </div>
 
     <div class="col-12 mb-5">
-        <button type="submit" class="btn btn-success">Editar</button>
+        <button type="submit" class="btn btn-info">Editar</button>
         <a role="button" class="btn btn-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
     </div>
 

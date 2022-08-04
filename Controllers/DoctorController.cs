@@ -2,6 +2,7 @@
 using PresMed.Models;
 using PresMed.Models.Enums;
 using PresMed.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace PresMed.Controllers {
@@ -14,9 +15,17 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Index() {
-            var list = await _doctorService.FindAllAsync();
+            ViewData["Title"] = "Listagem de medicos ativos";
+            var list = await _doctorService.FindAllActiveAsync();
             return View(list);
         }
+
+        public async Task<IActionResult> All() {
+            ViewData["Title"] = "Listagem de medicos desativados";
+            var list = await _doctorService.FindAllDisableAsync();
+            return View("Index", list);
+        }
+
         public IActionResult New() {
             return View();
         }
@@ -35,7 +44,7 @@ namespace PresMed.Controllers {
             return View(doctor);
         }
 
-        public async Task<IActionResult> Delete(int? id) {
+        public async Task<IActionResult> Disable(int? id) {
 
             if (id == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
@@ -66,10 +75,99 @@ namespace PresMed.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(Doctor doctor) {
-            doctor.Status = UserStatus.Ativo;
-            await _doctorService.InsertAsync(doctor);
-            return RedirectToAction("Index");
+            try {
+                doctor.Status = UserStatus.Ativo;
+                await _doctorService.InsertAsync(doctor);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e) {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Index");
+            }
 
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Disable(int id) {
+
+            try {
+                Doctor doctor = await _doctorService.FindByIdAsync(id);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                doctor.Status = UserStatus.Inativado;
+                await _doctorService.UpdateAsync(doctor);
+                TempData["SuccessMessage"] = "Usuario desativado com sucesso";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e) {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Enable(int id) {
+
+            try {
+                Doctor doctor = await _doctorService.FindByIdAsync(id);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                doctor.Status = UserStatus.Ativo;
+                await _doctorService.UpdateAsync(doctor);
+                TempData["SuccessMessage"] = "Usuario ativado com sucesso";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e) {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Doctor doctor) {
+            try {
+                int id = (int)doctor.Id;
+                Doctor dbDoctor = await _doctorService.FindByIdAsync(id);
+                if (dbDoctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+
+                dbDoctor.Phone = doctor.Phone;
+                dbDoctor.Email = doctor.Email;
+                dbDoctor.Street = doctor.Street;
+                dbDoctor.District = doctor.District;
+                dbDoctor.State = doctor.State;
+                dbDoctor.City = doctor.City;
+                dbDoctor.Complement = doctor.Complement;
+                dbDoctor.City = doctor.City;
+                dbDoctor.Number = doctor.Number;
+                dbDoctor.Crm = doctor.Crm;
+                dbDoctor.Speciality = doctor.Speciality;
+                dbDoctor.Name = doctor.Name;
+
+                await _doctorService.UpdateAsync(dbDoctor);
+                TempData["SuccessMessage"] = "Usuario desativado com sucesso";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e) {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

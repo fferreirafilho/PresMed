@@ -109,12 +109,3 @@ body {
 .display-6 {
     margin-top: 08px;
 }
-
-.close-alert {
-    position: absolute;
-    right: -10px;
-    top: -15px;
-    border-radius: 15px;
-    width: 30px;
-    height: 30px;
-}
