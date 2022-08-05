@@ -76,6 +76,9 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(Doctor doctor) {
             try {
+                if (!ModelState.IsValid) {
+                    return View(doctor);
+                }
                 doctor.Status = UserStatus.Ativo;
                 await _doctorService.InsertAsync(doctor);
                 return RedirectToAction("Index");

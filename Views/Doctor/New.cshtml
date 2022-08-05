@@ -15,30 +15,37 @@
     <div class="col-md-6">
         <label for="nome" class="form-label">Nome completo<span class="text-danger">*</span> </label>
         <input asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo">
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
         <input asp-for="@Model.Email" type="email" class="form-control" id="email" placeholder="Digite o e-mail">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="user" class="form-label">Usuario <span class="text-danger">*</span></label>
         <input asp-for="@Model.User" type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
+        <span asp-validation-for="@Model.User" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
         <input asp-for="@Model.Phone" type="text" class="form-control" id="phone" placeholder="Digite o numero de telefone">
+        <span asp-validation-for="@Model.Phone" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="crm" class="form-label">CRM <span class="text-danger">*</span></label>
         <input asp-for="@Model.Crm" type="text" class="form-control" id="phone" placeholder="Digite o numero do CRM do médico">
+        <span asp-validation-for="@Model.Crm" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="speciality" class="form-label">Especialidade <span class="text-danger">*</span></label>
         <input asp-for="@Model.Speciality" type="text" class="form-control" id="phone" placeholder="Digite a especialidade do médico">
+        <span asp-validation-for="@Model.Speciality" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label for="cpf" class="form-label">CPF <span class="text-danger">*</span></label>
         <input asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do medico">
+        <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
     </div>
     <div class="row mt-4">
         <div class="col-md-2">
@@ -52,8 +59,9 @@
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" for="logradouro">Logradouro<span class="text-danger">*</span> </label>
+        <label class="form-label" for="logradouro">Rua<span class="text-danger">*</span> </label>
         <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
+        <span asp-validation-for="@Model.Street" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
@@ -63,14 +71,17 @@
     <div class="col-md-6">
         <label class="form-label" for="bairro">Bairro <span class="text-danger">*</span></label>
         <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
+        <span asp-validation-for="@Model.District" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label" for="localidade">Cidade <span class="text-danger">*</span></label>
         <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label" for="uf">Estado<span class="text-danger">*</span> </label>
         <input asp-for="@Model.State" class="form-control" type="text" id="uf">
+        <span asp-validation-for="@Model.State" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label" for="numero">Número</label>
