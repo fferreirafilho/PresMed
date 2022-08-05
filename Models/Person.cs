@@ -1,5 +1,7 @@
 ﻿using PresMed.Models.Enums;
+using PresMed.Models.ValidationModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PresMed.Models {
     public class Person {
@@ -9,13 +11,16 @@ namespace PresMed.Models {
         public string Name { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        public long Phone { get; set; }
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Numero de telefone invalido")]
+        public long? Phone { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail invalido")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        public long Cpf { get; set; }
+        [CpfValidation(ErrorMessage = "O CPF informado é invalido")]
+        public long? Cpf { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         public string Street { get; set; }

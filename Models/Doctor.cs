@@ -8,6 +8,7 @@ namespace PresMed.Models {
 
         public string Password { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
+
         public string Crm { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         public string Speciality { get; set; }
