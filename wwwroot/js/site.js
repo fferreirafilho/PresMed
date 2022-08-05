@@ -79,3 +79,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // Your code to run since DOM is loaded and ready
 });
+
+
+$(document).ready(function () {
+    $("#data").inputmask('99/99/9999');
+    $("#cpf").inputmask('999.999.999-99');
+});

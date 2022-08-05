@@ -8,5 +8,7 @@ namespace PresMed.Data {
 
         public DbSet<Doctor> Doctor { get; set; }
 
+
+
     }
 }

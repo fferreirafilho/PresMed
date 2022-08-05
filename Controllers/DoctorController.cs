@@ -143,6 +143,9 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Doctor doctor) {
             try {
+                if (!ModelState.IsValid) {
+                    return View(doctor);
+                }
                 int id = (int)doctor.Id;
                 Doctor dbDoctor = await _doctorService.FindByIdAsync(id);
                 if (dbDoctor == null) {
@@ -157,7 +160,6 @@ namespace PresMed.Controllers {
                 dbDoctor.State = doctor.State;
                 dbDoctor.City = doctor.City;
                 dbDoctor.Complement = doctor.Complement;
-                dbDoctor.City = doctor.City;
                 dbDoctor.Number = doctor.Number;
                 dbDoctor.Crm = doctor.Crm;
                 dbDoctor.Speciality = doctor.Speciality;
