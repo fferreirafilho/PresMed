@@ -185,12 +185,12 @@ namespace PresMed.Controllers {
                 dbDoctor.City = doctor.City;
                 dbDoctor.Complement = doctor.Complement;
                 dbDoctor.Number = doctor.Number;
-                dbDoctor.Crm = doctor.Crm;
                 dbDoctor.Speciality = doctor.Speciality;
                 dbDoctor.Name = doctor.Name;
 
                 await _doctorService.UpdateAsync(dbDoctor);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
+
                 return RedirectToAction("Index");
             }
             catch (Exception e) {

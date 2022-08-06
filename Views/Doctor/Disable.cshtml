@@ -105,14 +105,14 @@
         <form asp-action="Disable" asp-controller="Doctor" method="post" class="mb-5">
             <input hidden asp-for="Id" />
             <input type="submit" value="Desativar" class="btn btn-danger" />
-            <a role="button" class="btn btn-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
         </form>
     }
     @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
         <form asp-action="Enable" asp-controller="Doctor" method="post" class="mb-5">
             <input hidden asp-for="Id" />
             <input type="submit" value="Ativar" class="btn btn-success" />
-            <a role="button" class="btn btn-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Doctor">Voltar</a>
         </form>
     }
 

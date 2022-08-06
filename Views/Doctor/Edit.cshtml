@@ -88,8 +88,20 @@
         <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
     </div>
 
-    <div class="col-12 mb-5">
-        <button type="submit" class="btn btn-success">Alterar</button>
-        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
-    </div>
+
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
+
+        <div class="col-12 mb-5">
+            <button type="submit" class="btn btn-success">Alterar</button>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
+        </div>
+    }
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
+
+        <div class="col-12 mb-5">
+            <button type="submit" class="btn btn-success">Alterar</button>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Doctor">Voltar</a>
+        </div>
+    }
+
 </form>
