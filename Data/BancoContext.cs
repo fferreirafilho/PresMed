@@ -8,7 +8,17 @@ namespace PresMed.Data {
 
         public DbSet<Doctor> Doctor { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(p => p.User)
+                .IsUnique(true);
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(p => p.Cpf)
+                .IsUnique();
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(p => p.Crm)
+                .IsUnique();
+        }
 
     }
 }

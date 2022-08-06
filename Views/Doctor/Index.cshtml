@@ -23,7 +23,7 @@
         <span class="display-4">@ViewData["Title"]</span>
     </div>
     <div class="col-lg-2">
-        <a asp-action="All" asp-controller="Doctor" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Desativados</span></a>
+        <a asp-action="Inactive" asp-controller="Doctor" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Desativados</span></a>
     </div>
     <div class="col-lg-2">
         <a asp-action="Index" asp-controller="Doctor" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Ativos</span></a>
@@ -69,7 +69,7 @@
                             @if (item.Status == PresMed.Models.Enums.UserStatus.Inativado) {
                                 <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Edit">Editar</a>
                                 <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Details">Detalhes</a>
-                                <a role="button" class="btn btn-success " asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Disable">Ativar</a>
+                                <a role="button" class="btn btn-success " asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Enabled">Ativar</a>
                             }
 
                         </div>

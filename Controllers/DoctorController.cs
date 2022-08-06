@@ -3,7 +3,12 @@ using PresMed.Models;
 using PresMed.Models.Enums;
 using PresMed.Services;
 using System;
+using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using PresMed.Models.ViewModels;
 
 namespace PresMed.Controllers {
     public class DoctorController : Controller {
@@ -20,7 +25,7 @@ namespace PresMed.Controllers {
             return View(list);
         }
 
-        public async Task<IActionResult> All() {
+        public async Task<IActionResult> Inactive() {
             ViewData["Title"] = "Listagem de medicos desativados";
             var list = await _doctorService.FindAllDisableAsync();
             return View("Index", list);
@@ -58,6 +63,21 @@ namespace PresMed.Controllers {
             return View(doctor);
         }
 
+
+        public async Task<IActionResult> Enabled(int? id) {
+
+            if (id == null) {
+                TempData["ErrorMessage"] = "ID não encontrado";
+                return RedirectToAction("Index");
+            }
+            Doctor doctor = await _doctorService.FindByIdAsync(id.Value);
+            if (doctor == null) {
+                TempData["ErrorMessage"] = "ID não encontrado";
+                return RedirectToAction("Index");
+            }
+            return View("Disable", doctor);
+        }
+
         public async Task<IActionResult> Details(int? id) {
 
             if (id == null) {
@@ -80,6 +100,10 @@ namespace PresMed.Controllers {
                     return View(doctor);
                 }
                 doctor.Status = UserStatus.Ativo;
+                string str = doctor.Cpf;
+                str = str.Trim();
+                str = str.Replace(".", "").Replace("-", "");
+                doctor.Cpf = str;
                 await _doctorService.InsertAsync(doctor);
                 return RedirectToAction("Index");
             }
@@ -166,7 +190,7 @@ namespace PresMed.Controllers {
                 dbDoctor.Name = doctor.Name;
 
                 await _doctorService.UpdateAsync(dbDoctor);
-                TempData["SuccessMessage"] = "Usuario desativado com sucesso";
+                TempData["SuccessMessage"] = "Usuario alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -174,5 +198,6 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
         }
+
     }
 }

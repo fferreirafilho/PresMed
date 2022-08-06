@@ -21,7 +21,17 @@ namespace PresMed.Services {
                 await _context.SaveChangesAsync();
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro ao salvar o usuario tente mais tarde, ERRO: {e.Message}");
+                if (e.InnerException.Message.Contains(doctor.Cpf)) {
+                    throw new Exception($"Houve um erro ao salvar esse usuario, CPF duplicado");
+                }
+                if (e.InnerException.Message.Contains(doctor.User)) {
+                    throw new Exception($"Houve um erro ao salvar esse usuario, usuario duplicado");
+                }
+                if (e.InnerException.Message.Contains(doctor.Crm)) {
+                    throw new Exception($"Houve um erro ao salvar esse usuario, CRM duplicado");
+                }
+                throw new Exception($"Houve um erro ao salvar o usuario erro: {e.InnerException.Message}");
+
             }
         }
 

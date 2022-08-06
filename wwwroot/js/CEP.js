@@ -10,7 +10,9 @@ function pesquisar(event) {
         (!inputCep.value == "" || !inputCep.value == null) &&
         !isNaN(inputCep.value)
     ) {
-        let cep = fetch(`https://viacep.com.br/ws/${inputCep.value}/json`);
+        let str = inputCep.value
+        str = str.replace("-", '')
+        let cep = fetch(`https://viacep.com.br/ws/${str}/json`);
         cep
             .then((response) => response.json())
             .then((response) => {
