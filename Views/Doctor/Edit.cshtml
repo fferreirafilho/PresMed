@@ -47,6 +47,12 @@
         <input readonly asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do medico">
         <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
     </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.BirthDate" class="form-label"></label><span class="text-danger">*</span>
+        <input readonly asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+
+    </div>
     <div class="row mt-4">
         <div class="col-md-2">
             <label for="cep" class="form-label">CEP (apenas numeros)</label>

@@ -25,6 +25,7 @@
     <div class="col-md-6">
         <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
         <input type="text" class="form-control" id="phone" placeholder="Digite o numero de telefone">
+        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
     </div>
     <div class="row mt-4">
         <div class="col-md-2">

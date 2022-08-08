@@ -17,6 +17,7 @@ namespace PresMed.Services {
 
         public async Task InsertAsync(Doctor doctor) {
             try {
+
                 _context.Doctor.Add(doctor);
                 await _context.SaveChangesAsync();
             }
@@ -25,12 +26,12 @@ namespace PresMed.Services {
                     throw new Exception($"Houve um erro ao salvar esse usuario, CPF duplicado");
                 }
                 if (e.InnerException.Message.Contains(doctor.User)) {
-                    throw new Exception($"Houve um erro ao salvar esse usuario, usuario duplicado");
+                    throw new Exception($"Houve um erro ao salvar esse usuario, usuário duplicado");
                 }
                 if (e.InnerException.Message.Contains(doctor.Crm)) {
                     throw new Exception($"Houve um erro ao salvar esse usuario, CRM duplicado");
                 }
-                throw new Exception($"Houve um erro ao salvar o usuario erro: {e.InnerException.Message}");
+                throw new Exception($"Houve um erro ao salvar o usuario, erro: {e.InnerException.Message}");
 
             }
         }
@@ -74,7 +75,7 @@ namespace PresMed.Services {
                 bool hasAny = await _context.Doctor.AnyAsync(x => x.Id == doctor.Id);
 
                 if (!hasAny) {
-                    throw new Exception("Id not found");
+                    throw new Exception("ID não encontrado");
                 }
                 try {
                     _context.Doctor.Update(doctor);

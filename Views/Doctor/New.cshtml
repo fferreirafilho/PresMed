@@ -29,8 +29,9 @@
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.Phone" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
-        <input asp-for="@Model.Phone" type="text" class="form-control" placeholder="Digite o numero de telefone">
+        <input asp-for="@Model.Phone" type="text" class="form-control" placeholder="Digite o numero de telefone " onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.Crm" class="form-label"></label><span class="text-danger">*</span>
@@ -44,13 +45,20 @@
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.Cpf" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
-        <input asp-for="@Model.Cpf" type="text" class="form-control" id="cpf" placeholder="Digite o CPF do medico">
+        <input asp-for="@Model.Cpf" type="text" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
+
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.BirthDate" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+
     </div>
     <div class="row mt-4">
         <div class="col-md-2">
             <label for="cep" class="form-label">CEP (apenas numeros)</label>
-            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP">
+            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         </div>
         <div class="col-md-1">
             <label for="cep" class="form-label">Pesquisar </label>
@@ -86,7 +94,7 @@
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.Number" class="form-label"></label>
-        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
+        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
     </div>
 
     <div class="col-12 mb-5">

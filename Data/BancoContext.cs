@@ -14,10 +14,10 @@ namespace PresMed.Data {
                 .IsUnique(true);
             modelBuilder.Entity<Doctor>()
                 .HasIndex(p => p.Cpf)
-                .IsUnique();
+                .IsUnique(true);
             modelBuilder.Entity<Doctor>()
                 .HasIndex(p => p.Crm)
-                .IsUnique();
+                .IsUnique(true);
         }
 
     }

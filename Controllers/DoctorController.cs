@@ -99,12 +99,14 @@ namespace PresMed.Controllers {
                 if (!ModelState.IsValid) {
                     return View(doctor);
                 }
+                doctor.PersonType = PersonType.Doctor;
                 doctor.Status = UserStatus.Ativo;
                 string str = doctor.Cpf;
                 str = str.Trim();
                 str = str.Replace(".", "").Replace("-", "");
                 doctor.Cpf = str;
                 await _doctorService.InsertAsync(doctor);
+                TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -127,7 +129,7 @@ namespace PresMed.Controllers {
                 }
                 doctor.Status = UserStatus.Inativado;
                 await _doctorService.UpdateAsync(doctor);
-                TempData["SuccessMessage"] = "Usuario desativado com sucesso";
+                TempData["SuccessMessage"] = "Usuário desativado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
