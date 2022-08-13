@@ -88,7 +88,7 @@ namespace PresMed.Models {
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Date, ErrorMessage = "Data invalida favor inserir novamente")]
         [Display(Name = "Data de nascimento")]
-        [BirthDateValidation(ErrorMessage = "O usuário deve ter mais de 18 anos")]
+        [BirthDateValidation(ErrorMessage = "O usuário deve ter mais de 18 anos e menos de 130 anos")]
         public DateTime? BirthDate { get; set; }
 
 
@@ -118,10 +118,18 @@ namespace PresMed.Models {
             Password = password;
         }
 
-        public static Person Parse(PersonAssistant assistant) {
+        public static Person Parse(PersonAssistant assistant = null, PersonPatient patient = null) {
+            Person person = new Person();
 
-            Person person = new Person(assistant.Name, assistant.Phone.Value, assistant.Email, assistant.Cpf, assistant.Street, assistant.District, assistant.State, assistant.Complement, assistant.City, assistant.Number, assistant.Status, assistant.PersonType, assistant.User, "", null, "", assistant.BirthDate.Value);
-            person.Id = assistant.Id;
+            if (assistant != null) {
+                person = new Person(assistant.Name, assistant.Phone.Value, assistant.Email, assistant.Cpf, assistant.Street, assistant.District, assistant.State, assistant.Complement, assistant.City, assistant.Number, assistant.Status, assistant.PersonType, assistant.User, "", null, null, assistant.BirthDate.Value);
+                person.Id = assistant.Id;
+            }
+            if (patient != null) {
+                person = new Person(patient.Name, patient.Phone.Value, patient.Email, patient.Cpf, patient.Street, patient.District, patient.State, patient.Complement, patient.City, patient.Number, patient.Status, patient.PersonType, patient.User, "", null, null, patient.BirthDate.Value);
+                person.Id = patient.Id;
+            }
+
 
             return person;
         }

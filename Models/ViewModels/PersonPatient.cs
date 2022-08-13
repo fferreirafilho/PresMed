@@ -83,17 +83,8 @@ namespace PresMed.Models.ViewModels {
 
 
 
-        public static PersonPatient Parse(Person person = null, PersonAssistant personAssistant = null) {
-            PersonPatient personPatient = new PersonPatient();
-
-            if (person != null) {
-
-                personPatient = new PersonPatient { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
-            }
-
-            if (personAssistant != null) {
-                personPatient = new PersonPatient { Id = personAssistant.Id, Name = personAssistant.Name, Phone = personAssistant.Phone.Value, Email = personAssistant.Email, Cpf = personAssistant.Cpf, Street = personAssistant.Street, District = personAssistant.District, State = personAssistant.State, Complement = personAssistant.Complement, City = personAssistant.City, Number = personAssistant.Number, Status = personAssistant.Status, PersonType = personAssistant.PersonType, User = personAssistant.User, BirthDate = personAssistant.BirthDate };
-            }
+        public static PersonPatient Parse(Person person) {
+            PersonPatient personPatient = new PersonPatient { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
 
             return personPatient;
         }

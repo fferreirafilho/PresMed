@@ -42,7 +42,7 @@ namespace PresMed.Controllers {
             }
 
 
-            return View(PersonPatient.Parse(patient, null));
+            return View(PersonPatient.Parse(patient));
         }
 
         public async Task<IActionResult> Disable(int? id) {
@@ -104,7 +104,7 @@ namespace PresMed.Controllers {
                 str = str.Replace(".", "").Replace("-", "");
                 patient.Cpf = str;
 
-                Person person = Person.Parse(PersonAssistant.Parse(null, patient));
+                Person person = Person.Parse(null, patient);
 
                 await _patientService.InsertAsync(person);
 
@@ -177,7 +177,7 @@ namespace PresMed.Controllers {
                     return View(personPatient);
                 }
 
-                Person patient = Person.Parse(PersonAssistant.Parse(null, personPatient));
+                Person patient = Person.Parse(null, personPatient);
                 int id = (int)patient.Id;
                 Person dbPerson = await _patientService.FindByIdAsync(id);
 

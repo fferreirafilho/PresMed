@@ -83,19 +83,10 @@ namespace PresMed.Models.ViewModels {
 
 
 
-        public static PersonAssistant Parse(Person person = null, PersonPatient personPacient = null) {
+        public static PersonAssistant Parse(Person person) {
 
-            PersonAssistant personAssistant = new PersonAssistant();
+            PersonAssistant personAssistant = new PersonAssistant { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
 
-            if (person != null) {
-                personAssistant = new PersonAssistant { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
-
-            }
-
-            if (personPacient != null) {
-                personAssistant = new PersonAssistant { Id = personPacient.Id, Name = personPacient.Name, Phone = personPacient.Phone.Value, Email = personPacient.Email, Cpf = personPacient.Cpf, Street = personPacient.Street, District = personPacient.District, State = personPacient.State, Complement = personPacient.Complement, City = personPacient.City, Number = personPacient.Number, Status = personPacient.Status, PersonType = personPacient.PersonType, User = personPacient.User, BirthDate = personPacient.BirthDate };
-
-            }
 
             return personAssistant;
 
