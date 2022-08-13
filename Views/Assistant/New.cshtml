@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.ViewModels.PersonAssistant
 
 @{
-    ViewData["Title"] = "Cadastrar medicos";
+    ViewData["Title"] = "Cadastrar assistentes";
 }
 
 
@@ -35,13 +35,13 @@
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.Cpf" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
-        <input asp-for="@Model.Cpf" type="text" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <input asp-for="@Model.Cpf" type="text" class="form-control" id="cpf" placeholder="Digite o CPF do assistente" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
 
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.BirthDate" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <input asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do assistente" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
 
     </div>

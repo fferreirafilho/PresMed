@@ -15,9 +15,14 @@ namespace PresMed.Data {
             modelBuilder.Entity<Person>()
                 .HasIndex(p => p.Cpf)
                 .IsUnique(true);
-            modelBuilder.Entity<Person>()
-                .HasIndex(p => p.Crm)
+            modelBuilder.Entity<Person>(etb => {
+                etb.Property(t => t.Crm)
+                   .IsRequired(false);
+                etb.HasIndex(t => t.Crm)
                 .IsUnique(true);
+                etb.Property(t => t.Speciality)
+                .IsRequired(false);
+            });
         }
 
     }

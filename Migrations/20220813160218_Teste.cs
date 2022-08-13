@@ -2,16 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PresMed.Migrations
-{
-    public partial class Persons : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace PresMed.Migrations {
+    public partial class Teste : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
-                name: "Persons",
-                columns: table => new
-                {
+                name: "Person",
+                columns: table => new {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
@@ -26,40 +22,38 @@ namespace PresMed.Migrations
                     Number = table.Column<string>(maxLength: 7, nullable: true),
                     User = table.Column<string>(maxLength: 20, nullable: false),
                     Password = table.Column<string>(nullable: true),
+                    Crm = table.Column<string>(maxLength: 20, nullable: false),
+                    Speciality = table.Column<string>(maxLength: 20, nullable: false),
+                    BirthDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    PersonType = table.Column<int>(nullable: false),
-                    Crm = table.Column<string>(nullable: true),
-                    Speciality = table.Column<string>(nullable: true),
-                    BirthDate = table.Column<DateTime>(nullable: false)
+                    PersonType = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
+                constraints: table => {
+                    table.PrimaryKey("PK_Person", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_Cpf",
-                table: "Persons",
+                name: "IX_Person_Cpf",
+                table: "Person",
                 column: "Cpf",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_Crm",
-                table: "Persons",
+                name: "IX_Person_Crm",
+                table: "Person",
                 column: "Crm",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Persons_User",
-                table: "Persons",
+                name: "IX_Person_User",
+                table: "Person",
                 column: "User",
                 unique: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
-                name: "Persons");
+                name: "Person");
         }
     }
 }

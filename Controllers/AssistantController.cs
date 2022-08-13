@@ -48,7 +48,7 @@ namespace PresMed.Controllers {
             }
 
 
-            return View(PersonAssistant.Parse(assistant));
+            return View(PersonAssistant.Parse(assistant, null));
         }
 
         public async Task<IActionResult> Disable(int? id) {

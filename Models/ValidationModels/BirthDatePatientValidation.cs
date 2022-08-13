@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace PresMed.Models.ValidationModels {
-    public class BirthDateValidation : ValidationAttribute {
+    public class BirthDatePatientValidation : ValidationAttribute {
         public override bool IsValid(object value) {
             if (value == null || string.IsNullOrEmpty(value.ToString()))
                 return false;
@@ -15,11 +15,10 @@ namespace PresMed.Models.ValidationModels {
             DateTime now = DateTime.Now;
             int days = (int)now.Subtract(birthDate).TotalDays;
             int year = days / 365;
-            if (year < 18 || year > 130) {
+            if (year < 0 || year > 130) {
                 return false;
             }
             return true;
-
         }
 
     }

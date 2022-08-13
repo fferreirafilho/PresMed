@@ -23,8 +23,8 @@ namespace PresMed.Data {
             Person p3 = new Person("Antonio da Costa Silva", 9223123372, "antoniocostsasilva@gmail.com", "95743105073", "Jose Carrilho", "Boa Vista", "GO", null, "Goianésia", "1050", UserStatus.Ativo, PersonType.Doctor, "ACSILVA", "123456798", "MG-1234", "Cardiologista", new DateTime(1975, 01, 14));
             Person p4 = new Person("Elisagela Martins Machado", 8221348268, "elisagenlamachado@gmail.com", "90066048010", "14", "Universitario", "GO", null, "Goianésia", "35", UserStatus.Ativo, PersonType.Doctor, "EMMACHADO ", "123456798", "AP-1234", "Ginecologista", new DateTime(1985, 06, 01));
             Person p5 = new Person("Jennifer Faida", 4724215048, "jenniferfaida@gmail.com", "68713358030", "01", "Bela Vista", "GO", null, "Goianésia", "258", UserStatus.Inativado, PersonType.Doctor, "JFAIDA", "123456798", "SC-1234", "Pediatra", new DateTime(1963, 11, 10));
-            Person p6 = new Person("Julia Fean", 64971342715, "juliafean@gmail.com", "65549765071", "14", "Setor Universitario", "GO", "Esquina com a 7", "Goianésia", "1049", UserStatus.Ativo, PersonType.Assistant, "JFEAN", "123456798", null, "", new DateTime(1999, 07, 30));
-            Person p7 = new Person("Maria Lenoe", 97987872420, "marialenoe@gmail.com", "40415671060", "08", "Setor Sul", "GO", null, "Goianésia", "36", UserStatus.Inativado, PersonType.Assistant, "MLEONE", "123456798", null, "", new DateTime(2002, 12, 12));
+            Person p6 = new Person("Julia Fean", 64971342715, "juliafean@gmail.com", "65549765071", "14", "Setor Universitario", "GO", "Esquina com a 7", "Goianésia", "1049", UserStatus.Ativo, PersonType.Assistant, "JFEAN", "123456798", null, null, new DateTime(1999, 07, 30));
+            Person p7 = new Person("Maria Lenoe", 97987872420, "marialenoe@gmail.com", "40415671060", "08", "Setor Sul", "GO", null, "Goianésia", "36", UserStatus.Inativado, PersonType.Assistant, "MLEONE", "123456798", null, null, new DateTime(2002, 12, 12));
 
 
 

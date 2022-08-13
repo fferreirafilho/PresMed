@@ -1,0 +1,136 @@
+﻿@model PresMed.Models.Person
+
+@{
+    ViewData["Title"] = $"Detalhes do(a) assistente {@Model.Name}";
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados Pessoais</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Name)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Email)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Email)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.User)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.User)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Cpf)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Cpf)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Phone)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Phone)
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Endereço</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.State)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.State)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.City)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.City)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.District)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.District)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Street)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Street)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Number)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Number)
+            </div>
+
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Complement)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Complement)
+            </div>
+
+        </div>
+    </div>
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
+        <div class="col-12 mt-5 mb-5">
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Assistant" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Assistant">Voltar</a>
+        </div>
+    }
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
+        <div class="col-12 mt-5 mb-5">
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Assistant" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Assistant">Voltar</a>
+        </div>
+    }
+</div>
