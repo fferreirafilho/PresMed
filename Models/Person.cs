@@ -77,13 +77,13 @@ namespace PresMed.Models {
         [MinLength(4, ErrorMessage = "O campo deve ter no minimo 4 letras")]
         [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
         [Display(Name = "CRM")]
-        public string Crm { get; set; }
+        public string? Crm { get; set; }
 
         [MinLength(4, ErrorMessage = "O campo deve ter no minimo 4 letras")]
         [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Especialidade")]
-        public string Speciality { get; set; }
+        public string? Speciality { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Date, ErrorMessage = "Data invalida favor inserir novamente")]
@@ -121,6 +121,7 @@ namespace PresMed.Models {
         public static Person Parse(PersonAssistant assistant) {
 
             Person person = new Person(assistant.Name, assistant.Phone.Value, assistant.Email, assistant.Cpf, assistant.Street, assistant.District, assistant.State, assistant.Complement, assistant.City, assistant.Number, assistant.Status, assistant.PersonType, assistant.User, "", "", "", assistant.BirthDate.Value);
+            person.Id = assistant.Id;
 
             return person;
         }

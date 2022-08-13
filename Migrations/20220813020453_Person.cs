@@ -2,12 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PresMed.Migrations
-{
-    public partial class Person : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace PresMed.Migrations {
+    public partial class Person : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "Doctor");
 
@@ -16,8 +13,7 @@ namespace PresMed.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Person",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
@@ -38,8 +34,7 @@ namespace PresMed.Migrations
                     Status = table.Column<int>(nullable: false),
                     PersonType = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Person", x => x.Id);
                 });
 
@@ -62,15 +57,13 @@ namespace PresMed.Migrations
                 unique: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "Person");
 
             migrationBuilder.CreateTable(
                 name: "Doctor",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -91,15 +84,13 @@ namespace PresMed.Migrations
                     Street = table.Column<string>(type: "varchar(20) CHARACTER SET utf8mb4", maxLength: 20, nullable: false),
                     User = table.Column<string>(type: "varchar(20) CHARACTER SET utf8mb4", maxLength: 20, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Doctor", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Persons",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -120,8 +111,7 @@ namespace PresMed.Migrations
                     Street = table.Column<string>(type: "varchar(20) CHARACTER SET utf8mb4", maxLength: 20, nullable: false),
                     User = table.Column<string>(type: "varchar(20) CHARACTER SET utf8mb4", maxLength: 20, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Persons", x => x.Id);
                 });
 
