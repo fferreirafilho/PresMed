@@ -17,6 +17,7 @@ namespace PresMed.Models {
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.PhoneNumber, ErrorMessage = "Número de telefone invalido")]
         [Display(Name = "Telefone")]
+
         public long? Phone { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
