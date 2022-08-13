@@ -41,7 +41,7 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Doctor doctor = await _doctorService.FindByIdAsync(id.Value);
+            Person doctor = await _doctorService.FindByIdAsync(id.Value);
             if (doctor == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
@@ -55,7 +55,7 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Doctor doctor = await _doctorService.FindByIdAsync(id.Value);
+            Person doctor = await _doctorService.FindByIdAsync(id.Value);
             if (doctor == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
@@ -70,7 +70,7 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Doctor doctor = await _doctorService.FindByIdAsync(id.Value);
+            Person doctor = await _doctorService.FindByIdAsync(id.Value);
             if (doctor == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
@@ -84,7 +84,7 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Doctor doctor = await _doctorService.FindByIdAsync(id.Value);
+            Person doctor = await _doctorService.FindByIdAsync(id.Value);
             if (doctor == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
@@ -94,7 +94,7 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New(Doctor doctor) {
+        public async Task<IActionResult> New(Person doctor) {
             try {
                 if (!ModelState.IsValid) {
                     return View(doctor);
@@ -122,7 +122,7 @@ namespace PresMed.Controllers {
         public async Task<IActionResult> Disable(int id) {
 
             try {
-                Doctor doctor = await _doctorService.FindByIdAsync(id);
+                Person doctor = await _doctorService.FindByIdAsync(id);
                 if (doctor == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
@@ -146,7 +146,7 @@ namespace PresMed.Controllers {
         public async Task<IActionResult> Enable(int id) {
 
             try {
-                Doctor doctor = await _doctorService.FindByIdAsync(id);
+                Person doctor = await _doctorService.FindByIdAsync(id);
                 if (doctor == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
@@ -167,30 +167,30 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Doctor doctor) {
+        public async Task<IActionResult> Edit(Person doctor) {
             try {
                 if (!ModelState.IsValid) {
                     return View(doctor);
                 }
                 int id = (int)doctor.Id;
-                Doctor dbDoctor = await _doctorService.FindByIdAsync(id);
-                if (dbDoctor == null) {
+                Person dbPerson = await _doctorService.FindByIdAsync(id);
+                if (dbPerson == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
 
-                dbDoctor.Phone = doctor.Phone;
-                dbDoctor.Email = doctor.Email;
-                dbDoctor.Street = doctor.Street;
-                dbDoctor.District = doctor.District;
-                dbDoctor.State = doctor.State;
-                dbDoctor.City = doctor.City;
-                dbDoctor.Complement = doctor.Complement;
-                dbDoctor.Number = doctor.Number;
-                dbDoctor.Speciality = doctor.Speciality;
-                dbDoctor.Name = doctor.Name;
+                dbPerson.Phone = doctor.Phone;
+                dbPerson.Email = doctor.Email;
+                dbPerson.Street = doctor.Street;
+                dbPerson.District = doctor.District;
+                dbPerson.State = doctor.State;
+                dbPerson.City = doctor.City;
+                dbPerson.Complement = doctor.Complement;
+                dbPerson.Number = doctor.Number;
+                dbPerson.Speciality = doctor.Speciality;
+                dbPerson.Name = doctor.Name;
 
-                await _doctorService.UpdateAsync(dbDoctor);
+                await _doctorService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
 
                 return RedirectToAction("Index");

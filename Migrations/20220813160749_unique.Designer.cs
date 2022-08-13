@@ -9,8 +9,8 @@ using PresMed.Data;
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220806161918_cpf")]
-    partial class cpf
+    [Migration("20220813160749_unique")]
+    partial class unique
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,30 +19,37 @@ namespace PresMed.Migrations
                 .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("PresMed.Models.Doctor", b =>
+            modelBuilder.Entity("PresMed.Models.Person", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime?>("BirthDate")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Complement")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Crm")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.Property<string>("District")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -50,13 +57,18 @@ namespace PresMed.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Number")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(7) CHARACTER SET utf8mb4")
+                        .HasMaxLength(7);
 
                     b.Property<string>("Password")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("PersonType")
+                        .HasColumnType("int");
 
                     b.Property<long?>("Phone")
                         .IsRequired()
@@ -64,32 +76,39 @@ namespace PresMed.Migrations
 
                     b.Property<string>("Speciality")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.Property<string>("User")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
                     b.HasIndex("Cpf")
                         .IsUnique();
 
+                    b.HasIndex("Crm")
+                        .IsUnique();
+
                     b.HasIndex("User")
                         .IsUnique();
 
-                    b.ToTable("Doctor");
+                    b.ToTable("Person");
                 });
 #pragma warning restore 612, 618
         }

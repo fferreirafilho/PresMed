@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PresMed.Services {
-    public interface IDoctorServices {
+    public interface IPatientServices {
         public Task InsertAsync(Person doctor);
 
         public Task<List<Person>> FindAllActiveAsync();

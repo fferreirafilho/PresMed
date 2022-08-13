@@ -1,5 +1,105 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model PresMed.Models.ViewModels.PersonPatient
+
 @{
+    ViewData["Title"] = $"Editar paciente {@Model.Name}";
 }
+
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+
+<form class="row g-3" asp-action="Edit">
+
+    <input asp-for="@Model.Id" value="@Model.Id" type="hidden"/>
+    <div class="col-md-6">
+        <label asp-for="@Model.Name" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo">
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Email" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Email" type="email" class="form-control" id="email" placeholder="Digite o e-mail">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.User" class="form-label"></label><span class="text-danger">*</span>
+        <input readonly asp-for="@Model.User" type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
+        <span asp-validation-for="@Model.User" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Phone" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
+        <input asp-for="@Model.Phone" type="text" class="form-control" placeholder="Digite o numero de telefone">
+        <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+    </div>   
+    <div class="col-md-6">
+        <label asp-for="@Model.Cpf" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
+        <input readonly asp-for="@Model.Cpf" type="text" class="form-control" id="phone" placeholder="Digite o CPF do paciente">
+        <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.BirthDate" class="form-label"></label><span class="text-danger">*</span>
+        <input readonly asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do paciente" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <label for="cep" class="form-label">CEP (apenas numeros)</label>
+            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP">
+        </div>
+        <div class="col-md-1">
+            <label for="cep" class="form-label">Pesquisar </label>
+            <a class="btn btn-info pesquisar"><i class="fas fa-search"></i></a>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+        <label asp-for="@Model.Street" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
+        <span asp-validation-for="@Model.Street" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="@Model.Complement" class="form-label"></label>
+        <input asp-for="@Model.Complement" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.District" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
+        <span asp-validation-for="@Model.District" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.City" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.State" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.State" class="form-control" type="text" id="uf">
+        <span asp-validation-for="@Model.State" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Number" class="form-label"></label>
+        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
+    </div>
+
+
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
+
+        <div class="col-12 mb-5">
+            <button type="submit" class="btn btn-success">Alterar</button>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Patient">Voltar</a>
+        </div>
+    }
+    @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
+
+        <div class="col-12 mb-5">
+            <button type="submit" class="btn btn-success">Alterar</button>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Patient">Voltar</a>
+        </div>
+    }
+
+</form>
