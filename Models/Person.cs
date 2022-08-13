@@ -64,6 +64,15 @@ namespace PresMed.Models {
         [Display(Name = "Numero")]
         public string Number { get; set; }
 
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
+        [MinLength(3, ErrorMessage = "O campo deve ter no minimo 3 letras")]
+        [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
+        [Display(Name = "Usuario")]
+        public string User { get; set; }
+
+        public string Password { get; set; }
+
+
 
         public UserStatus Status { get; set; }
 
@@ -71,7 +80,7 @@ namespace PresMed.Models {
 
         public Person() { }
 
-        public Person(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, UserStatus status, PersonType person) {
+        public Person(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, UserStatus status, PersonType person, string user) {
             Name = name;
             Phone = phone;
             Email = email;
@@ -84,6 +93,7 @@ namespace PresMed.Models {
             Number = number;
             Status = status;
             PersonType = person;
+            User = user;
         }
     }
 }

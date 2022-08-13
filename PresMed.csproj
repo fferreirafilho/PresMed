@@ -6,12 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220801225429_Doctor.cs" />
-    <Compile Remove="Migrations\20220801225429_Doctor.Designer.cs" />
-    <Compile Remove="Migrations\20220801225630_Doctor2.cs" />
-    <Compile Remove="Migrations\20220801225630_Doctor2.Designer.cs" />
-    <Compile Remove="Migrations\20220806131829_UniqueKey.cs" />
-    <Compile Remove="Migrations\20220806131829_UniqueKey.Designer.cs" />
+    <Compile Remove="Migrations\20220813004251_Persons.cs" />
+    <Compile Remove="Migrations\20220813004251_Persons.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

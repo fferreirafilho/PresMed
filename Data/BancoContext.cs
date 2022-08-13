@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PresMed.Models;
+using PresMed.Models.TableModels;
 
 namespace PresMed.Data {
     public class BancoContext : DbContext {

@@ -5,13 +5,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PresMed.Models {
     public class Doctor : Person {
-        [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(3, ErrorMessage = "O campo deve ter no minimo 3 letras")]
-        [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
-        [Display(Name = "Usuario")]
-        public string User { get; set; }
-
-        public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [MinLength(4, ErrorMessage = "O campo deve ter no minimo 4 letras")]
@@ -34,9 +27,7 @@ namespace PresMed.Models {
 
         public Doctor() : base() { }
 
-        public Doctor(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, string user, string password, string crm, string speciality, UserStatus status, PersonType person, DateTime birthDate) : base(name, phone, email, cpf, street, district, state, complement, city, number, status, person) {
-            User = user;
-            Password = password;
+        public Doctor(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, string user, string password, string crm, string speciality, UserStatus status, PersonType person, DateTime birthDate) : base(name, phone, email, cpf, street, district, state, complement, city, number, status, person, user) {
             Crm = crm;
             Speciality = speciality;
             BirthDate = birthDate;
