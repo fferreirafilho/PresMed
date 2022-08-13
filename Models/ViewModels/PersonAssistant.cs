@@ -1,14 +1,13 @@
 ﻿using PresMed.Models.Enums;
 using PresMed.Models.ValidationModels;
-using PresMed.Models.ViewModels;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PresMed.Models {
-    public class Person {
+namespace PresMed.Models.ViewModels {
+    public class PersonAssistant {
 
         public long Id { get; set; }
+
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [MinLength(3, ErrorMessage = "O campo deve ter no minimo 3 letras")]
         [MaxLength(50, ErrorMessage = "O campo deve ter no minimo 50 letras")]
@@ -71,20 +70,6 @@ namespace PresMed.Models {
         [Display(Name = "Usuario")]
         public string User { get; set; }
 
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(4, ErrorMessage = "O campo deve ter no minimo 4 letras")]
-        [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
-        [Display(Name = "CRM")]
-        public string Crm { get; set; }
-
-        [MinLength(4, ErrorMessage = "O campo deve ter no minimo 4 letras")]
-        [MaxLength(20, ErrorMessage = "O campo deve ter no minimo 20 letras")]
-        [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [Display(Name = "Especialidade")]
-        public string Speciality { get; set; }
-
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Date, ErrorMessage = "Data invalida favor inserir novamente")]
         [Display(Name = "Data de nascimento")]
@@ -96,33 +81,14 @@ namespace PresMed.Models {
 
         public PersonType PersonType { get; set; }
 
-        public Person() { }
 
-        public Person(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, UserStatus status, PersonType person, string user, string password, string crm, string speciality, DateTime birthDate) {
-            Name = name;
-            Phone = phone;
-            Email = email;
-            Cpf = cpf;
-            Street = street;
-            District = district;
-            State = state;
-            Complement = complement;
-            City = city;
-            Number = number;
-            Status = status;
-            PersonType = person;
-            User = user;
-            Crm = crm;
-            Speciality = speciality;
-            BirthDate = birthDate;
-            Password = password;
-        }
 
-        public static Person Parse(PersonAssistant assistant) {
+        public static PersonAssistant Parse(Person person) {
+            PersonAssistant personAssistant = new PersonAssistant { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
 
-            Person person = new Person(assistant.Name, assistant.Phone.Value, assistant.Email, assistant.Cpf, assistant.Street, assistant.District, assistant.State, assistant.Complement, assistant.City, assistant.Number, assistant.Status, assistant.PersonType, assistant.User, "", "", "", assistant.BirthDate.Value);
-
-            return person;
+            return personAssistant;
         }
     }
+
 }
+

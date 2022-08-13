@@ -8,27 +8,27 @@ using System;
 using PresMed.Models.Enums;
 
 namespace PresMed.Services {
-    public class DoctorServices : IDoctorServices {
+    public class AssistantServices : IAssistantServices {
         private readonly BancoContext _context;
 
-        public DoctorServices(BancoContext context) {
+        public AssistantServices(BancoContext context) {
             _context = context;
         }
 
-        public async Task InsertAsync(Person doctor) {
+        public async Task InsertAsync(Person assistant) {
             try {
 
-                _context.Person.Add(doctor);
+                _context.Person.Add(assistant);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e) {
-                if (e.InnerException.Message.Contains(doctor.Cpf)) {
+                if (e.InnerException.Message.Contains(assistant.Cpf)) {
                     throw new Exception($"Houve um erro ao salvar esse usuario, CPF duplicado");
                 }
-                if (e.InnerException.Message.Contains(doctor.User)) {
+                if (e.InnerException.Message.Contains(assistant.User)) {
                     throw new Exception($"Houve um erro ao salvar esse usuario, usuário duplicado");
                 }
-                if (e.InnerException.Message.Contains(doctor.Crm)) {
+                if (e.InnerException.Message.Contains(assistant.Crm)) {
                     throw new Exception($"Houve um erro ao salvar esse usuario, CRM duplicado");
                 }
                 throw new Exception($"Houve um erro ao salvar o usuario, erro: {e.InnerException.Message}");
@@ -40,7 +40,7 @@ namespace PresMed.Services {
 
             try {
                 var list = await _context.Person.ToListAsync();
-                return list.Where(x => x.Status == UserStatus.Inativado && x.PersonType == PersonType.Doctor).ToList();
+                return list.Where(x => x.Status == UserStatus.Inativado && x.PersonType == PersonType.Assistant).ToList();
 
             }
             catch (Exception e) {
@@ -52,7 +52,7 @@ namespace PresMed.Services {
 
             try {
                 var list = await _context.Person.ToListAsync();
-                return list.Where(x => x.Status == UserStatus.Ativo && x.PersonType == PersonType.Doctor).ToList();
+                return list.Where(x => x.Status == UserStatus.Ativo && x.PersonType == PersonType.Assistant).ToList();
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para listar os usuarios tente mais tarde, ERRO: {e.Message}");
@@ -69,16 +69,16 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task UpdateAsync(Person doctor) {
+        public async Task UpdateAsync(Person assistant) {
 
             try {
-                bool hasAny = await _context.Person.AnyAsync(x => x.Id == doctor.Id);
+                bool hasAny = await _context.Person.AnyAsync(x => x.Id == assistant.Id);
 
                 if (!hasAny) {
                     throw new Exception("ID não encontrado");
                 }
                 try {
-                    _context.Person.Update(doctor);
+                    _context.Person.Update(assistant);
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception e) {

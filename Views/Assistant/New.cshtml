@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Cadastrar assistente";
+﻿@model PresMed.Models.ViewModels.PersonAssistant
+
+@{
+    ViewData["Title"] = "Cadastrar medicos";
 }
 
 
@@ -9,65 +11,86 @@
 <hr />
 
 
-<form class="row g-3">
+<form class="row g-3" asp-action="New">
     <div class="col-md-6">
-        <label for="nome" class="form-label">Nome completo <span class="text-danger">*</span></label>
-        <input required type="text" class="form-control" id="nome" placeholder="Digite o nome completo">
+        <label asp-for="@Model.Name" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Digite o nome completo">
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
     </div>
     <div class="col-md-6">
-        <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
-        <input type="email" class="form-control" id="email" placeholder="Digite o e-mail">
+        <label asp-for="@Model.Email" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Email" type="email" class="form-control" placeholder="Digite o e-mail">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
     </div>
     <div class="col-md-6">
-        <label for="user" class="form-label">Usuario <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="user" placeholder="Digite o nome de usuario">
+        <label asp-for="@Model.User" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.User" type="text" class="form-control" placeholder="Digite o nome de usuario">
+        <span asp-validation-for="@Model.User" class="text-danger"></span>
     </div>
     <div class="col-md-6">
-        <label for="phone" class="form-label">Telefone <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="phone" placeholder="Digite o numero de telefone">
-        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+        <label asp-for="@Model.Phone" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
+        <input asp-for="@Model.Phone" type="text" class="form-control" placeholder="Digite o numero de telefone " onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Cpf" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
+        <input asp-for="@Model.Cpf" type="text" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.Cpf" class="text-danger"></span>
+
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.BirthDate" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.BirthDate" type="date" class="form-control" id="cpf" placeholder="Digite o CPF do medico" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+
     </div>
     <div class="row mt-4">
         <div class="col-md-2">
-            <label for="cep" class="form-label">CEP <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP">
+            <label for="cep" class="form-label">CEP (apenas numeros)</label>
+            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         </div>
         <div class="col-md-1">
-            <label for="cep" class="form-label">Pesquisar</label>
+            <label for="cep" class="form-label">Pesquisar </label>
             <a class="btn btn-info pesquisar"><i class="fas fa-search"></i></a>
         </div>
     </div>
 
+    <div class="col-md-6">
+
+        <label asp-for="@Model.Street" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
+        <span asp-validation-for="@Model.Street" class="text-danger"></span>
+    </div>
 
     <div class="col-md-6">
-        <label class="form-label" for="logradouro">Logradouro</label>
-        <input value="" class="form-control" type="text" id="logradouro" disabled="disabled">
+        <label asp-for="@Model.Complement" class="form-label"></label>
+        <input asp-for="@Model.Complement" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.District" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
+        <span asp-validation-for="@Model.District" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.City" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.State" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.State" class="form-control" type="text" id="uf">
+        <span asp-validation-for="@Model.State" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Number" class="form-label"></label>
+        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
     </div>
 
-    <div class="col-md-6">
-        <label class="form-label" for="complemento">Complemento</label>
-        <input value="" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="bairro">Bairro</label>
-        <input value="" class="form-control" type="text" id="bairro" disabled="disabled">
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="localidade">Cidade</label>
-        <input value="" class="form-control" type="text" id="localidade" disabled="disabled">
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="uf">Estado</label>
-        <input value="" class="form-control" type="text" id="uf" disabled="disabled">
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="numero">Número</label>
-        <input value="" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço">
-    </div>
-
-
-    <div class="col-12">
+    <div class="col-12 mb-5">
         <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Assistant">Voltar</a>
     </div>
 
 </form>
+

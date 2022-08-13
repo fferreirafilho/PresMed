@@ -173,24 +173,24 @@ namespace PresMed.Controllers {
                     return View(doctor);
                 }
                 int id = (int)doctor.Id;
-                Person dbDoctor = await _doctorService.FindByIdAsync(id);
-                if (dbDoctor == null) {
+                Person dbPerson = await _doctorService.FindByIdAsync(id);
+                if (dbPerson == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
 
-                dbDoctor.Phone = doctor.Phone;
-                dbDoctor.Email = doctor.Email;
-                dbDoctor.Street = doctor.Street;
-                dbDoctor.District = doctor.District;
-                dbDoctor.State = doctor.State;
-                dbDoctor.City = doctor.City;
-                dbDoctor.Complement = doctor.Complement;
-                dbDoctor.Number = doctor.Number;
-                dbDoctor.Speciality = doctor.Speciality;
-                dbDoctor.Name = doctor.Name;
+                dbPerson.Phone = doctor.Phone;
+                dbPerson.Email = doctor.Email;
+                dbPerson.Street = doctor.Street;
+                dbPerson.District = doctor.District;
+                dbPerson.State = doctor.State;
+                dbPerson.City = doctor.City;
+                dbPerson.Complement = doctor.Complement;
+                dbPerson.Number = doctor.Number;
+                dbPerson.Speciality = doctor.Speciality;
+                dbPerson.Name = doctor.Name;
 
-                await _doctorService.UpdateAsync(dbDoctor);
+                await _doctorService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
 
                 return RedirectToAction("Index");
