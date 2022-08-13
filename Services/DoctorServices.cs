@@ -15,10 +15,10 @@ namespace PresMed.Services {
             _context = context;
         }
 
-        public async Task InsertAsync(Doctor doctor) {
+        public async Task InsertAsync(Person doctor) {
             try {
 
-                _context.Doctor.Add(doctor);
+                _context.Person.Add(doctor);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e) {
@@ -36,10 +36,10 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task<List<Doctor>> FindAllDisableAsync() {
+        public async Task<List<Person>> FindAllDisableAsync() {
 
             try {
-                var list = await _context.Doctor.ToListAsync();
+                var list = await _context.Person.ToListAsync();
                 return list.Where(x => x.Status == UserStatus.Inativado).ToList();
 
             }
@@ -48,10 +48,10 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task<List<Doctor>> FindAllActiveAsync() {
+        public async Task<List<Person>> FindAllActiveAsync() {
 
             try {
-                var list = await _context.Doctor.ToListAsync();
+                var list = await _context.Person.ToListAsync();
                 return list.Where(x => x.Status == UserStatus.Ativo).ToList();
             }
             catch (Exception e) {
@@ -59,26 +59,26 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task<Doctor> FindByIdAsync(int id) {
+        public async Task<Person> FindByIdAsync(int id) {
 
             try {
-                return await _context.Doctor.FirstOrDefaultAsync(obj => obj.Id == id);
+                return await _context.Person.FirstOrDefaultAsync(obj => obj.Id == id);
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para encontrar o usuario tente mais tarde, ERRO: {e.Message}");
             }
         }
 
-        public async Task UpdateAsync(Doctor doctor) {
+        public async Task UpdateAsync(Person doctor) {
 
             try {
-                bool hasAny = await _context.Doctor.AnyAsync(x => x.Id == doctor.Id);
+                bool hasAny = await _context.Person.AnyAsync(x => x.Id == doctor.Id);
 
                 if (!hasAny) {
                     throw new Exception("ID não encontrado");
                 }
                 try {
-                    _context.Doctor.Update(doctor);
+                    _context.Person.Update(doctor);
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception e) {

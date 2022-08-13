@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace PresMed.Services {
     public interface IDoctorServices {
-        public Task InsertAsync(Doctor doctor);
+        public Task InsertAsync(Person doctor);
 
-        public Task<List<Doctor>> FindAllActiveAsync();
-        public Task<List<Doctor>> FindAllDisableAsync();
+        public Task<List<Person>> FindAllActiveAsync();
+        public Task<List<Person>> FindAllDisableAsync();
 
-        public Task<Doctor> FindByIdAsync(int id);
+        public Task<Person> FindByIdAsync(int id);
 
-        public Task UpdateAsync(Doctor doctor);
+        public Task UpdateAsync(Person doctor);
     }
 }
