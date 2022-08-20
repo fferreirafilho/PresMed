@@ -42,7 +42,7 @@ namespace PresMed.Controllers {
             }
 
 
-            return View(PersonPatient.Parse(patient));
+            return View("Edit", PersonPatient.Parse(patient));
         }
 
         public async Task<IActionResult> Disable(int? id) {
@@ -194,8 +194,8 @@ namespace PresMed.Controllers {
                 dbPerson.City = patient.City;
                 dbPerson.Complement = patient.Complement;
                 dbPerson.Number = patient.Number;
-                dbPerson.Speciality = patient.Speciality;
                 dbPerson.Name = patient.Name;
+                dbPerson.BirthDate = patient.BirthDate;
 
                 await _patientService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";

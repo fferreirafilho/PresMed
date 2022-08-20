@@ -200,8 +200,8 @@ namespace PresMed.Controllers {
                 dbPerson.City = assistant.City;
                 dbPerson.Complement = assistant.Complement;
                 dbPerson.Number = assistant.Number;
-                dbPerson.Speciality = assistant.Speciality;
                 dbPerson.Name = assistant.Name;
+                dbPerson.BirthDate = assistant.BirthDate;
 
                 await _assistantService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";

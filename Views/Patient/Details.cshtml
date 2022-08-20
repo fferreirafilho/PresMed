@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.Person
 
 @{
-    ViewData["Title"] = $"Detalhes do(a) assistente {@Model.Name}";
+    ViewData["Title"] = $"Detalhes do(a) paciente {@Model.Name}";
 }
 
 <div class="">
@@ -58,7 +58,14 @@
             </div>
 
         </div>
-
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.BirthDate)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.BirthDate)
+            </div>
+        </div>
 
 
     </div>
@@ -123,14 +130,14 @@
     </div>
     @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
         <div class="col-12 mt-5 mb-5">
-            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Assistant" class="btn btn-primary">Editar</a>
-            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Assistant">Voltar</a>
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Patient" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Patient">Voltar</a>
         </div>
     }
     @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
         <div class="col-12 mt-5 mb-5">
-            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Assistant" class="btn btn-primary">Editar</a>
-            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Assistant">Voltar</a>
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Patient" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Patient">Voltar</a>
         </div>
     }
 </div>
