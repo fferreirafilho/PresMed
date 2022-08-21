@@ -196,7 +196,7 @@ namespace PresMed.Controllers {
                 dbPerson.Number = patient.Number;
                 dbPerson.Name = patient.Name;
                 dbPerson.BirthDate = patient.BirthDate;
-
+                dbPerson = _patientService.TransformUpperCase(dbPerson);
                 await _patientService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
 

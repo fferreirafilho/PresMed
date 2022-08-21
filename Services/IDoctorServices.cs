@@ -12,5 +12,7 @@ namespace PresMed.Services {
         public Task<Person> FindByIdAsync(int id);
 
         public Task UpdateAsync(Person doctor);
+        public Person TransformUpperCase(Person doctor);
+
     }
 }

@@ -91,5 +91,29 @@ namespace PresMed.Services {
 
 
         }
+
+        public Person TransformUpperCase(Person assistant) {
+
+            assistant.Name = assistant.Name.Trim().ToUpper();
+            assistant.Email = assistant.Email.Trim().ToUpper();
+            assistant.Cpf = assistant.Cpf.Trim().ToUpper();
+            assistant.Street = assistant.Street.Trim().ToUpper();
+            assistant.District = assistant.District.Trim().ToUpper();
+            assistant.State = assistant.State.Trim().ToUpper();
+            assistant.City = assistant.City.Trim().ToUpper();
+            assistant.User = assistant.User.Trim().ToUpper();
+
+            if (assistant.Number != null && assistant.Number != "") {
+                assistant.Number = assistant.Number.Trim().ToUpper();
+            }
+
+
+            if (assistant.Complement != null && assistant.Complement != "") {
+                assistant.Complement = assistant.Complement.Trim().ToUpper();
+            }
+
+            return assistant;
+        }
     }
+
 }

@@ -202,7 +202,7 @@ namespace PresMed.Controllers {
                 dbPerson.Number = assistant.Number;
                 dbPerson.Name = assistant.Name;
                 dbPerson.BirthDate = assistant.BirthDate;
-
+                dbPerson = _assistantService.TransformUpperCase(dbPerson);
                 await _assistantService.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
 
