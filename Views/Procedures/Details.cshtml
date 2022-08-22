@@ -1,0 +1,39 @@
+﻿@model PresMed.Models.Procedures
+
+@{
+    ViewData["Title"] = $"Detalhes do(a) procedimento {@Model.Name}";
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados Cadastrais</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Name)</span>
+            </div>
+            <div class="col-md-7">
+                <textarea type="text" class="form-control" id="nome">  @Html.DisplayFor(model => model.Name)</textarea>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Status == PresMed.Models.Enums.Status.Ativo) {
+        <div class="col-12 mt-5 mb-5">
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Procedures" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Procedures">Voltar</a>
+        </div>
+    }
+    @if (Model.Status == PresMed.Models.Enums.Status.Desativado) {
+        <div class="col-12 mt-5 mb-5">
+            <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Procedures" class="btn btn-primary">Editar</a>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Procedures">Voltar</a>
+        </div>
+    }
+
+</div>

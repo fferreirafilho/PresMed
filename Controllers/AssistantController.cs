@@ -99,7 +99,7 @@ namespace PresMed.Controllers {
         public async Task<IActionResult> New(PersonAssistant assistant) {
             try {
                 assistant.PersonType = PersonType.Assistant;
-                assistant.Status = UserStatus.Ativo;
+                assistant.Status = Status.Ativo;
 
                 if (!ModelState.IsValid) {
                     return View(assistant);
@@ -111,7 +111,7 @@ namespace PresMed.Controllers {
                 assistant.Cpf = str;
 
                 Person person = Person.Parse(assistant, null);
-
+                person = _assistantService.TransformUpperCase(person);
                 await _assistantService.InsertAsync(person);
 
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
@@ -135,7 +135,7 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                assistant.Status = UserStatus.Inativado;
+                assistant.Status = Status.Desativado;
                 await _assistantService.UpdateAsync(assistant);
                 TempData["SuccessMessage"] = "Usuário desativado com sucesso";
                 return RedirectToAction("Index");
@@ -159,7 +159,7 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                assistant.Status = UserStatus.Ativo;
+                assistant.Status = Status.Ativo;
                 await _assistantService.UpdateAsync(assistant);
                 TempData["SuccessMessage"] = "Usuario ativado com sucesso";
                 return RedirectToAction("Index");

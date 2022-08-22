@@ -1,6 +1,6 @@
 ﻿namespace PresMed.Models.Enums {
-    public enum UserStatus : int {
-        Inativado = 0,
+    public enum Status : int {
+        Desativado = 0,
         Ativo = 1,
     }
 }

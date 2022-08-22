@@ -100,11 +100,12 @@ namespace PresMed.Controllers {
                     return View(doctor);
                 }
                 doctor.PersonType = PersonType.Doctor;
-                doctor.Status = UserStatus.Ativo;
+                doctor.Status = Status.Ativo;
                 string str = doctor.Cpf;
                 str = str.Trim();
                 str = str.Replace(".", "").Replace("-", "");
                 doctor.Cpf = str;
+                doctor = _doctorService.TransformUpperCase(doctor);
                 await _doctorService.InsertAsync(doctor);
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
@@ -127,7 +128,7 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                doctor.Status = UserStatus.Inativado;
+                doctor.Status = Status.Desativado;
                 await _doctorService.UpdateAsync(doctor);
                 TempData["SuccessMessage"] = "Usuário desativado com sucesso";
                 return RedirectToAction("Index");
@@ -151,7 +152,7 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                doctor.Status = UserStatus.Ativo;
+                doctor.Status = Status.Ativo;
                 await _doctorService.UpdateAsync(doctor);
                 TempData["SuccessMessage"] = "Usuario ativado com sucesso";
                 return RedirectToAction("Index");

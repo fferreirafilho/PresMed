@@ -95,14 +95,14 @@
     </div>
 
 
-    @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
+    @if (Model.Status == PresMed.Models.Enums.Status.Ativo) {
 
         <div class="col-12 mb-5">
             <button type="submit" class="btn btn-success">Alterar</button>
             <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Doctor">Voltar</a>
         </div>
     }
-    @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
+    @if (Model.Status == PresMed.Models.Enums.Status.Desativado) {
 
         <div class="col-12 mb-5">
             <button type="submit" class="btn btn-success">Alterar</button>

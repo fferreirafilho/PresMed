@@ -23,13 +23,13 @@ namespace PresMed.Services {
             }
             catch (Exception e) {
                 if (e.InnerException.Message.Contains(assistant.Cpf)) {
-                    throw new Exception($"Houve um erro ao salvar esse usuario, CPF duplicado");
+                    throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
                 if (e.InnerException.Message.Contains(assistant.User)) {
-                    throw new Exception($"Houve um erro ao salvar esse usuario, usuário duplicado");
+                    throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
                 if (e.InnerException.Message.Contains(assistant.Crm)) {
-                    throw new Exception($"Houve um erro ao salvar esse usuario, CRM duplicado");
+                    throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
                 throw new Exception($"Houve um erro ao salvar o usuario, erro: {e.InnerException.Message}");
 
@@ -40,11 +40,11 @@ namespace PresMed.Services {
 
             try {
                 var list = await _context.Person.ToListAsync();
-                return list.Where(x => x.Status == UserStatus.Inativado && x.PersonType == PersonType.Assistant).ToList();
+                return list.Where(x => x.Status == Status.Desativado && x.PersonType == PersonType.Assistant).ToList();
 
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar os usuarios tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
             }
         }
 
@@ -52,10 +52,10 @@ namespace PresMed.Services {
 
             try {
                 var list = await _context.Person.ToListAsync();
-                return list.Where(x => x.Status == UserStatus.Ativo && x.PersonType == PersonType.Assistant).ToList();
+                return list.Where(x => x.Status == Status.Ativo && x.PersonType == PersonType.Assistant).ToList();
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar os usuarios tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace PresMed.Services {
                 return await _context.Person.FirstOrDefaultAsync(obj => obj.Id == id);
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para encontrar o usuario tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para encontrar tente mais tarde, ERRO: {e.Message}");
             }
         }
 
@@ -77,13 +77,10 @@ namespace PresMed.Services {
                 if (!hasAny) {
                     throw new Exception("ID não encontrado");
                 }
-                try {
-                    _context.Person.Update(assistant);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception e) {
-                    throw new Exception(e.Message);
-                }
+
+                _context.Person.Update(assistant);
+                await _context.SaveChangesAsync();
+
             }
             catch (Exception e) {
                 throw new Exception(e.Message);

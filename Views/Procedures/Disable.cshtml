@@ -1,0 +1,43 @@
+﻿@model PresMed.Models.Procedures
+
+@{
+    ViewData["Title"] = $"Detalhes do procedimento {@Model.Name}";
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="row">
+        <div class="col-lg-6">
+            <h6 class="display-6 mb-5">Dados Cadastrais</h6>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <span class="fw-bold">@Html.DisplayNameFor(model => model.Name)</span>
+                </div>
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @if (Model.Status == PresMed.Models.Enums.Status.Ativo) {
+        <form asp-action="Disable" asp-controller="Procedures" method="post" class="mb-5 mt-5">
+            <input hidden asp-for="Id" />
+            <input type="submit" value="Desativar" class="btn btn-danger" />
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Procedures">Voltar</a>
+        </form>
+    }
+
+    @if (Model.Status == PresMed.Models.Enums.Status.Desativado) {
+        <form asp-action="Enable" asp-controller="Procedures" method="post" class="mb-5 mt-5">
+            <input hidden asp-for="Id" />
+            <input type="submit" value="Ativar" class="btn btn-success" />
+            <a role="button" class="btn btn-outline-secondary" asp-action="Inactive" asp-controller="Procedures">Voltar</a>
+        </form>
+    }
+</div>

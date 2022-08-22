@@ -16,7 +16,7 @@ namespace PresMed.Models {
         public string Name { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Número de telefone invalido")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Campo invalido")]
         [Display(Name = "Telefone")]
 
         public long? Phone { get; set; }
@@ -92,13 +92,13 @@ namespace PresMed.Models {
         public DateTime? BirthDate { get; set; }
 
 
-        public UserStatus Status { get; set; }
+        public Status Status { get; set; }
 
         public PersonType PersonType { get; set; }
 
         public Person() { }
 
-        public Person(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, UserStatus status, PersonType person, string user, string password, string crm, string speciality, DateTime birthDate) {
+        public Person(string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, Status status, PersonType person, string user, string password, string crm, string speciality, DateTime birthDate) {
             Name = name;
             Phone = phone;
             Email = email;
