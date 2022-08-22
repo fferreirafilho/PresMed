@@ -165,7 +165,7 @@ namespace PresMed.Controllers {
                 dbPerson.Name = procedures.Name;
                 procedures = _proceduresServices.TransformUpperCase(dbPerson);
                 await _proceduresServices.UpdateAsync(dbPerson);
-                TempData["SuccessMessage"] = "Usuario alterado com sucesso";
+                TempData["SuccessMessage"] = "Procedimento alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
