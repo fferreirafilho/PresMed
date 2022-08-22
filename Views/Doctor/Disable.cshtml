@@ -156,7 +156,7 @@
             </div>
         </div>
 
-        @if (Model.Status == PresMed.Models.Enums.UserStatus.Ativo) {
+        @if (Model.Status == PresMed.Models.Enums.Status.Ativo) {
             <form asp-action="Disable" asp-controller="Doctor" method="post" class="mb-5 mt-5">
                 <input hidden asp-for="Id" />
                 <input type="submit" value="Desativar" class="btn btn-danger" />
@@ -164,7 +164,7 @@
             </form>
         }
 
-        @if (Model.Status == PresMed.Models.Enums.UserStatus.Inativado) {
+        @if (Model.Status == PresMed.Models.Enums.Status.Desativado) {
             <form asp-action="Enable" asp-controller="Doctor" method="post" class="mb-5 mt-5">
                 <input hidden asp-for="Id" />
                 <input type="submit" value="Ativar" class="btn btn-success" />

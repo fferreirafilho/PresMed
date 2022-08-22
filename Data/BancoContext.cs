@@ -7,6 +7,7 @@ namespace PresMed.Data {
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) { }
 
         public DbSet<Person> Person { get; set; }
+        public DbSet<Procedures> Procedure { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()
@@ -15,6 +16,9 @@ namespace PresMed.Data {
             modelBuilder.Entity<Person>()
                 .HasIndex(p => p.Cpf)
                 .IsUnique(true);
+            modelBuilder.Entity<Procedures>()
+                 .HasIndex(p => p.Name)
+                 .IsUnique(true);
             modelBuilder.Entity<Person>(etb => {
                 etb.Property(t => t.Crm)
                    .IsRequired(false);

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PresMed.Models.Person>
+﻿@model IEnumerable<PresMed.Models.Procedures>
 
 @{
     
@@ -23,13 +23,13 @@
         <span class="display-4">@ViewData["Title"]</span>
     </div>
     <div class="col-lg-2">
-        <a asp-action="Inactive" asp-controller="Assistant" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Desativados</span></a>
+        <a asp-action="Inactive" asp-controller="Procedures" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Desativados</span></a>
     </div>
     <div class="col-lg-2">
-        <a asp-action="Index" asp-controller="Assistant" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Ativos</span></a>
+        <a asp-action="Index" asp-controller="Procedures" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Ativos</span></a>
     </div>
     <div class="col-lg-2">
-        <a asp-action="New" asp-controller="Assistant" class="link-dark  float-sm-end"><i class="fas fa-plus d-block text-center text-success" style="font-size:2rem; "></i><span>Novo</span></a>
+        <a asp-action="New" asp-controller="Procedures" class="link-dark  float-sm-end"><i class="fas fa-plus d-block text-center text-success" style="font-size:2rem; "></i><span>Novo</span></a>
     </div>
 
 
@@ -41,8 +41,6 @@
         <tr>
             <th class="text-center" scope="col">#</th>
             <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Name)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Email)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.User)</th>
             @if (Model != null && Model.Any()) {
                 <th class="text-center" scope="col">Ações</th>
             }
@@ -54,20 +52,18 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.Name</td>
-                    <td>@item.Email</td>
-                    <td>@item.User</td>
                     <td>
                         <div class="btn-group-sm" role="group">
 
                             @if (item.Status == PresMed.Models.Enums.Status.Ativo) {
-                                <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Edit">Editar</a>
-                                <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Details">Detalhes</a>
-                                <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Disable">Desativar</a>
+                                <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Edit">Editar</a>
+                                <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Details">Detalhes</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Disable">Desativar</a>
                             }
                             @if (item.Status == PresMed.Models.Enums.Status.Desativado) {
-                                <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Edit">Editar</a>
-                                <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Details">Detalhes</a>
-                                <a role="button" class="btn btn-success " asp-route-id="@item.Id" asp-controller="Assistant" asp-action="Enabled">Ativar</a>
+                                <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Edit">Editar</a>
+                                <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Details">Detalhes</a>
+                                <a role="button" class="btn btn-success " asp-route-id="@item.Id" asp-controller="Procedures" asp-action="Enabled">Ativar</a>
                             }
 
                         </div>

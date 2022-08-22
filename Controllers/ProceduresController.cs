@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 using PresMed.Models.ViewModels;
 
 namespace PresMed.Controllers {
-    public class PatientController : Controller {
-        private readonly IPatientServices _patientService;
+    public class ProceduresController : Controller {
 
-        public PatientController(IPatientServices patientServices) {
-            _patientService = patientServices;
+        private readonly IProceduresServices _proceduresServices;
+
+        public ProceduresController(IProceduresServices proceduresServices) {
+            _proceduresServices = proceduresServices;
         }
         public async Task<IActionResult> Index() {
-            ViewData["Title"] = "Listagem de pacientes ativos";
-            var list = await _patientService.FindAllActiveAsync();
+            ViewData["Title"] = "Listagem de procedimentos ativos";
+            var list = await _proceduresServices.FindAllActiveAsync();
             return View(list);
         }
 
         public async Task<IActionResult> Inactive() {
-            ViewData["Title"] = "Listagem de pacientes desativados";
-            var list = await _patientService.FindAllDisableAsync();
+            ViewData["Title"] = "Listagem de procedimentos desativados";
+            var list = await _proceduresServices.FindAllDisableAsync();
             return View("Index", list);
         }
 
@@ -35,14 +36,12 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Person patient = await _patientService.FindByIdAsync(id.Value);
-            if (patient == null) {
+            Procedures procedure = await _proceduresServices.FindByIdAsync(id.Value);
+            if (procedure == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-
-
-            return View("Edit", PersonPatient.Parse(patient));
+            return View(procedure);
         }
 
         public async Task<IActionResult> Disable(int? id) {
@@ -51,12 +50,12 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Person patient = await _patientService.FindByIdAsync(id.Value);
-            if (patient == null) {
+            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+            if (procedures == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            return View(patient);
+            return View(procedures);
         }
 
 
@@ -66,12 +65,12 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Person patient = await _patientService.FindByIdAsync(id.Value);
-            if (patient == null) {
+            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+            if (procedures == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            return View("Disable", patient);
+            return View("Disable", procedures);
         }
 
         public async Task<IActionResult> Details(int? id) {
@@ -80,126 +79,93 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            Person patient = await _patientService.FindByIdAsync(id.Value);
-            if (patient == null) {
+            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+            if (procedures == null) {
                 TempData["ErrorMessage"] = "ID não encontrado";
                 return RedirectToAction("Index");
             }
-            return View(patient);
+            return View(procedures);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New(PersonPatient patient) {
+        public async Task<IActionResult> New(Procedures procedures) {
             try {
-                patient.PersonType = PersonType.Patient;
-                patient.Status = Status.Desativado;
+                procedures.Status = Status.Ativo;
 
                 if (!ModelState.IsValid) {
-                    return View(patient);
+                    return View(procedures);
                 }
+                procedures = _proceduresServices.TransformUpperCase(procedures);
+                await _proceduresServices.InsertAsync(procedures);
 
-                string str = patient.Cpf;
-                str = str.Trim();
-                str = str.Replace(".", "").Replace("-", "");
-                patient.Cpf = str;
-
-                Person person = Person.Parse(null, patient);
-                person = _patientService.TransformUpperCase(person);
-                await _patientService.InsertAsync(person);
-
-                TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
+                TempData["SuccessMessage"] = "Procedimento cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
                 return RedirectToAction("Index");
             }
-
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Disable(int id) {
-
             try {
-                Person patient = await _patientService.FindByIdAsync(id);
-                if (patient == null) {
+                Procedures procedure = await _proceduresServices.FindByIdAsync(id);
+                if (procedure == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                patient.Status = Status.Desativado;
-                await _patientService.UpdateAsync(patient);
-                TempData["SuccessMessage"] = "Usuário desativado com sucesso";
+                procedure.Status = Status.Desativado;
+                await _proceduresServices.UpdateAsync(procedure);
+                TempData["SuccessMessage"] = "Procedimento desativado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
                 return RedirectToAction("Index");
             }
-
-
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Enable(int id) {
-
             try {
-                Person patient = await _patientService.FindByIdAsync(id);
-                if (patient == null) {
+                Procedures procedure = await _proceduresServices.FindByIdAsync(id);
+                if (procedure == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-                patient.Status = Status.Ativo;
-                await _patientService.UpdateAsync(patient);
-                TempData["SuccessMessage"] = "Usuario ativado com sucesso";
+                procedure.Status = Status.Ativo;
+                await _proceduresServices.UpdateAsync(procedure);
+                TempData["SuccessMessage"] = "Procedimento ativado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
                 return RedirectToAction("Index");
             }
-
-
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PersonPatient personPatient) {
-
+        public async Task<IActionResult> Edit(Procedures procedures) {
             try {
-
                 if (!ModelState.IsValid) {
-                    return View(personPatient);
+                    return View(procedures);
                 }
-
-                Person patient = Person.Parse(null, personPatient);
-                int id = (int)patient.Id;
-                Person dbPerson = await _patientService.FindByIdAsync(id);
-
+                int id = (int)procedures.Id;
+                Procedures dbPerson = await _proceduresServices.FindByIdAsync(id);
                 if (dbPerson == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
 
-                dbPerson.Phone = patient.Phone;
-                dbPerson.Email = patient.Email;
-                dbPerson.Street = patient.Street;
-                dbPerson.District = patient.District;
-                dbPerson.State = patient.State;
-                dbPerson.City = patient.City;
-                dbPerson.Complement = patient.Complement;
-                dbPerson.Number = patient.Number;
-                dbPerson.Name = patient.Name;
-                dbPerson.BirthDate = patient.BirthDate;
-                dbPerson = _patientService.TransformUpperCase(dbPerson);
-                await _patientService.UpdateAsync(dbPerson);
+                dbPerson.Name = procedures.Name;
+                procedures = _proceduresServices.TransformUpperCase(dbPerson);
+                await _proceduresServices.UpdateAsync(dbPerson);
                 TempData["SuccessMessage"] = "Usuario alterado com sucesso";
-
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -207,5 +173,6 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
         }
+
     }
 }
