@@ -1,7 +1,9 @@
-﻿using PresMed.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PresMed.Data;
 using PresMed.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PresMed.Services {
@@ -33,9 +35,14 @@ namespace PresMed.Services {
             }
         }
 
-        public Task<List<Time>> FindAllActiveAsync() {
-
-
+        public async Task<List<Time>> FindAllAsync() {
+            try {
+                var list = await _context.Time.ToListAsync();
+                return list;
+            }
+            catch (Exception e) {
+                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+            }
         }
     }
 }

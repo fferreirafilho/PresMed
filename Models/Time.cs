@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 namespace PresMed.Models {
     public class Time {
 
-        [Required]
+
         public int Id { get; set; }
         [Required]
+        [DataType(DataType.Time)]
+        [Display()]
         public DateTime InitialHour { get; set; }
         [Required]
         public DateTime FinalHour { get; set; }
