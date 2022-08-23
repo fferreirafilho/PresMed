@@ -14,9 +14,11 @@ namespace PresMed.Controllers {
     public class DoctorController : Controller {
 
         private readonly IDoctorServices _doctorService;
+        private readonly ITimeServices _timeService;
 
-        public DoctorController(IDoctorServices doctorService) {
+        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices) {
             _doctorService = doctorService;
+            _timeService = timeServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -107,6 +109,7 @@ namespace PresMed.Controllers {
                 doctor.Cpf = str;
                 doctor = _doctorService.TransformUpperCase(doctor);
                 await _doctorService.InsertAsync(doctor);
+                await _timeService.InsertAsync(new Time(new DateTime(2022, 01, 01, 00, 00, 00), new DateTime(2022, 01, 01, 00, 01, 00), doctor));
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
             }

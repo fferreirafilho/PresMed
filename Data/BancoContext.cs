@@ -9,6 +9,8 @@ namespace PresMed.Data {
         public DbSet<Person> Person { get; set; }
         public DbSet<Procedures> Procedure { get; set; }
 
+        public DbSet<Time> Time { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()
                 .HasIndex(p => p.User)
@@ -27,6 +29,7 @@ namespace PresMed.Data {
                 etb.Property(t => t.Speciality)
                 .IsRequired(false);
             });
+
         }
 
     }
