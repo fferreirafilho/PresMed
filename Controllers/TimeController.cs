@@ -16,11 +16,10 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Index() {
-            TimeViewModel timeViewModel = new TimeViewModel();
+
             var list = await _timeServices.FindAllAsync();
-            timeViewModel.Time = list.Where(x => x.Person.Status == Models.Enums.Status.Ativo).ToList();
-            timeViewModel.Person = await _doctorServices.FindAllActiveAsync();
-            return View(timeViewModel);
+
+            return View();
         }
     }
 }

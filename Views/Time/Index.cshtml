@@ -1,4 +1,4 @@
-﻿@model List<PresMed.Models.ViewModels.TimeViewModel>
+﻿@model List<PresMed.Models.Time>
 
 @{
     ViewData["Title"] = "Horario de atendimento dos medicos";
@@ -30,13 +30,10 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.Person.Name.ToString()</td>
                     <td>@item.InitialHour.ToShortTimeString()</td>
                     <td>@item.FinalHour.ToShortTimeString()</td>
                     <td>
                         <div class="btn-group-sm" role="group">
-
-
                             <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Edit">Editar</a>
                             <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Details">Detalhes</a>
                             <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Disable">Desativar</a>

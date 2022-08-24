@@ -85,8 +85,6 @@ namespace PresMed.Services {
             catch (Exception e) {
                 throw new Exception(e.Message);
             }
-
-
         }
 
         public Person TransformUpperCase(Person assistant) {
