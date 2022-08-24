@@ -1,4 +1,5 @@
 ﻿using PresMed.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PresMed.Services {
@@ -7,5 +8,7 @@ namespace PresMed.Services {
         public Task InsertAsync(Time time);
 
         public Task UpdateAsync(Time time);
+
+        public Task<List<Time>> FindAllActiveAsync();
     }
 }

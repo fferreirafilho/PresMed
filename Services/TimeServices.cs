@@ -1,4 +1,5 @@
-﻿using PresMed.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PresMed.Data;
 using PresMed.Models;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,9 @@ namespace PresMed.Services {
             }
         }
 
-        public Task<List<Time>> FindAllActiveAsync() {
+        public async Task<List<Time>> FindAllActiveAsync() {
 
-
+            return await _context.Time.ToListAsync();
         }
     }
 }
