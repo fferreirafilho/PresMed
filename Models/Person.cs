@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PresMed.Models {
     public class Person {
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [MinLength(3, ErrorMessage = "Campo invalido ")]
         [MaxLength(50, ErrorMessage = "Campo invalido ")]

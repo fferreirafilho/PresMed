@@ -8,6 +8,9 @@ namespace PresMed.Services {
         public Task InsertAsync(Time time);
 
         public Task UpdateAsync(Time time);
-        public Task<List<Time>> FindAllAsync();
+
+        public Task<List<Time>> FindAllActiveAsync();
+
+        public Task<Time> FindByIdAsync(int id);
     }
 }

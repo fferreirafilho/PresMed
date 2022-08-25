@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
+using PresMed.Models.Enums;
 
 namespace PresMed.Services {
     public class TimeServices : ITimeServices {
@@ -35,14 +37,14 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task<List<Time>> FindAllAsync() {
-            try {
-                var list = await _context.Time.ToListAsync();
-                return list;
-            }
-            catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
-            }
+        public async Task<List<Time>> FindAllActiveAsync() {
+            return await _context.Time.Include(obj => obj.Person).Where(obj => obj.Person.Status == Status.Ativo).ToListAsync();
+
+        }
+
+        public async Task<Time> FindByIdAsync(int id) {
+
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id);
         }
     }
 }

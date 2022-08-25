@@ -4,15 +4,19 @@ using System.ComponentModel.DataAnnotations;
 namespace PresMed.Models {
     public class Time {
 
-
+        [Required]
         public int Id { get; set; }
+
         [Required]
         [DataType(DataType.Time)]
-        [Display()]
+        [Display(Name = "Horario inicial de atendimento")]
         public DateTime InitialHour { get; set; }
+
         [Required]
+        [DataType(DataType.Time)]
+        [Display(Name = "Horario final de atendimento")]
         public DateTime FinalHour { get; set; }
-        [Required]
+
         public Person Person { get; set; }
 
         public Time() { }
