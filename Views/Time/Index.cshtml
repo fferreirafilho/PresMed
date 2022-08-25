@@ -1,8 +1,22 @@
-﻿@using PresMed.Models
+﻿@model IEnumerable<PresMed.Models.Time>
 
 @{
     ViewData["Title"] = "Horario de atendimento dos medicos";
 
+}
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
 }
 
 <div class="row me-5">
@@ -19,7 +33,7 @@
             <th class="text-center" scope="col">Nome</th>
             <th class="text-center" scope="col">Hora Inicial</th>
             <th class="text-center" scope="col">Hora Final</th>
-            <th class="text-center" scope="col">Ações</th>
+
             @if (Model != null && Model.Any()) {
                 <th class="text-center" scope="col">Ações</th>
             }
@@ -27,21 +41,16 @@
     </thead>
     <tbody>
         @if (Model != null && Model.Any()) {
-            
+
             @foreach (var item in Model) {
                 <tr>
-                    <td>@item.Id</td>
                     <td>@item.Person.Id</td>
+                    <td>@item.Person.Name</td>
                     <td>@item.InitialHour.ToShortTimeString()</td>
                     <td>@item.FinalHour.ToShortTimeString()</td>
                     <td>
                         <div class="btn-group-sm" role="group">
-
-
-                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Edit">Editar</a>
-                            <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Details">Detalhes</a>
-                            <a role="button" class="btn btn-success " asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Enabled">Ativar</a>
-
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Time" asp-action="Edit">Editar</a>
                         </div>
                     </td>
                 </tr>

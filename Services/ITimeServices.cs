@@ -10,5 +10,7 @@ namespace PresMed.Services {
         public Task UpdateAsync(Time time);
 
         public Task<List<Time>> FindAllActiveAsync();
+
+        public Task<Time> FindByIdAsync(int id);
     }
 }

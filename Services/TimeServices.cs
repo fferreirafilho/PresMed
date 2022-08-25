@@ -4,6 +4,8 @@ using PresMed.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using PresMed.Models.Enums;
 
 namespace PresMed.Services {
     public class TimeServices : ITimeServices {
@@ -35,8 +37,13 @@ namespace PresMed.Services {
         }
 
         public async Task<List<Time>> FindAllActiveAsync() {
+            return await _context.Time.Include(obj => obj.Person).Where(obj => obj.Person.Status == Status.Ativo).ToListAsync();
 
-            return await _context.Time.ToListAsync();
+        }
+
+        public async Task<Time> FindByIdAsync(int id) {
+
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id);
         }
     }
 }
