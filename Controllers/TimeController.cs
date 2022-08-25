@@ -39,8 +39,10 @@ namespace PresMed.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Time time) {
-
+            Time name = await _timeServices.FindByIdAsync(time.Id);
+            time.Person = name.Person;
             if (!ModelState.IsValid) {
+                time = await _timeServices.FindByIdAsync(time.Id);
                 return View(time);
             }
 

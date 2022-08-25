@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.Time
 
 @{
-    ViewData["Title"] = $"Editar horario de atendimento";
+    ViewData["Title"] = $"Editar horario de atendimento {Model.Person.Name}";
 }
 
 @if (TempData["ErrorMessage"] != null) {
