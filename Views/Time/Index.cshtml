@@ -1,0 +1,52 @@
+﻿@model List<PresMed.Models.Time>
+
+@{
+    ViewData["Title"] = "Horario de atendimento dos medicos";
+
+}
+
+<div class="row me-5">
+    <div class="col-lg-12">
+        <span class="display-4">@ViewData["Title"]</span>
+    </div>
+</div>
+<br />
+
+<table class="table table-striped text-center" id="table-contacts">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">#</th>
+            <th class="text-center" scope="col">Nome</th>
+            <th class="text-center" scope="col">Hora inicial</th>
+            <th class="text-center" scope="col">Hora final</th>
+            <th class="text-center" scope="col">Ações</th>
+            @if (Model != null && Model.Any()) {
+                <th class="text-center" scope="col">Ações</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any()) {
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.InitialHour.ToShortTimeString()</td>
+                    <td>@item.FinalHour.ToShortTimeString()</td>
+                    <td>
+                        <div class="btn-group-sm" role="group">
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Edit">Editar</a>
+                            <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Details">Detalhes</a>
+                            <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Doctor" asp-action="Disable">Desativar</a>
+
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="5">Nenhum registro encontrado</td></tr>
+        }
+
+    </tbody>
+</table>
