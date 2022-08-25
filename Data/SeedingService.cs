@@ -16,7 +16,7 @@ namespace PresMed.Data {
                 return;
 
             }
-            //string name, long phone, string email, string cpf, string street, string district, string state, string complement, string city, string number, UserStatus status, PersonType person, string user, string crm, string speciality, DateTime birthDate
+
 
             Person p1 = new Person("FERNANDO FERREIRA FILHO", 62981174693, "FERNANDOFERREIRRAFILHO@GMAIL.COM", "70281834164", "36", "NOSSA SENHORA DA PENHA", "GO", null, "GOIANÉSIA", "486", Status.Ativo, PersonType.Doctor, "FFERRREIRA", "123456798", "GO-9695", "CARDIOLOGIA", new DateTime(2000, 11, 04));
             Person p2 = new Person("JOAO DA SILVA", 9223123372, "JOAOSILVA@GMAIL.COM", "88589476065", "18", "CENTRO", "GO", null, "GOIANÉSIA", "448", Status.Desativado, PersonType.Doctor, "JSILVA", "123456798", "DF-1234", "CLINICO GERAL", new DateTime(2000, 04, 16));
@@ -37,10 +37,15 @@ namespace PresMed.Data {
             Procedures pd6 = new Procedures("CANDIDA ALBICANS, ANTICORPOS IGG E/ OU IGM E/ OU TOTAIS", Status.Ativo);
             Procedures pd7 = new Procedures("ANTI-ACTINA", Status.Ativo);
 
-
+            Time t1 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p1);
+            Time t2 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p2);
+            Time t3 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p3);
+            Time t4 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p4);
+            Time t5 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p5);
 
             _context.Person.AddRange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
             _context.Procedure.AddRange(pd1, pd2, pd3, pd4, pd5, pd6, pd7);
+            _context.Time.AddRange(t1, t2, t3, t4, t5);
             _context.SaveChanges();
         }
     }

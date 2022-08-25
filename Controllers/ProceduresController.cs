@@ -155,8 +155,7 @@ namespace PresMed.Controllers {
                 if (!ModelState.IsValid) {
                     return View(procedures);
                 }
-                int id = (int)procedures.Id;
-                Procedures dbPerson = await _proceduresServices.FindByIdAsync(id);
+                Procedures dbPerson = await _proceduresServices.FindByIdAsync(procedures.Id);
                 if (dbPerson == null) {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");

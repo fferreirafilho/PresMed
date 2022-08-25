@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace PresMed.Models.ViewModels {
     public class PersonPatient {
 
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [MinLength(3, ErrorMessage = "Campo invalido ")]
