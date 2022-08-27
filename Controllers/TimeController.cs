@@ -69,12 +69,24 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
 
-            int h1 = time.InitialHour.Hour;
-            int h2 = time.FinalHour.Hour;
+            double minutes = time.FinalHour.Subtract(time.InitialHour).TotalMinutes;
+            int min = time.ServiceTime.Minute;
 
-            int times = time.ServiceTime.Hour;
+            switch (min) {
+                case 00:
+                    dbTime.HourPerDay = (int)minutes / 60;
+                    break;
+                case 15:
+                    dbTime.HourPerDay = (int)minutes / 15;
+                    break;
+                case 30:
+                    dbTime.HourPerDay = (int)minutes / 30;
+                    break;
+                case 45:
+                    dbTime.HourPerDay = (int)minutes / 45;
+                    break;
+            }
 
-            dbTime.HourPerDay = (h2 - h1) / times;
             dbTime.FinalHour = time.FinalHour;
             dbTime.InitialHour = time.InitialHour;
             dbTime.ServiceTime = time.ServiceTime;
