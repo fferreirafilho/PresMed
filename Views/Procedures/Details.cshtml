@@ -18,7 +18,15 @@
                 <span class="fw-bold">@Html.DisplayNameFor(model => model.Name)</span>
             </div>
             <div class="col-md-7">
-                <textarea type="text" class="form-control" id="nome">  @Html.DisplayFor(model => model.Name)</textarea>
+                <div type="text" id="nome">  @Html.DisplayFor(model => model.Name)</div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Tuss)</span>
+            </div>
+            <div class="col-md-7">
+                <div type="text" id="nome">  @Html.DisplayFor(model => model.Tuss)</div>
             </div>
         </div>
     </div>

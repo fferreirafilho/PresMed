@@ -73,6 +73,7 @@ namespace PresMed.Services {
 
         public Procedures TransformUpperCase(Procedures procedure) {
             procedure.Name = procedure.Name.Trim().ToUpper();
+            procedure.Tuss = procedure.Tuss.Trim().ToUpper();
             return procedure;
         }
 

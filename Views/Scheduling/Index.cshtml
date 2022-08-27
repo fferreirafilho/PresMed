@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PresMed.Models.Time>
+
+@{
+    ViewData["Title"] = $"Agendamento de horarios";
+
+}
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+<div class="row me-5">
+    <div class="col-lg-12">
+        <span class="display-4">@ViewData["Title"]</span>
+    </div>
+</div>
+<br />
+
+<table class="table table-striped text-center" id="table-contacts">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">#</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Person.Name)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.InitialHour)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.FinalHour)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.ServiceTime)</th>
+
+            @if (Model != null && Model.Any()) {
+                <th class="text-center" scope="col">Ações</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any()) {
+
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Person.Id</td>
+                    <td>@item.Person.Name</td>
+                    <td>@item.InitialHour.ToShortTimeString()</td>
+                    <td>@item.FinalHour.ToShortTimeString()</td>
+                    <td>@item.ServiceTime.ToShortTimeString()</td>
+                    <td>
+                        <div class="btn-group-sm" role="group">
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Time" asp-action="Edit">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="5">Nenhum registro encontrado</td></tr>
+        }
+
+    </tbody>
+</table>
