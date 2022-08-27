@@ -109,7 +109,7 @@ namespace PresMed.Controllers {
                 doctor.Cpf = str;
                 doctor = _doctorService.TransformUpperCase(doctor);
                 await _doctorService.InsertAsync(doctor);
-                await _timeService.InsertAsync(new Time(new DateTime(2022, 01, 01, 00, 00, 00), new DateTime(2022, 01, 01, 00, 01, 00), doctor));
+                await _timeService.InsertAsync(new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), doctor, new DateTime(2022, 01, 01, 00, 30, 00), 20));
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
             }

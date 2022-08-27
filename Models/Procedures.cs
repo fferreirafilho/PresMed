@@ -9,9 +9,11 @@ namespace PresMed.Models {
         [MaxLength(400, ErrorMessage = "Campo invalido")]
         [Display(Name = "Procedimento")]
         public string Name { get; set; }
+        public string Tuss { get; set; }
         public Status Status { get; set; }
 
-        public Procedures(string name, Status status) {
+        public Procedures(string tuss, string name, Status status) {
+            Tuss = tuss;
             Name = name;
             Status = status;
         }

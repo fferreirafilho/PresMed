@@ -21,6 +21,9 @@ namespace PresMed.Data {
             modelBuilder.Entity<Procedures>()
                  .HasIndex(p => p.Name)
                  .IsUnique(true);
+            modelBuilder.Entity<Procedures>()
+                .HasIndex(p => p.Tuss)
+                .IsUnique(true);
             modelBuilder.Entity<Person>(etb => {
                 etb.Property(t => t.Crm)
                    .IsRequired(false);

@@ -3,6 +3,7 @@ using PresMed.Models;
 using PresMed.Models.Enums;
 using PresMed.Models.ViewModels;
 using PresMed.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
 
+            if (dbTime.Person.Status == Status.Desativado) {
+                TempData["ErrorMessage"] = "Medico desativado no sistema";
+                return RedirectToAction("Index");
+            }
+
             return View(dbTime);
         }
 
@@ -58,8 +64,20 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
 
+            if (dbTime.Person.Status == Status.Desativado) {
+                TempData["ErrorMessage"] = "Medico desativado no sistema";
+                return RedirectToAction("Index");
+            }
+
+            int h1 = time.InitialHour.Hour;
+            int h2 = time.FinalHour.Hour;
+
+            int times = time.ServiceTime.Hour;
+
+            dbTime.HourPerDay = (h2 - h1) / times;
             dbTime.FinalHour = time.FinalHour;
             dbTime.InitialHour = time.InitialHour;
+            dbTime.ServiceTime = time.ServiceTime;
 
             await _timeServices.UpdateAsync(dbTime);
             TempData["SuccessMessage"] = "Horario Alterado com sucesso";

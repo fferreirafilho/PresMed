@@ -29,22 +29,14 @@ namespace PresMed.Data {
             Person p9 = new Person("SOSPU BEGRAK", 65974442597, "SOPSUBEGRAK@GMAIL.COM", "45218321052", "25", "MORADA NOVA", "GO", null, "GOIANÉSIA", "01", Status.Desativado, PersonType.Patient, "SBEGRAK", "123456", null, null, new DateTime(1986, 03, 14));
             Person p10 = new Person("SNAGSOAUS TYOTU", 47987852834, "SNAGSOAUSTYOTU@GMAIL.COM", "03375819080", "19", "JARDIM DO CERRADO", "GO", null, "GOIANÉSIA", "136", Status.Desativado, PersonType.Patient, "STYOTU", "123456", null, null, new DateTime(1995, 08, 13));
 
-            Procedures pd1 = new Procedures("PULSOTERAPIA", Status.Ativo);
-            Procedures pd2 = new Procedures("ESOFAGOSTOMIA", Status.Ativo);
-            Procedures pd3 = new Procedures("HEMOGRAMA COMPLETO [INCLUI: CONTAGEM GLOBAL DE LEUCÓCITOS; CONTAGEM GLOBAL DE ERITRÓCITOS; HEMATÓCRITO; HEMOGLOBINA; ÍNDICES HEMATIMÉTRICOS; CONTAGEM GLOBAL DE PLAQUETAS; CONTAGEM DIFERENCIAL DE LEUCÓCITOS (NEUTRÓFILOS, BASTÕES, EOSINÓFILOS, BASÓFILOS, MONÓCITOS, LINFÓCITOS); E EXAME MICROSCÓPICO DE ESFREGAÇO DE SANGUE CORADO]", Status.Desativado);
-            Procedures pd4 = new Procedures("CONSULTA MÉDICA", Status.Ativo);
-            Procedures pd5 = new Procedures("CARDIOTOCOGRAFIA", Status.Ativo);
-            Procedures pd6 = new Procedures("CANDIDA ALBICANS, ANTICORPOS IGG E/ OU IGM E/ OU TOTAIS", Status.Ativo);
-            Procedures pd7 = new Procedures("ANTI-ACTINA", Status.Ativo);
 
-            Time t1 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p1);
-            Time t2 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p2);
-            Time t3 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p3);
-            Time t4 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p4);
-            Time t5 = new Time(new DateTime(2022, 01, 01, 00, 00, 01), new DateTime(2022, 01, 01, 00, 01, 01), p5);
+            Time t1 = new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), p1, new DateTime(2022, 01, 01, 00, 30, 00), 20);
+            Time t2 = new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), p2, new DateTime(2022, 01, 01, 00, 30, 00), 20);
+            Time t3 = new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), p3, new DateTime(2022, 01, 01, 00, 30, 00), 20);
+            Time t4 = new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), p4, new DateTime(2022, 01, 01, 00, 30, 00), 20);
+            Time t5 = new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), p5, new DateTime(2022, 01, 01, 00, 30, 00), 20);
 
             _context.Person.AddRange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
-            _context.Procedure.AddRange(pd1, pd2, pd3, pd4, pd5, pd6, pd7);
             _context.Time.AddRange(t1, t2, t3, t4, t5);
             _context.SaveChanges();
         }

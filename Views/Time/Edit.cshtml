@@ -32,6 +32,17 @@
         <span asp-validation-for="@Model.FinalHour" class="text-danger"></span>
     </div>
 
+    <div class="col-md-6">
+        <label asp-for="@Model.ServiceTime" class="form-label"></label><span class="text-danger">*</span>
+        <select asp-for="@Model.ServiceTime" class="form-select">
+            <option selected value="00:15:00">00:15 min</option>
+            <option value="00:30:00">00:30 min</option>
+            <option value="00:45:00">00:45 min</option>
+            <option value="01:00:00">01:00 hora</option>
+        </select>
+        <span asp-validation-for="@Model.ServiceTime" class="text-danger"></span>
+    </div>
+
     <div class="col-12 mb-5">
         <button type="submit" class="btn btn-success">Alterar</button>
         <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Time">Voltar</a>

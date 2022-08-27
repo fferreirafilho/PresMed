@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20220826224951_ProcedureTUSS")]
+    partial class ProcedureTUSS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,14 +125,11 @@ namespace PresMed.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Tuss")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("Tuss")
                         .IsUnique();
 
                     b.ToTable("Procedure");
@@ -144,9 +143,6 @@ namespace PresMed.Migrations
 
                     b.Property<DateTime>("FinalHour")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int>("HourPerDay")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("InitialHour")
                         .HasColumnType("datetime(6)");

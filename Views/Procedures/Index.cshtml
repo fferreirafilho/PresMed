@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PresMed.Models.Procedures>
 
 @{
-    
+
 }
 
 @if (TempData["SuccessMessage"] != null) {
@@ -39,8 +39,9 @@
 <table class="table table-striped text-center" id="table-contacts">
     <thead>
         <tr>
-            <th class="text-center" scope="col">#</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Tuss)</th>
             <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+
             @if (Model != null && Model.Any()) {
                 <th class="text-center" scope="col">Ações</th>
             }
@@ -50,8 +51,15 @@
         @if (Model != null && Model.Any()) {
             @foreach (var item in Model) {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
+                    <td>@item.Tuss</td>
+
+                    @if (item.Name.Length > 60) {
+                        <td>@item.Name.Substring(0,60)...</td>
+                    }
+                    else {
+                        <td>@item.Name</td>
+                    }
+
                     <td>
                         <div class="btn-group-sm" role="group">
 
