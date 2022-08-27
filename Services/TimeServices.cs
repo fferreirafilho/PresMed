@@ -43,7 +43,6 @@ namespace PresMed.Services {
         }
 
         public async Task<Time> FindByIdAsync(int id) {
-
             return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id);
         }
     }
