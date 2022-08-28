@@ -1,5 +1,4 @@
-﻿@model IEnumerable<PresMed.Models.Scheduling>
-
+﻿@model PresMed.Models.ViewModels.SchedulingViewModel
 @{
     ViewData["Title"] = "Agendamentos";
 }
@@ -48,25 +47,17 @@
         <tr>
             <th class="text-center" scope="col">Medico</th>
             <th class="text-center" scope="col">Paciente</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.HourAttendence)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.StatusAttendence)</th>
+            <th class="text-center" scope="col">Horario de atendimento</th>
+            <th class="text-center" scope="col">Status do atendimento</th>
 
-            @if (Model != null && Model.Any()) {
+            @if (Model != null) {
                 <th class="text-center" scope="col">Ações</th>
             }
         </tr>
     </thead>
     <tbody>
-        @if (Model != null && Model.Any()) {
-            @foreach (var item in Model) {
-                <tr>
-                    <td>@item.Medic.Name</td>
-                    <td>@item.Pacient.Name</td>
-                    <td>@item.HourAttendence</td>
-                    <td>@item.StatusAttendence</td>
+        @if (Model != null) {
 
-                </tr>
-            }
         }
         else {
             <tr class="odd"><td valign="top" colspan="5">Nenhum registro encontrado</td></tr>

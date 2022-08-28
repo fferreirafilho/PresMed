@@ -7,17 +7,17 @@ namespace PresMed.Models {
         public int Id { get; set; }
         [Display(Name = "Horario de atendimento")]
         public DateTime HourAttendence { get; set; }
-        public Person Medic { get; set; }
-        public Person Pacient { get; set; }
+        public Person Doctor { get; set; }
+        public Person Patient { get; set; }
         [Display(Name = "Status do atendimento")]
         public StatusAttendence StatusAttendence { get; set; }
 
         public Scheduling() { }
 
-        public Scheduling(DateTime hourAttendence, Person medic, Person pacient, StatusAttendence statusAttendence) {
+        public Scheduling(DateTime hourAttendence, Person doctor, Person patient, StatusAttendence statusAttendence) {
             HourAttendence = hourAttendence;
-            Medic = medic;
-            Pacient = pacient;
+            Doctor = doctor;
+            Patient = patient;
             StatusAttendence = statusAttendence;
         }
     }
