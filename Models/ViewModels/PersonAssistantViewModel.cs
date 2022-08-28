@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PresMed.Models.ViewModels {
-    public class PersonAssistant {
+    public class PersonAssistantViewModel {
 
         public int Id { get; set; }
 
@@ -85,9 +85,9 @@ namespace PresMed.Models.ViewModels {
 
 
 
-        public static PersonAssistant Parse(Person person) {
+        public static PersonAssistantViewModel Parse(Person person) {
 
-            PersonAssistant personAssistant = new PersonAssistant { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
+            PersonAssistantViewModel personAssistant = new PersonAssistantViewModel { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
 
 
             return personAssistant;

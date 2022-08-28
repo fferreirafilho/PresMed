@@ -38,7 +38,8 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: rgba(243,93,93, 0.7);
+    background-color: rgba(243,93,93, 1);
+    /*    background-color: rgba(20, 156, 130, 1);*/
     z-index: var(--z-fixed);
     transition: .5s
 }

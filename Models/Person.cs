@@ -118,7 +118,7 @@ namespace PresMed.Models {
             Password = password;
         }
 
-        public static Person Parse(PersonAssistant assistant = null, PersonPatient patient = null) {
+        public static Person Parse(PersonAssistantViewModel assistant = null, PersonPatientViewModel patient = null) {
             Person person = new Person();
 
             if (assistant != null) {

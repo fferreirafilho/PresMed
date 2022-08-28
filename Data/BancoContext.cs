@@ -10,6 +10,7 @@ namespace PresMed.Data {
         public DbSet<Procedures> Procedure { get; set; }
 
         public DbSet<Time> Time { get; set; }
+        public DbSet<Scheduling> Scheduling { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()

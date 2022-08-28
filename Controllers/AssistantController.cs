@@ -48,7 +48,7 @@ namespace PresMed.Controllers {
             }
 
 
-            return View(PersonAssistant.Parse(assistant));
+            return View(PersonAssistantViewModel.Parse(assistant));
         }
 
         public async Task<IActionResult> Disable(int? id) {
@@ -96,7 +96,7 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New(PersonAssistant assistant) {
+        public async Task<IActionResult> New(PersonAssistantViewModel assistant) {
             try {
                 assistant.PersonType = PersonType.Assistant;
                 assistant.Status = Status.Ativo;
@@ -175,7 +175,7 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PersonAssistant personAssistant) {
+        public async Task<IActionResult> Edit(PersonAssistantViewModel personAssistant) {
 
             try {
 
