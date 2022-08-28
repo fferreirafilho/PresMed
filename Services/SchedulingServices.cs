@@ -22,7 +22,7 @@ namespace PresMed.Services {
                 DateTime yesterday = AttendenceDate.Subtract(TimeSpan.FromDays(1));
                 DateTime tomorrow = AttendenceDate.AddDays(1);
 
-                return await _context.Scheduling.Where(x => x.Doctor.Id == id && x.HourAttendence < tomorrow && x.HourAttendence > yesterday).OrderBy(x => x.HourAttendence).ToListAsync();
+                return await _context.Scheduling.Include(x => x.Doctor).Include(x => x.Patient).Where(x => x.Doctor.Id == id && x.HourAttendence < tomorrow && x.HourAttendence > yesterday).OrderBy(x => x.HourAttendence).ToListAsync();
             }
             catch (Exception e) {
                 throw new Exception($"Erro listar {e.Message}");
