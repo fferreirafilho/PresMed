@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 namespace PresMed.Services {
     public interface ISchedulingServices {
 
-        public Task<List<Scheduling>> FindByDateAndIdAsync(int id, DateTime AttendenceDate);
+        public Task<List<Scheduling>> FindByIdAsync(int DoctorId, DateTime DayAttendence);
     }
 }

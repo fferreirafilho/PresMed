@@ -15,17 +15,12 @@ namespace PresMed.Services {
             _context = context;
         }
 
-        public async Task<List<Scheduling>> FindByDateAndIdAsync(int id, DateTime AttendenceDate) {
-
+        public async Task<List<Scheduling>> FindByIdAsync(int DoctorId, DateTime DayAttendence) {
             try {
-
-                DateTime yesterday = AttendenceDate.Subtract(TimeSpan.FromDays(1));
-                DateTime tomorrow = AttendenceDate.AddDays(1);
-
-                return await _context.Scheduling.Include(x => x.Doctor).Include(x => x.Patient).Where(x => x.Doctor.Id == id && x.HourAttendence < tomorrow && x.HourAttendence > yesterday).OrderBy(x => x.HourAttendence).ToListAsync();
+                return await _context.Scheduling.Include(x => x.Doctor).Include(x => x.Patient).Where(x => x.Doctor.Id == DoctorId && x.DayAttendence == DayAttendence).ToListAsync();
             }
-            catch (Exception e) {
-                throw new Exception($"Erro listar {e.Message}");
+            catch (Exception ex) {
+                throw new Exception($"Erro ao listar, Erro: {ex.Message}");
             }
         }
     }

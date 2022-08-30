@@ -11,6 +11,7 @@ $(document).ready(function () {
 
 function getDataTable(id) {
     $(`${id}`).DataTable({
+        "order": [[1, 'asc']],
         "ordering": true,
         "paging": true,
         "searching": true,

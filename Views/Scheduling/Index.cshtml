@@ -1,4 +1,4 @@
-﻿@model PresMed.Models.ViewModels.SchedulingViewModel
+﻿@model PresMed.Models.ViewModels.ScheduleViewModel
 @{
     ViewData["Title"] = "Agendamentos";
 }
@@ -24,3 +24,105 @@
 </div>
 <br />
 
+<form class="row g-3" asp-action="Schedule" asp-controller="Scheduling" method="post">
+
+    <div class="col-md-3">
+        <label asp-for="@Model.DayAttendence" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.DayAttendence" type="date" class="form-control" />
+        <span asp-validation-for="@Model.DayAttendence" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="@Model.Doctor" class="form-label"></label><span class="text-danger">*</span>
+        <select asp-for="@Model.Doctor" class="form-select">
+            @foreach (var item in Model.Doctors) {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-lg-2 pt-4">
+        <button type="submit" asp-action="Schedule" asp-controller="Scheduling" class="btn float-sm-end"><i class="fas fa-search d-block text-center text-success" style="font-size:2rem; "></i><span>Buscar</span></button>
+    </div>
+</form>
+
+<hr />
+
+@if (Model.Hour != null) {
+
+    <p>Agenda do medico @Model.Hour.Person.Name, das @Model.Hour.InitialHour.ToShortTimeString() até as @Model.Hour.FinalHour.ToShortTimeString(), tempo de atendimento de @Model.Hour.ServiceTime.ToShortTimeString()</p>
+}
+else {
+    <p>Pesquise um medico para inciar</p>
+}
+
+
+<table class="table table-striped text-center" id="table-contacts">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Patient)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.HourAttendence)</th>
+            <th class="text-center" scope="col">HORARIO Final DE ATENDIMENTO</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.StatusAttendence)</th>
+            <th class="text-center" scope="col">Ações</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Schedulings != null) {
+            var list = Model.Schedulings.ToArray();
+            int minutes = Model.Hour.ServiceTime.Minute == 0 ? 60 : Model.Hour.ServiceTime.Minute;
+            @for (int i = 0; i < @Model.Hour.HourPerDay; i++) {
+                @if (list.Length > i) {
+                    @if (list[i].HourAttendence.ToShortTimeString() == @Model.Hour.InitialHour.ToShortTimeString()) {
+                        <tr>
+                            <td>@list[i].Patient.Name</td>
+                            <td>@list[i].HourAttendence.AddMinutes(minutes * i).ToShortTimeString()</td>
+                            <td>@list[i].HourAttendence.AddMinutes(minutes * (i +1)).ToShortTimeString()</td>
+                            <td>@list[i].StatusAttendence</td>
+                            <td>
+                                <div class="btn-group-sm" role="group">
+                                    <a role="button" class="btn btn-success" asp-route-id="@list[i].Id" asp-controller="Scheduling" asp-action="Confirm">Confirmar</a>
+                                    <a role="button" class="btn btn-warning" asp-route-id="@list[i].Id" asp-controller="Scheduling" asp-action="Edit">Remarcar</a>
+                                    <a role="button" class="btn btn-danger" asp-route-id="@list[i].Id" asp-controller="Scheduling" asp-action="Edit">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else {
+                        <tr>
+                            <td>Sem agendamento</td>
+                            <td>@Model.Hour.InitialHour.AddMinutes(minutes * i).ToShortTimeString()</td>
+                            <td>@Model.Hour.InitialHour.AddMinutes(minutes * (i +1)).ToShortTimeString()</td>
+                            <td>Livre</td>
+                            <td>
+                                <div class="btn-group-sm" role="group">
+                                    <a role="button" class="btn btn-success" asp-controller="Scheduling" asp-action="Details">Novo</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+                else {
+                    <tr>
+                        <td>Sem agendamento</td>
+                        <td>@Model.Hour.InitialHour.AddMinutes(minutes * i).ToShortTimeString()</td>
+                        <td>@Model.Hour.InitialHour.AddMinutes(minutes * (i +1)).ToShortTimeString()</td>
+                        <td>Livre</td>
+                        <td>
+                            <div class="btn-group-sm" role="group">
+                                <a role="button" class="btn btn-success" asp-controller="Scheduling" asp-action="Details">Novo</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="5">Nenhum registro encontrado</td></tr>
+        }
+
+    </tbody>
+</table>
+<br />

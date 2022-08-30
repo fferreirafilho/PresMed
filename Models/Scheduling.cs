@@ -5,8 +5,11 @@ using System.ComponentModel.DataAnnotations;
 namespace PresMed.Models {
     public class Scheduling {
         public int Id { get; set; }
+
         [Display(Name = "Horario de atendimento")]
         public DateTime HourAttendence { get; set; }
+        [Display(Name = "Horario de atendimento")]
+        public DateTime DayAttendence { get; set; }
         public Person Doctor { get; set; }
         public Person Patient { get; set; }
         [Display(Name = "Status do atendimento")]

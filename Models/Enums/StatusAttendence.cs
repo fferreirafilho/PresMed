@@ -2,7 +2,7 @@
     public enum StatusAttendence : int {
 
         Agendado = 0,
-        Confirmardo = 1,
+        Confirmado = 1,
         Atendimento = 2,
         Finalizado = 3,
     }
