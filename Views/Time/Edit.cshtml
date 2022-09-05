@@ -23,7 +23,7 @@
     <input asp-for="@Model.Id" value="@Model.Id" type="hidden" />
     <div class="col-md-6">
         <label asp-for="@Model.InitialHour" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.InitialHour" type="time" min="07:00" max="18:00"  class="form-control" id="nome" placeholder="Digite o horario inicial de trabalho do medico">
+        <input asp-for="@Model.InitialHour" type="time" min="07:00" max="18:00" class="form-control" id="nome" placeholder="Digite o horario inicial de trabalho do medico">
         <span asp-validation-for="@Model.InitialHour" class="text-danger"></span>
     </div>
     <div class="col-md-6">
@@ -35,10 +35,30 @@
     <div class="col-md-6">
         <label asp-for="@Model.ServiceTime" class="form-label"></label><span class="text-danger">*</span>
         <select asp-for="@Model.ServiceTime" class="form-select">
-            <option value="00:15">00:15 min</option>
-            <option value="00:30">00:30 min</option>
-            <option value="00:45">00:45 min</option>
-            <option value="01:00">01:00 hora</option>
+            @if (@Model.ServiceTime.Minute == 15) {
+                <option selected value="00:15">00:15 min</option>
+            }
+            else {
+                <option value="00:15">00:15 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 30) {
+                <option selected value="00:30">00:30 min</option>
+            }
+            else {
+                <option value="00:30">00:30 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 45) {
+                <option selected value="00:45">00:45 min</option>
+            }
+            else {
+                <option value="00:45">00:45 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 0) {
+                <option selected value="01:00">01:00 min</option>
+            }
+            else {
+                <option value="01:00">01:00 min</option>
+            }
         </select>
         <span asp-validation-for="@Model.ServiceTime" class="text-danger"></span>
     </div>

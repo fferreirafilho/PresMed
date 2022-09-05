@@ -15,13 +15,16 @@ namespace PresMed.Models {
         [Display(Name = "Status do atendimento")]
         public StatusAttendence StatusAttendence { get; set; }
 
+        public Procedures Procedures { get; set; }
+
         public Scheduling() { }
 
-        public Scheduling(DateTime hourAttendence, Person doctor, Person patient, StatusAttendence statusAttendence) {
+        public Scheduling(DateTime hourAttendence, Person doctor, Person patient, StatusAttendence statusAttendence, Procedures procedures) {
             HourAttendence = hourAttendence;
             Doctor = doctor;
             Patient = patient;
             StatusAttendence = statusAttendence;
+            Procedures = procedures;
         }
     }
 }

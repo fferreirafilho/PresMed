@@ -39,7 +39,7 @@ namespace PresMed.Services {
         public async Task<List<Person>> FindAllDisableAsync() {
 
             try {
-                var list = await _context.Person.ToListAsync();
+                var list = await _context.Person.OrderBy(p => p.Name).ToListAsync();
                 return list.Where(x => x.Status == Status.Desativado && x.PersonType == PersonType.Doctor).ToList();
 
             }
@@ -51,7 +51,7 @@ namespace PresMed.Services {
         public async Task<List<Person>> FindAllActiveAsync() {
 
             try {
-                var list = await _context.Person.ToListAsync();
+                var list = await _context.Person.OrderBy(p => p.Name).ToListAsync();
                 return list.Where(x => x.Status == Status.Ativo && x.PersonType == PersonType.Doctor).ToList();
             }
             catch (Exception e) {

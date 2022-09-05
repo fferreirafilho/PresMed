@@ -21,6 +21,7 @@ namespace PresMed.Models.ViewModels {
         [Display(Name = "Medicos")]
         public List<Person> Doctors { get; set; }
         public List<Scheduling> Schedulings { get; set; }
+        public Procedures Procedures { get; set; }
 
     }
 }
