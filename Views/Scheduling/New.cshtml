@@ -1,0 +1,59 @@
+﻿@model PresMed.Models.ViewModels.ScheduleViewModel
+@{
+    ViewData["Title"] = "Cadastro de agendamento";
+}
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"] do medico @Model.Scheduling.Doctor.Name na data de @Model.Scheduling.DayAttendence.ToShortDateString()</h3>
+</div>
+<hr />
+
+<form class="row g-3" asp-action="Add" asp-controller="Scheduling" method="post">
+
+    <input type="hidden" asp-for="@Model.Scheduling.HourAttendence" value="@Model.Scheduling.HourAttendence"/>
+    <input type="hidden" asp-for="@Model.Scheduling.DayAttendence" value="@Model.Scheduling.DayAttendence"/>
+    <input type="hidden" asp-for="@Model.Doctor" value="@Model.Scheduling.Doctor.Id"/>
+
+    <div class="col-md-3">
+        <label asp-for="@Model.Patients" class="form-label"></label>
+        <select asp-for="@Model.Patient" class="form-select">
+            @foreach (var item in Model.Patients) {
+                if (item.Id == Model.Scheduling.Doctor.Id) {
+
+                }
+                else {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-md-5">
+        <label asp-for="@Model.Procedures" class="form-label"></label>
+        <select asp-for="@Model.Procedure" class="form-select">
+            @foreach (var item in Model.Procedures) {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Scheduling">Voltar</a>
+    </div>
+
+</form>

@@ -62,7 +62,7 @@ namespace PresMed.Services {
         public async Task<List<Person>> FindAllAsync() {
 
             try {
-                return await _context.Person.ToListAsync();
+                return await _context.Person.OrderBy(x => x.Name).ToListAsync();
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");

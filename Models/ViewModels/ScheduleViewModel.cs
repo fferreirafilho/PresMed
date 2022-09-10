@@ -7,21 +7,18 @@ namespace PresMed.Models.ViewModels {
     public class ScheduleViewModel {
 
 
-        [Display(Name = "Horario de atendimento")]
-        public DateTime HourAttendence { get; set; }
-        [Display(Name = "Dia de atendimento")]
-        public DateTime DayAttendence { get; set; }
-        [Display(Name = "Medicos")]
-        public int Doctor { get; set; }
-        [Display(Name = "Paciente")]
-        public Person Patient { get; set; }
-        [Display(Name = "Status do atendimento")]
-        public StatusAttendence StatusAttendence { get; set; }
+
+        public Scheduling Scheduling { get; set; }
         public Time Hour { get; set; }
+        public int Doctor { get; set; }
+        public int Patient { get; set; }
+        public int Procedure { get; set; }
         [Display(Name = "Medicos")]
         public List<Person> Doctors { get; set; }
         public List<Scheduling> Schedulings { get; set; }
-        public Procedures Procedures { get; set; }
-
+        [Display(Name = "Pacientes")]
+        public List<Person> Patients { get; set; }
+        [Display(Name = "Procedimento")]
+        public List<Procedures> Procedures { get; set; }
     }
 }
