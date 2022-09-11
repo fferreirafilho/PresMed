@@ -38,7 +38,7 @@ namespace PresMed {
             services.AddScoped<IProceduresServices, ProceduresServices>();
             services.AddScoped<ITimeServices, TimeServices>();
             services.AddScoped<ISchedulingServices, SchedulingServices>();
-            services.AddScoped<IClinicalOpeningServices, ClinicalOpeningServices>();
+            services.AddScoped<IClinicOpeningServices, ClinicOpeningServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
