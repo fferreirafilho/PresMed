@@ -12,88 +12,117 @@ namespace PresMed.Controllers {
     public class TimeController : Controller {
 
         private readonly ITimeServices _timeServices;
+        private readonly ISchedulingServices _schedulingServices;
 
-        public TimeController(ITimeServices timeServices) {
+        public TimeController(ITimeServices timeServices, ISchedulingServices schedulingServices) {
             _timeServices = timeServices;
+            _schedulingServices = schedulingServices;
         }
 
         public async Task<IActionResult> Index() {
-            var list = await _timeServices.FindAllActiveAsync();
-            return View(list);
+            try {
+                var list = await _timeServices.FindAllActiveAsync();
+                return View(list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public async Task<IActionResult> Edit(int? id) {
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
-            }
-            Time dbTime = await _timeServices.FindByIdAsync(id.Value);
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Time dbTime = await _timeServices.FindByIdAsync(id.Value);
 
-            if (dbTime == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (dbTime == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+
+                if (dbTime.Person.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    return RedirectToAction("Index");
+                }
+
+                return View(dbTime);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
 
-            if (dbTime.Person.Status == Status.Desativado) {
-                TempData["ErrorMessage"] = "Medico desativado no sistema";
-                return RedirectToAction("Index");
-            }
-
-            return View(dbTime);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Time time) {
-            Time name = await _timeServices.FindByIdAsync(time.Id);
-            time.Person = name.Person;
-            if (!ModelState.IsValid) {
-                time = await _timeServices.FindByIdAsync(time.Id);
-                return View(time);
-            }
+            try {
+                Time name = await _timeServices.FindByIdAsync(time.Id);
+                time.Person = name.Person;
+                if (!ModelState.IsValid) {
+                    time = await _timeServices.FindByIdAsync(time.Id);
+                    return View(time);
+                }
 
-            if (time.InitialHour > time.FinalHour) {
-                TempData["ErrorMessage"] = "Horario invalido";
-                return View(time);
-            }
+                if (time.InitialHour > time.FinalHour) {
+                    TempData["ErrorMessage"] = "Horario invalido";
+                    return View(time);
+                }
 
-            Time dbTime = await _timeServices.FindByIdAsync(time.Id);
+                Time dbTime = await _timeServices.FindByIdAsync(time.Id);
 
-            if (dbTime == null) {
-                TempData["ErrorMessage"] = "ID não encontado";
+                if (dbTime == null) {
+                    TempData["ErrorMessage"] = "ID não encontado";
+                    return RedirectToAction("Index");
+                }
+
+                if (dbTime.Person.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    return RedirectToAction("Index");
+                }
+
+                var list = await _schedulingServices.FindBylargerDate(time.Person.Id, DateTime.Now);
+                if (list.Count > 0) {
+                    TempData["ErrorMessage"] = "Existem agendas marcadas para o futuro";
+                    return RedirectToAction("Index");
+                }
+
+                double minutes = time.FinalHour.Subtract(time.InitialHour).TotalMinutes;
+                int min = time.ServiceTime.Minute;
+
+                switch (min) {
+                    case 00:
+                        dbTime.HourPerDay = (int)minutes / 60;
+                        break;
+                    case 15:
+                        dbTime.HourPerDay = (int)minutes / 15;
+                        break;
+                    case 30:
+                        dbTime.HourPerDay = (int)minutes / 30;
+                        break;
+                    case 45:
+                        dbTime.HourPerDay = (int)minutes / 45;
+                        break;
+                }
+
+                dbTime.FinalHour = time.FinalHour;
+                dbTime.InitialHour = time.InitialHour;
+                dbTime.ServiceTime = time.ServiceTime;
+
+                await _timeServices.UpdateAsync(dbTime);
+                TempData["SuccessMessage"] = "Horario Alterado com sucesso";
                 return RedirectToAction("Index");
             }
-
-            if (dbTime.Person.Status == Status.Desativado) {
-                TempData["ErrorMessage"] = "Medico desativado no sistema";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
 
-            double minutes = time.FinalHour.Subtract(time.InitialHour).TotalMinutes;
-            int min = time.ServiceTime.Minute;
-
-            switch (min) {
-                case 00:
-                    dbTime.HourPerDay = (int)minutes / 60;
-                    break;
-                case 15:
-                    dbTime.HourPerDay = (int)minutes / 15;
-                    break;
-                case 30:
-                    dbTime.HourPerDay = (int)minutes / 30;
-                    break;
-                case 45:
-                    dbTime.HourPerDay = (int)minutes / 45;
-                    break;
-            }
-
-            dbTime.FinalHour = time.FinalHour;
-            dbTime.InitialHour = time.InitialHour;
-            dbTime.ServiceTime = time.ServiceTime;
-
-            await _timeServices.UpdateAsync(dbTime);
-            TempData["SuccessMessage"] = "Horario Alterado com sucesso";
-            return RedirectToAction("Index");
         }
     }
 }

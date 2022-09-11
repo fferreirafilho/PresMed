@@ -15,22 +15,38 @@ namespace PresMed.Controllers {
 
         private readonly IDoctorServices _doctorService;
         private readonly ITimeServices _timeService;
+        private readonly ISchedulingServices _schedulingServices;
 
-        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices) {
+        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices, ISchedulingServices schedulingServices) {
             _doctorService = doctorService;
             _timeService = timeServices;
+            _schedulingServices = schedulingServices;
         }
 
         public async Task<IActionResult> Index() {
-            ViewData["Title"] = "Listagem de medicos ativos";
-            var list = await _doctorService.FindAllActiveAsync();
-            return View(list);
+            try {
+                ViewData["Title"] = "Listagem de medicos ativos";
+                var list = await _doctorService.FindAllActiveAsync();
+                return View(list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public async Task<IActionResult> Inactive() {
-            ViewData["Title"] = "Listagem de medicos desativados";
-            var list = await _doctorService.FindAllDisableAsync();
-            return View("Index", list);
+            try {
+                ViewData["Title"] = "Listagem de medicos desativados";
+                var list = await _doctorService.FindAllDisableAsync();
+                return View("Index", list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public IActionResult New() {
@@ -38,60 +54,89 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Edit(int? id) {
+            try {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person doctor = await _doctorService.FindByIdAsync(id.Value);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(doctor);
             }
-            Person doctor = await _doctorService.FindByIdAsync(id.Value);
-            if (doctor == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(doctor);
+
         }
 
         public async Task<IActionResult> Disable(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person doctor = await _doctorService.FindByIdAsync(id.Value);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(doctor);
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
             }
-            Person doctor = await _doctorService.FindByIdAsync(id.Value);
-            if (doctor == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(doctor);
+
+
         }
 
 
         public async Task<IActionResult> Enabled(int? id) {
+            try {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person doctor = await _doctorService.FindByIdAsync(id.Value);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View("Disable", doctor);
             }
-            Person doctor = await _doctorService.FindByIdAsync(id.Value);
-            if (doctor == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View("Disable", doctor);
+
         }
 
         public async Task<IActionResult> Details(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person doctor = await _doctorService.FindByIdAsync(id.Value);
+                if (doctor == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(doctor);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
-            }
-            Person doctor = await _doctorService.FindByIdAsync(id.Value);
-            if (doctor == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
-            }
-            return View(doctor);
+
         }
 
         [HttpPost]
@@ -131,6 +176,13 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
+
+                var list = await _schedulingServices.FindBylargerDate(id, DateTime.Now);
+                if (list.Count > 0) {
+                    TempData["ErrorMessage"] = "Existem agendas marcadas para o futuro";
+                    return RedirectToAction("Index");
+                }
+
                 doctor.Status = Status.Desativado;
                 await _doctorService.UpdateAsync(doctor);
                 TempData["SuccessMessage"] = "Usuário desativado com sucesso";

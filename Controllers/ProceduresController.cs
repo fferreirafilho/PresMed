@@ -15,15 +15,29 @@ namespace PresMed.Controllers {
             _proceduresServices = proceduresServices;
         }
         public async Task<IActionResult> Index() {
-            ViewData["Title"] = "Listagem de procedimentos ativos";
-            var list = await _proceduresServices.FindAllActiveAsync();
-            return View(list);
+            try {
+                ViewData["Title"] = "Listagem de procedimentos ativos";
+                var list = await _proceduresServices.FindAllActiveAsync();
+                return View(list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public async Task<IActionResult> Inactive() {
-            ViewData["Title"] = "Listagem de procedimentos desativados";
-            var list = await _proceduresServices.FindAllDisableAsync();
-            return View("Index", list);
+            try {
+                ViewData["Title"] = "Listagem de procedimentos desativados";
+                var list = await _proceduresServices.FindAllDisableAsync();
+                return View("Index", list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public IActionResult New() {
@@ -31,60 +45,89 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Edit(int? id) {
+            try {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Procedures procedure = await _proceduresServices.FindByIdAsync(id.Value);
+                if (procedure == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(procedure);
             }
-            Procedures procedure = await _proceduresServices.FindByIdAsync(id.Value);
-            if (procedure == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(procedure);
+
         }
 
         public async Task<IActionResult> Disable(int? id) {
+            try {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+                if (procedures == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(procedures);
             }
-            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
-            if (procedures == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(procedures);
+
         }
 
 
         public async Task<IActionResult> Enabled(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+                if (procedures == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View("Disable", procedures);
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
             }
-            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
-            if (procedures == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View("Disable", procedures);
+
+
         }
 
         public async Task<IActionResult> Details(int? id) {
+            try {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
+                if (procedures == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(procedures);
             }
-            Procedures procedures = await _proceduresServices.FindByIdAsync(id.Value);
-            if (procedures == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(procedures);
+
         }
 
         [HttpPost]

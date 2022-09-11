@@ -20,15 +20,28 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Index() {
-            ViewData["Title"] = "Listagem de assistentes ativos";
-            var list = await _assistantService.FindAllActiveAsync();
-            return View(list);
+            try {
+                ViewData["Title"] = "Listagem de assistentes ativos";
+                var list = await _assistantService.FindAllActiveAsync();
+                return View(list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
         }
 
         public async Task<IActionResult> Inactive() {
-            ViewData["Title"] = "Listagem de assistentes desativados";
-            var list = await _assistantService.FindAllDisableAsync();
-            return View("Index", list);
+            try {
+                ViewData["Title"] = "Listagem de assistentes desativados";
+                var list = await _assistantService.FindAllDisableAsync();
+                return View("Index", list);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
 
         public IActionResult New() {
@@ -36,62 +49,91 @@ namespace PresMed.Controllers {
         }
 
         public async Task<IActionResult> Edit(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+
+                return View(PersonAssistantViewModel.Parse(assistant));
             }
-            Person assistant = await _assistantService.FindByIdAsync(id.Value);
-            if (assistant == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
 
 
-            return View(PersonAssistantViewModel.Parse(assistant));
         }
 
         public async Task<IActionResult> Disable(int? id) {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(assistant);
+
             }
-            Person assistant = await _assistantService.FindByIdAsync(id.Value);
-            if (assistant == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(assistant);
         }
 
 
         public async Task<IActionResult> Enabled(int? id) {
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View("Disable", assistant);
+
             }
-            Person assistant = await _assistantService.FindByIdAsync(id.Value);
-            if (assistant == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View("Disable", assistant);
         }
 
         public async Task<IActionResult> Details(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                return View(assistant);
 
-            if (id == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
             }
-            Person assistant = await _assistantService.FindByIdAsync(id.Value);
-            if (assistant == null) {
-                TempData["ErrorMessage"] = "ID não encontrado";
-                return RedirectToAction("Index");
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
             }
-            return View(assistant);
+
+
         }
 
         [HttpPost]

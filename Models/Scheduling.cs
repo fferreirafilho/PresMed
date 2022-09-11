@@ -8,9 +8,11 @@ namespace PresMed.Models {
 
         [Display(Name = "Horario de atendimento")]
         public DateTime HourAttendence { get; set; }
-        [Display(Name = "Horario de atendimento")]
+        [Display(Name = "Dia de atendimento")]
         public DateTime DayAttendence { get; set; }
+        [Display(Name = "Medico")]
         public Person Doctor { get; set; }
+        [Display(Name = "Paciente")]
         public Person Patient { get; set; }
         [Display(Name = "Status do atendimento")]
         public StatusAttendence StatusAttendence { get; set; }

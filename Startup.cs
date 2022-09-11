@@ -31,24 +31,28 @@ namespace PresMed {
 
             services.AddScoped<SeedingService>();
             services.AddScoped<SeedingProcedure>();
+            services.AddScoped<SeedingClinicOpening>();
             services.AddScoped<IDoctorServices, DoctorServices>();
             services.AddScoped<IAssistantServices, AssistantServices>();
             services.AddScoped<IPatientServices, PatientServices>();
             services.AddScoped<IProceduresServices, ProceduresServices>();
             services.AddScoped<ITimeServices, TimeServices>();
             services.AddScoped<ISchedulingServices, SchedulingServices>();
+            services.AddScoped<IClinicalOpeningServices, ClinicalOpeningServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingService seedingService, SeedingProcedure seedingProcedure) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingService seedingService, SeedingProcedure seedingProcedure, SeedingClinicOpening seedingClinicOpening) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 seedingService.Seed();
                 seedingProcedure.Seed();
+                seedingClinicOpening.Seed();
             }
             else {
                 app.UseExceptionHandler("/Home/Error");
                 seedingProcedure.Seed();
+                seedingClinicOpening.Seed();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
