@@ -23,12 +23,12 @@
     <input asp-for="@Model.Id" value="@Model.Id" type="hidden" />
     <div class="col-md-6">
         <label asp-for="@Model.InitialHour" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.InitialHour" type="time" min="07:00" max="18:00" class="form-control" id="nome" placeholder="Digite o horario inicial de trabalho do medico">
+        <input asp-for="@Model.InitialHour" type="time" class="form-control" id="nome" placeholder="Digite o horario inicial de trabalho do medico">
         <span asp-validation-for="@Model.InitialHour" class="text-danger"></span>
     </div>
     <div class="col-md-6">
         <label asp-for="@Model.EndHour" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.EndHour" type="time" min="07:00" max="18:00" class="form-control" placeholder="Digite o horario inicial de trabalho do medico">
+        <input asp-for="@Model.EndHour" type="time" class="form-control" placeholder="Digite o horario inicial de trabalho do medico">
         <span asp-validation-for="@Model.EndHour" class="text-danger"></span>
     </div>
 

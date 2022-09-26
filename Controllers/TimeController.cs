@@ -13,10 +13,12 @@ namespace PresMed.Controllers {
 
         private readonly ITimeServices _timeServices;
         private readonly ISchedulingServices _schedulingServices;
+        private readonly IClinicOpeningServices _clinicOpeningServices;
 
-        public TimeController(ITimeServices timeServices, ISchedulingServices schedulingServices) {
+        public TimeController(ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicOpeningServices clinicOpeningServices) {
             _timeServices = timeServices;
             _schedulingServices = schedulingServices;
+            _clinicOpeningServices = clinicOpeningServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -64,6 +66,22 @@ namespace PresMed.Controllers {
             try {
                 Time name = await _timeServices.FindByIdAsync(time.Id);
                 time.Person = name.Person;
+
+                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+
+                if (time.InitialHour.Hour < clinicOpening.InitialHour.Hour || time.FinalHour.Hour > clinicOpening.EndHour.Hour) {
+                    TempData["ErrorMessage"] = "Fora do horario de funcionamento da clinica";
+                    return RedirectToAction("Index");
+                }
+
+                if (clinicOpening.InitialHour.Hour == time.InitialHour.Hour || time.FinalHour.Hour == clinicOpening.EndHour.Hour) {
+
+                    if (clinicOpening.InitialHour.Minute > time.InitialHour.Minute || time.FinalHour.Minute > clinicOpening.EndHour.Minute) {
+                        TempData["ErrorMessage"] = "Fora do horario de funcionamento da clinica";
+                        return RedirectToAction("Index");
+                    }
+                }
+
                 if (!ModelState.IsValid) {
                     time = await _timeServices.FindByIdAsync(time.Id);
                     return View(time);

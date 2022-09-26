@@ -16,11 +16,13 @@ namespace PresMed.Controllers {
         private readonly IDoctorServices _doctorService;
         private readonly ITimeServices _timeService;
         private readonly ISchedulingServices _schedulingServices;
+        private readonly IClinicOpeningServices _clinicOpeningServices;
 
-        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices, ISchedulingServices schedulingServices) {
+        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicOpeningServices clinicOpeningServices) {
             _doctorService = doctorService;
             _timeService = timeServices;
             _schedulingServices = schedulingServices;
+            _clinicOpeningServices = clinicOpeningServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -154,7 +156,8 @@ namespace PresMed.Controllers {
                 doctor.Cpf = str;
                 doctor = _doctorService.TransformUpperCase(doctor);
                 await _doctorService.InsertAsync(doctor);
-                await _timeService.InsertAsync(new Time(new DateTime(2022, 01, 01, 08, 00, 00), new DateTime(2022, 01, 01, 18, 00, 00), doctor, new DateTime(2022, 01, 01, 00, 30, 00), 20));
+                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                await _timeService.InsertAsync(new Time(clinicOpening.InitialHour, clinicOpening.EndHour, doctor, new DateTime(2022, 01, 01, 00, 30, 00), (clinicOpening.EndHour.Hour - clinicOpening.InitialHour.Hour) * 2));
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
@@ -207,6 +210,31 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
+
+                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                Time dbTime = await _timeService.FindByIdAsync(id);
+                double minutes = clinicOpening.EndHour.Subtract(clinicOpening.InitialHour).TotalMinutes;
+                int min = dbTime.ServiceTime.Minute;
+
+                switch (min) {
+                    case 00:
+                        dbTime.HourPerDay = (int)minutes / 60;
+                        break;
+                    case 15:
+                        dbTime.HourPerDay = (int)minutes / 15;
+                        break;
+                    case 30:
+                        dbTime.HourPerDay = (int)minutes / 30;
+                        break;
+                    case 45:
+                        dbTime.HourPerDay = (int)minutes / 45;
+                        break;
+                }
+
+                dbTime.FinalHour = clinicOpening.EndHour;
+                dbTime.InitialHour = clinicOpening.InitialHour;
+                await _timeService.UpdateAsync(dbTime);
+
                 doctor.Status = Status.Ativo;
                 await _doctorService.UpdateAsync(doctor);
                 TempData["SuccessMessage"] = "Usuario ativado com sucesso";
