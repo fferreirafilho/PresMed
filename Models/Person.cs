@@ -1,4 +1,8 @@
-﻿using PresMed.Models.Enums;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using MimeKit.Text;
+using PresMed.Models.Enums;
 using PresMed.Models.ValidationModels;
 using PresMed.Models.ViewModels;
 using System;
@@ -129,9 +133,34 @@ namespace PresMed.Models {
                 person = new Person(patient.Name, patient.Phone.Value, patient.Email, patient.Cpf, patient.Street, patient.District, patient.State, patient.Complement, patient.City, patient.Number, patient.Status, patient.PersonType, patient.User, "", null, null, patient.BirthDate.Value);
                 person.Id = patient.Id;
             }
-
-
             return person;
+        }
+
+        public static string PasswordGenerate() {
+            string chars = "abcdefghjkmnpqrstuvwxyz023456789.*()@#$%";
+            string pass = "";
+            Random random = new Random();
+            for (int f = 0; f < 8; f++) {
+                pass += chars.Substring(random.Next(0, chars.Length - 1), 1);
+            }
+
+            return pass;
+        }
+
+        public static void SendMail(string emailMessage, string message, string title) {
+            // create email message
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("testesapps51@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(emailMessage));
+            email.Subject = title;
+            email.Body = new TextPart(TextFormat.Plain) { Text = message };
+
+            // send email
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("testesapps51@gmail.com", "fahtsroanthccqxd");
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 }
