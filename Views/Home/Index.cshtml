@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Person
+
+@{
     ViewData["Title"] = "Pagina inicial";
 
 }
@@ -9,26 +11,38 @@
 
 <hr />
 
-<div class="items mb-5">
 
-    <h5>Horario de atendimento dos medicos</h5>
-    <br />
-    <a asp-controller="Time" asp-action="Index" class="btn btn-outline-primary ms-3">Horarios</a>
-</div>
+@if (Model.PersonType == PresMed.Models.Enums.PersonType.Doctor) {
 
-<div class="items mb-5">
+}
 
-    <h5>Horario de funcionamento da clinica</h5>
-    <br />
-    <a asp-controller="ClinicOpening" asp-action="Index" class="btn btn-outline-primary ms-3">Horario de funcionamento</a>
-</div>
+@if (Model.PersonType == PresMed.Models.Enums.PersonType.Patient) {
 
-<div class="items mb-5">
+}
 
-    <h5>Procedimentos</h5>
-    <br />
-    <a asp-controller="Procedures" asp-action="Index" class="btn btn-outline-primary ms-3">Procedimentos</a>
-</div>
+@if (Model.PersonType == PresMed.Models.Enums.PersonType.Assistant) {
+    <div class="items mb-5">
+
+        <h5>Horario de atendimento dos medicos</h5>
+        <br />
+        <a asp-controller="Time" asp-action="Index" class="btn btn-outline-primary ms-3">Horarios</a>
+    </div>
+
+    <div class="items mb-5">
+
+        <h5>Horario de funcionamento da clinica</h5>
+        <br />
+        <a asp-controller="ClinicOpening" asp-action="Index" class="btn btn-outline-primary ms-3">Horario de funcionamento</a>
+    </div>
+
+    <div class="items mb-5">
+
+        <h5>Procedimentos</h5>
+        <br />
+        <a asp-controller="Procedures" asp-action="Index" class="btn btn-outline-primary ms-3">Procedimentos</a>
+    </div>
+}
+
 
 
 

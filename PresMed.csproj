@@ -27,8 +27,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Shared\Components\" />
-  </ItemGroup>
-
 </Project>
