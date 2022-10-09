@@ -10,8 +10,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PresMed.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PresMed.Filters;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class AssistantController : Controller {
         private readonly IAssistantServices _assistantService;
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PresMed.Filters;
 using PresMed.Models;
 using PresMed.Models.ViewModels;
 using System;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
     public class HomeController : Controller {
         public IActionResult Index() {
 

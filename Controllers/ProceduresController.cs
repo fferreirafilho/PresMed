@@ -5,8 +5,11 @@ using PresMed.Services;
 using System;
 using System.Threading.Tasks;
 using PresMed.Models.ViewModels;
+using PresMed.Filters;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class ProceduresController : Controller {
 
         private readonly IProceduresServices _proceduresServices;

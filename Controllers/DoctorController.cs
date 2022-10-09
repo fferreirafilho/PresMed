@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using PresMed.Models.ViewModels;
+using PresMed.Filters;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class DoctorController : Controller {
 
         private readonly IDoctorServices _doctorService;

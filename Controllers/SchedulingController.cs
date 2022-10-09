@@ -7,8 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using PresMed.Filters;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class SchedulingController : Controller {
         private readonly IDoctorServices _doctorServices;
         private readonly ISchedulingServices _schedulingServices;
