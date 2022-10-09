@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PresMed.Data;
+using PresMed.Helper;
 using PresMed.Services;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,7 @@ namespace PresMed {
             services.AddDbContext<BancoContext>(options => options.UseMySql(Configuration.GetConnectionString("BancoContext"), builder =>
                 builder.MigrationsAssembly("PresMed")));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<SeedingService>();
             services.AddScoped<SeedingProcedure>();
@@ -39,6 +42,15 @@ namespace PresMed {
             services.AddScoped<ITimeServices, TimeServices>();
             services.AddScoped<ISchedulingServices, SchedulingServices>();
             services.AddScoped<IClinicOpeningServices, ClinicOpeningServices>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ISessionUser, Session>();
+
+
+            services.AddSession(o => {
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +74,8 @@ namespace PresMed {
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

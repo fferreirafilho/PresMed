@@ -162,5 +162,10 @@ namespace PresMed.Models {
             smtp.Send(email);
             smtp.Disconnect(true);
         }
+
+        public bool ValidPassword(string password) {
+
+            return Password == password;
+        }
     }
 }
