@@ -17,7 +17,7 @@ namespace PresMed.Services {
 
         public async Task InsertAsync(Person patient) {
             try {
-
+                patient.SetPasswordHash();
                 _context.Person.Add(patient);
                 await _context.SaveChangesAsync();
             }

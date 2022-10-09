@@ -2,6 +2,7 @@
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
+using PresMed.Helper;
 using PresMed.Models.Enums;
 using PresMed.Models.ValidationModels;
 using PresMed.Models.ViewModels;
@@ -165,7 +166,12 @@ namespace PresMed.Models {
 
         public bool ValidPassword(string password) {
 
-            return Password == password;
+            return Password == password.MakeHash();
+        }
+
+
+        public void SetPasswordHash() {
+            Password = Password.MakeHash();
         }
     }
 }
