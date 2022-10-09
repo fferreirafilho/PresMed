@@ -1,0 +1,56 @@
+﻿@model PresMed.Models.ViewModels.LoginViewModel
+
+
+
+<div class="container">
+    @{
+        Layout = "_LayoutLoggedOut";
+        ViewData["Title"] = "Login";
+
+    }
+
+    @if (TempData["SuccessMessage"] != null) {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null) {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            @TempData["ErrorMessage"]
+        </div>
+    }   
+    <div class="row mt-5 ms-5">
+        <div class="col-6 d-flex justify-content-center login ">
+            <div class="col-lg-11 mt-5">
+                <form asp-controller="Login" asp-action="Login">
+                    <div class="mb-3">
+                        <label for="user" class="form-label">@Html.DisplayNameFor(model => model.User)</label>
+                        <input asp-for="@Model.User" type="text" class="form-control" id="user">
+                        <span asp-validation-for="@Model.User" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">@Html.DisplayNameFor(model => model.Password)</label>
+                        <input asp-for="@Model.Password" type="password" class="form-control" id="password">
+                        <div id="user" class="form-text">Nunca compartilhe sua senha com ninguem</div>
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-danger">Logar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+        <div class="col-5">
+            <div class="col-lg-4 ">
+                <img img src="~/images/bg.png" />
+            </div>
+
+        </div>
+    </div>
+</div>

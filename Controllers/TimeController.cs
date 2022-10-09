@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PresMed.Filters;
 using PresMed.Models;
 using PresMed.Models.Enums;
 using PresMed.Models.ViewModels;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class TimeController : Controller {
 
         private readonly ITimeServices _timeServices;

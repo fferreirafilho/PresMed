@@ -109,3 +109,10 @@ body {
 .display-6 {
     margin-top: 08px;
 }
+
+
+/*-------------------------------------------*/
+
+.login {
+    background-color: rgba(246,246,246,0.3)
+}

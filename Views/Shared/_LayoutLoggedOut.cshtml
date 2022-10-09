@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - PresMed</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min-lux.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/navbar.css" />
     <script src="~/js/jquery.inputmask.js"></script>
 
 
@@ -16,15 +15,16 @@
 
 
 </head>
-<body id="body-pd" class="body-pd">
-    <header class="header body-pd" id="header">
-        <div class="header_toggle"> <i class="fas fa-bars bx bx-layer nav_logo-icon" id="header-toggle"></i> </div>
-    </header>
-    <div class="l-navbar show" id="nav-bar">
-       @await Component.InvokeAsync("Menu");
-    </div>
+<body id="" style="overflow: hidden">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <div class="">
+                <img src="~/images/documento.png" width="40px" height="40px" style="margin-top: -1.2rem" class="ms-4"/> <span class="display-6 ms-4 ">PresMed</span>
+            </div>
+        </div>
+    </nav>
     <!--Container Main start-->
-    <div class="height-100" role="main">
+    <div role="main" style="height: 100%">
         @RenderBody()
     </div>
 
@@ -32,7 +32,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     <script src="~/js/CEP.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>

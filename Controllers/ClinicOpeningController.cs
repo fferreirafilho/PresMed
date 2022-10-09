@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PresMed.Filters;
 using PresMed.Models;
 using PresMed.Services;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class ClinicOpeningController : Controller {
 
         private readonly IClinicOpeningServices _clinicalOpeningServices;

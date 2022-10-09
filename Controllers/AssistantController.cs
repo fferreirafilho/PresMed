@@ -10,8 +10,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PresMed.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PresMed.Filters;
 
 namespace PresMed.Controllers {
+    [PageForUserLogged]
+    [PageOnlyAssistant]
     public class AssistantController : Controller {
         private readonly IAssistantServices _assistantService;
 
@@ -136,6 +139,32 @@ namespace PresMed.Controllers {
 
         }
 
+        public async Task<IActionResult> Password(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                if (assistant.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Assistente desativado";
+                    return RedirectToAction("Index");
+                }
+                return View(assistant);
+
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(PersonAssistantViewModel assistant) {
@@ -154,7 +183,11 @@ namespace PresMed.Controllers {
 
                 Person person = Person.Parse(assistant, null);
                 person = _assistantService.TransformUpperCase(person);
+                person.Password = Person.PasswordGenerate();
+                string title = "Senha de acesso so sitema PresMed";
+                string body = $"Olá, sua senha de acesso ao sistema presmed é: {person.Password}";
                 await _assistantService.InsertAsync(person);
+                Person.SendMail(person.Email, body, title);
 
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
@@ -233,7 +266,11 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "ID não encontrado";
                     return RedirectToAction("Index");
                 }
-
+                if (dbPerson.Email != assistant.Email) {
+                    string title = "Alteração de e-mail sistema PresMed";
+                    string body = $"Olá, ALERTA SISTEMA PREMED: O e-mail {dbPerson.Email} foi alterado para {assistant.Email} caso não tenha sido você favor procurar sua clinica.";
+                    Person.SendMail(dbPerson.Email, body, title);
+                }
                 dbPerson.Phone = assistant.Phone;
                 dbPerson.Email = assistant.Email;
                 dbPerson.Street = assistant.Street;
@@ -255,5 +292,39 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Password(Person person) {
+            try {
+
+                Person assistant = await _assistantService.FindByIdAsync(person.Id);
+
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                if (assistant.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Assistente desativado";
+                    return RedirectToAction("Index");
+                }
+
+                assistant.Password = Person.PasswordGenerate();
+                string title = "Nova senha de acesso so sitema PresMed";
+                string body = $"Olá, sua nova senha de acesso ao sistema presmed é: {assistant.Password}";
+                Person.SendMail(assistant.Email, body, title);
+                await _assistantService.UpdateAsync(assistant);
+                TempData["SuccessMessage"] = "Senha enviada com sucesso";
+                return RedirectToAction("Index");
+
+
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
     }
 }
