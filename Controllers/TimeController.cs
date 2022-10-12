@@ -73,14 +73,14 @@ namespace PresMed.Controllers {
                 ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 if (time.InitialHour.Hour < clinicOpening.InitialHour.Hour || time.FinalHour.Hour > clinicOpening.EndHour.Hour) {
-                    TempData["ErrorMessage"] = "Fora do horario de funcionamento da clinica";
+                    TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";
                     return RedirectToAction("Index");
                 }
 
                 if (clinicOpening.InitialHour.Hour == time.InitialHour.Hour || time.FinalHour.Hour == clinicOpening.EndHour.Hour) {
 
                     if (clinicOpening.InitialHour.Minute > time.InitialHour.Minute || time.FinalHour.Minute > clinicOpening.EndHour.Minute) {
-                        TempData["ErrorMessage"] = "Fora do horario de funcionamento da clinica";
+                        TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";
                         return RedirectToAction("Index");
                     }
                 }

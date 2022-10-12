@@ -22,6 +22,7 @@ namespace PresMed.Filters {
                 if (person.PersonType != Models.Enums.PersonType.Assistant) {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Restricted" }, { "action", "Index" } });
                 }
+
             }
 
             base.OnActionExecuting(context);

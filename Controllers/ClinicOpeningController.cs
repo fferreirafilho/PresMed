@@ -61,14 +61,14 @@ namespace PresMed.Controllers {
 
                 foreach (Time time in times) {
                     if (clinic.InitialHour.Hour > time.InitialHour.Hour || time.FinalHour.Hour > clinic.EndHour.Hour) {
-                        TempData["ErrorMessage"] = "Existem medicos com horarios de atendimento cadastrados fora do horario informado";
+                        TempData["ErrorMessage"] = "Existem médicos com horários de atendimento cadastrados fora do horário informado";
                         return View(clinic);
                     }
 
                     if (clinic.InitialHour.Hour == time.InitialHour.Hour || time.FinalHour.Hour == clinic.EndHour.Hour) {
 
                         if (clinic.InitialHour.Minute > time.InitialHour.Minute || time.FinalHour.Minute > clinic.EndHour.Minute) {
-                            TempData["ErrorMessage"] = "Existem medicos com horarios de atendimento cadastrados fora do horario informado";
+                            TempData["ErrorMessage"] = "Existem médicos com horários de atendimento cadastrados fora do horário informado";
                             return View(clinic);
                         }
                     }

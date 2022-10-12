@@ -13,7 +13,7 @@ namespace PresMed.Controllers {
         private readonly ILoginService _loginService;
         private readonly ISessionUser _session;
 
-        public LoginController(ILoginService loginService,ISessionUser sessionUser ) {
+        public LoginController(ILoginService loginService, ISessionUser sessionUser) {
             _loginService = loginService;
             _session = sessionUser;
         }
@@ -43,7 +43,7 @@ namespace PresMed.Controllers {
                 if (person != null) {
 
                     if (person.Status != Status.Ativo) {
-                        TempData["ErrorMessage"] = $"Usuario desabilitado, favor procurar sua clinica";
+                        TempData["ErrorMessage"] = $"Usuário desabilitado, favor procurar sua clínica";
                         return View("Index");
                     }
 
@@ -53,7 +53,7 @@ namespace PresMed.Controllers {
                     }
 
                 }
-                TempData["ErrorMessage"] = $"Usuario ou senha invalido";
+                TempData["ErrorMessage"] = $"Usuário ou senha invalido";
                 return View("Index");
 
 

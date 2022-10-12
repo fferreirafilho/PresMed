@@ -156,7 +156,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction("Index");
                 }
                 if (doctor.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Assistente desativado";
+                    TempData["ErrorMessage"] = "Usuário desativado";
                     return RedirectToAction("Index");
                 }
                 return View(doctor);
@@ -336,7 +336,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction("Index");
                 }
                 if (doctor.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Assistente desativado";
+                    TempData["ErrorMessage"] = "Usuário desativado";
                     return RedirectToAction("Index");
                 }
 
