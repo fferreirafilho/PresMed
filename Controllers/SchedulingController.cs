@@ -63,11 +63,18 @@ namespace PresMed.Controllers {
                         return RedirectToAction(nameof(Index));
                     }
                 }
+                scheduleViewModel.Procedures = await _proceduresServices.FindAllActiveAsync();
+
+                if (scheduleViewModel.Procedures.Count <= 0) {
+                    TempData["ErrorMessage"] = $"Não existe nenhum procedimento ativo";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 scheduleViewModel.Scheduling.Doctor = await _doctorServices.FindByIdAsync(scheduleViewModel.Doctor);
                 scheduleViewModel.Scheduling.HourAttendence = scheduleViewModel.Scheduling.HourAttendence;
                 scheduleViewModel.Scheduling.DayAttendence = scheduleViewModel.Scheduling.DayAttendence;
                 scheduleViewModel.Patients = await _patientServices.FindAllAsync();
-                scheduleViewModel.Procedures = await _proceduresServices.FindAllActiveAsync();
+
 
                 return View(scheduleViewModel);
             }

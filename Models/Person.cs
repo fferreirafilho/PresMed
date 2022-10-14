@@ -138,10 +138,10 @@ namespace PresMed.Models {
         }
 
         public static string PasswordGenerate() {
-            string chars = "abcdefghjkmnpqrstuvwxyz023456789.*()@#$%";
+            string chars = "abcdefghjkmnpqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXIZ.*()@#$%,|";
             string pass = "";
             Random random = new Random();
-            for (int f = 0; f < 8; f++) {
+            for (int f = 0; f < 10; f++) {
                 pass += chars.Substring(random.Next(0, chars.Length - 1), 1);
             }
 
