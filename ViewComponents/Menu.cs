@@ -5,7 +5,7 @@ using PresMed.Models;
 using System.Threading.Tasks;
 
 namespace PresMed.ViewComponents {
-    public class Menu : ViewComponent{
+    public class Menu : ViewComponent {
         public async Task<IViewComponentResult> InvokeAsync() {
 
             string sessionUser = HttpContext.Session.GetString("sessionLoggedUser");

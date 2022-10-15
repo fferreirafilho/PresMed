@@ -1,0 +1,85 @@
+﻿@model PresMed.Models.ViewModels.AttendanceViewModel
+
+@{
+    string[] firstName = Model.Person.Name.Split(" ");
+    ViewData["Title"]
+         = $"Atendimentos do médico {firstName[0]} em {DateTime.Now.ToShortDateString()}";
+}
+
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+    <div class="col-lg-2">
+        <a asp-action="Index" asp-controller="Attendance" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem;"></i><span>Aguardando</span></a>
+    </div>
+    <div class="col-lg-2">
+        <a asp-action="Attended" asp-controller="Attendance" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Atendidos</span></a>
+    </div>
+
+</div>
+<hr />
+
+
+<table class="table table-striped text-center" id="table-contacts">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Scheduling.Patient)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Scheduling.HourAttendence)</th>
+            <th class="text-center" scope="col">HORARIO Final DE ATENDIMENTO</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Scheduling.StatusAttendence)</th>
+            <th class="text-center" scope="col">Procedimento</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null && Model.Schedulings != null) {
+            int minutes = @Model.Hour.ServiceTime.Minute == 0 ? 60 : @Model.Hour.ServiceTime.Minute;
+            foreach (var item in @Model.Schedulings) {
+                @if (item.Patient != null) {
+                    <tr>
+                        <td>@item.Patient.Name</td>
+                        <td>@item.HourAttendence.ToShortTimeString()</td>
+                        <td>@item.HourAttendence.AddMinutes(minutes).ToShortTimeString()</td>
+                        <td>@item.StatusAttendence</td>
+                        <td>@item.Procedures.Name</td>
+
+                    </tr>
+                }
+                else {
+                    <tr>
+                        <td>Sem agendamento</td>
+                        <td>@item.HourAttendence.ToShortTimeString()</td>
+                        <td>@item.HourAttendence.AddMinutes( minutes).ToShortTimeString()</td>
+                        <td>Livre</td>
+                        <td> - </td>
+
+                    </tr>
+
+                }
+
+            }
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="6">Nenhum registros encontrado</td></tr>
+        }
+
+    </tbody>
+</table>
+<br />

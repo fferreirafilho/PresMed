@@ -5,8 +5,8 @@
         <a asp-controller="Home" asp-action="Index" class="nav_logo"> <img img src="~/images/documento.png" width="20px" height="20px" class='nav_logo-icon' /> <span class="nav_logo-name">PresMed</span> </a>
         <div class="nav_list">
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Doctor) {
-                <a asp-controller="Home" asp-action="Index" class="nav_link" id="home"> <i class="fas fa-home"></i> <span class="nav_name">Página Inicial</span> </a>
                 <a asp-controller="Attendance" asp-action="Index" class="nav_link" id="agendamentos"> <i class="fas fa-briefcase"></i> <span class="nav_name">Atendimento</span> </a>
+                <a asp-controller="Attendance" asp-action="Scheduling" class="nav_link" id="agendamentos"> <i class="fas fa-calendar-alt"></i> <span class="nav_name">Agendamento</span> </a>
             }
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Assistant) {
                 <a asp-controller="Home" asp-action="Index" class="nav_link" id="home"> <i class="fas fa-home"></i> <span class="nav_name">Página Inicial</span> </a>
