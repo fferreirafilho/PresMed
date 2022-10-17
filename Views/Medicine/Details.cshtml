@@ -1,0 +1,34 @@
+﻿@model PresMed.Models.Medicine
+
+@{
+    ViewData["Title"] = $"Detalhes do(a) medicamento";
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados Cadastrais</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Name)</span>
+            </div>
+            <div class="col-md-7">
+                <div type="text" id="nome">  @Html.DisplayFor(model => model.Name)</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 mt-5 mb-5">
+        <a role="button" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Medicine" class="btn btn-primary">Editar</a>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Medicine">Voltar</a>
+    </div>
+
+
+
+</div>

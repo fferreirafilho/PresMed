@@ -12,6 +12,7 @@ namespace PresMed.Data {
         public DbSet<Time> Time { get; set; }
         public DbSet<Scheduling> Scheduling { get; set; }
         public DbSet<ClinicOpening> ClinicOpening { get; set; }
+        public DbSet<Medicine> Medicine { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()
@@ -33,6 +34,9 @@ namespace PresMed.Data {
                 .IsUnique(true);
                 etb.Property(t => t.Speciality)
                 .IsRequired(false);
+                modelBuilder.Entity<Medicine>()
+                .HasIndex(p => p.Name)
+                .IsUnique(true);
             });
 
         }

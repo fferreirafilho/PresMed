@@ -6,13 +6,11 @@
         <div class="nav_list">
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Doctor) {
                 <a asp-controller="Attendance" asp-action="Index" class="nav_link" id="agendamentos"> <i class="fas fa-briefcase"></i> <span class="nav_name">Atendimento</span> </a>
-                <a asp-controller="Attendance" asp-action="Scheduling" class="nav_link" id="agendamentos"> <i class="fas fa-calendar-alt"></i> <span class="nav_name">Agendamento</span> </a>
+                <a asp-controller="Attendance" asp-action="Scheduling" class="nav_link" id="agendamentos"> <i class="fas fa-calendar-alt"></i> <span class="nav_name">Agenda</span> </a>
             }
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Assistant) {
                 <a asp-controller="Home" asp-action="Index" class="nav_link" id="home"> <i class="fas fa-home"></i> <span class="nav_name">Página Inicial</span> </a>
                 <a asp-controller="Scheduling" asp-action="Index" class="nav_link" id="agendamentos"> <i class="fas fa-calendar-alt"></i> <span class="nav_name">Agendamentos</span> </a>
-                <a asp-controller="Assistant" asp-action="Index" class="nav_link" id="auxiliares"> <i class="fas fa-user-tie"></i><span class="nav_name">Assistentes</span> </a>
-                <a asp-controller="Doctor" asp-action="Index" class="nav_link" id="medicos"> <i class="fas fa-user-md"></i> <span class="nav_name">Médicos</span> </a>
                 <a asp-controller="Patient" asp-action="Index" class="nav_link" id="pacientes"> <i class="fas fa-user-injured"></i> <span class="nav_name">Pacientes</span> </a>
             }
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Patient) {
