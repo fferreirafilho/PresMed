@@ -19,7 +19,7 @@
 }
 
 <div class="row me-5">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <span class="display-4">@ViewData["Title"]</span>
     </div>
 
@@ -37,25 +37,27 @@
 
             <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id)</th>
             <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Name)</th>
-
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Drug)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Concentration)</th>
             @if (Model != null && Model.Any()) {
                 <th class="text-center" scope="col">Ações</th>
             }
         </tr>
     </thead>
+
     <tbody>
         @if (Model != null && Model.Any()) {
             @foreach (var item in Model) {
                 <tr>
                     <td>@item.Id</td>
-
                     @if (item.Name.Length > 60) {
                         <td>@item.Name.Substring(0,60)...</td>
                     }
                     else {
                         <td>@item.Name</td>
                     }
-
+                    <td>@item.Drug</td>
+                    <td>@item.Concentration</td>
                     <td>
                         <div class="btn-group-sm" role="group">
                             <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Medicine" asp-action="Edit">Editar</a>
@@ -70,4 +72,5 @@
         }
 
     </tbody>
+
 </table>

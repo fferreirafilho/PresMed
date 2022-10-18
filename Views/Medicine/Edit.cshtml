@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.Medicine
 
 @{
-    ViewData["Title"] = $"Editar procedimento";
+    ViewData["Title"] = $"Editar medicamento";
 }
 
 
@@ -16,16 +16,37 @@
     <input asp-for="@Model.Id" value="@Model.Id" type="hidden" />
     <div class="col-md-7">
         <label asp-for="@Model.Name" class="form-label"></label><span class="text-danger">*</span>
-        <textarea asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do procedimento"></textarea>
+        <input asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
         <span asp-validation-for="@Model.Name" class="text-danger"></span>
     </div>
 
+    <div class="col-md-7">
+        <label asp-for="@Model.Drug" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Drug" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
+        <span asp-validation-for="@Model.Drug" class="text-danger"></span>
+    </div>
 
+    <div class="col-md-7">
+        <label asp-for="@Model.Record" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Record" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
+        <span asp-validation-for="@Model.Record" class="text-danger"></span>
+    </div>
 
+    <div class="col-md-7">
+        <label asp-for="@Model.Concentration" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Concentration" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
+        <span asp-validation-for="@Model.Concentration" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-7">
+        <label asp-for="@Model.PharmaceuticalForm" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.PharmaceuticalForm" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
+        <span asp-validation-for="@Model.PharmaceuticalForm" class="text-danger"></span>
+    </div>
 
     <div class="col-12 mb-5">
         <button type="submit" class="btn btn-success">Alterar</button>
-        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Procedures">Voltar</a>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Medicine">Voltar</a>
     </div>
 
 

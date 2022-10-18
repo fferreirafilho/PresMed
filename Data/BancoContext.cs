@@ -34,9 +34,6 @@ namespace PresMed.Data {
                 .IsUnique(true);
                 etb.Property(t => t.Speciality)
                 .IsRequired(false);
-                modelBuilder.Entity<Medicine>()
-                .HasIndex(p => p.Name)
-                .IsUnique(true);
             });
 
         }

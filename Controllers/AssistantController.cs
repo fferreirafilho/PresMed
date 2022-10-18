@@ -312,6 +312,7 @@ namespace PresMed.Controllers {
                 string title = "Nova senha de acesso so sitema PresMed";
                 string body = $"Olá, sua nova senha de acesso ao sistema presmed é: {assistant.Password}";
                 Person.SendMail(assistant.Email, body, title);
+                assistant.SetPasswordHash();
                 await _assistantService.UpdateAsync(assistant);
                 TempData["SuccessMessage"] = "Senha enviada com sucesso";
                 return RedirectToAction("Index");

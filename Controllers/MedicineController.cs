@@ -19,7 +19,7 @@ namespace PresMed.Controllers {
 
         public async Task<IActionResult> Index() {
             try {
-                ViewData["Title"] = "Listagem de procedimentos ativos";
+                ViewData["Title"] = "Listagem de medicamentos ativos";
                 var list = await _medicineService.FindAllAsync();
                 return View(list);
             }
@@ -124,7 +124,7 @@ namespace PresMed.Controllers {
                 medicine = _medicineService.TransformUpperCase(medicine);
                 await _medicineService.InsertAsync(medicine);
 
-                TempData["SuccessMessage"] = "Procedimento cadastrado com sucesso";
+                TempData["SuccessMessage"] = "Medicamento cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -150,7 +150,7 @@ namespace PresMed.Controllers {
                 db.Name = medicine.Name;
                 medicine = _medicineService.TransformUpperCase(db);
                 await _medicineService.UpdateAsync(db);
-                TempData["SuccessMessage"] = "Procedimento alterado com sucesso";
+                TempData["SuccessMessage"] = "Medicamento alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
