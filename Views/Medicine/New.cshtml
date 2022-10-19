@@ -14,10 +14,33 @@
 <form class="row g-3" asp-action="New" asp-controller="Medicine">
     <div class="col-md-7">
         <label asp-for="@Model.Name" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Digite o nome completo">
+        <input asp-for="@Model.Name" type="text" class="form-control" id="nome" placeholder="Digite o nome completo do medicamento" />
         <span asp-validation-for="@Model.Name" class="text-danger"></span>
     </div>
 
+    <div class="col-md-7">
+        <label asp-for="@Model.Drug" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Drug" type="text" class="form-control" id="nome" placeholder="Digite o nome da base do medicamento" />
+        <span asp-validation-for="@Model.Drug" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-7">
+        <label asp-for="@Model.Record" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Record" type="text" class="form-control" id="nome" placeholder="Digite registro" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" />
+        <span asp-validation-for="@Model.Record" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-7">
+        <label asp-for="@Model.Concentration" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Concentration" type="text" class="form-control" id="nome" placeholder="Digite a concentração" />
+        <span asp-validation-for="@Model.Concentration" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-7">
+        <label asp-for="@Model.PharmaceuticalForm" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.PharmaceuticalForm" type="text" class="form-control" id="nome" placeholder="Digite a formula farmacêutica" />
+        <span asp-validation-for="@Model.PharmaceuticalForm" class="text-danger"></span>
+    </div>
 
 
     <div class="col-12 mb-5">
