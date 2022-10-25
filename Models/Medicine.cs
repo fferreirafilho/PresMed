@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresMed.Models {
     public class Medicine {
@@ -35,7 +36,7 @@ namespace PresMed.Models {
         [MinLength(5, ErrorMessage = "Campo invalido")]
         [MaxLength(50, ErrorMessage = "Campo invalido")]
         public string PharmaceuticalForm { get; set; }
-
+        public ICollection<Prescription> AttendanceMedicines { get; set; }
         public Medicine() { }
 
         public Medicine(string name, string drug, string record, string concentration, string pharmaceuticalForm) {

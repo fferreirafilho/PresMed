@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221024222315_Attendance update4")]
+    partial class Attendanceupdate4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,6 +66,9 @@ namespace PresMed.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AttendanceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Concentration")
                         .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
@@ -90,6 +95,8 @@ namespace PresMed.Migrations
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AttendanceId");
 
                     b.ToTable("Medicine");
                 });
@@ -183,36 +190,6 @@ namespace PresMed.Migrations
                         .IsUnique();
 
                     b.ToTable("Person");
-                });
-
-            modelBuilder.Entity("PresMed.Models.Prescription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("AttendanceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Days")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Dosage")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("Medicineid")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttendanceId");
-
-                    b.HasIndex("Medicineid");
-
-                    b.ToTable("AttendanceMedicines");
                 });
 
             modelBuilder.Entity("PresMed.Models.Procedures", b =>
@@ -319,17 +296,11 @@ namespace PresMed.Migrations
                         .HasForeignKey("PatientId");
                 });
 
-            modelBuilder.Entity("PresMed.Models.Prescription", b =>
+            modelBuilder.Entity("PresMed.Models.Medicine", b =>
                 {
                     b.HasOne("PresMed.Models.Attendance", "Attendance")
-                        .WithMany("AttendanceMedicines")
+                        .WithMany("Medicines")
                         .HasForeignKey("AttendanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PresMed.Models.Medicine", "Medicine")
-                        .WithMany("AttendanceMedicines")
-                        .HasForeignKey("Medicineid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
