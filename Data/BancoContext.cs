@@ -14,7 +14,7 @@ namespace PresMed.Data {
         public DbSet<ClinicOpening> ClinicOpening { get; set; }
         public DbSet<Medicine> Medicine { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
-        public DbSet<Prescription> AttendanceMedicines { get; set; }
+        public DbSet<Prescription> Prescription { get; set; }
 
 
 

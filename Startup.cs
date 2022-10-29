@@ -46,6 +46,7 @@ namespace PresMed {
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<ISessionUser, Session>();
             services.AddScoped<IMedicineService, MedicineService>();
+            services.AddScoped<IAttendanceServices, AttendanceServices>();
 
 
             services.AddSession(o => {

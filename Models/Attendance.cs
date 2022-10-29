@@ -10,7 +10,7 @@ namespace PresMed.Models {
         public ICollection<Medicine> Medicines { get; set; }
 
 
-        public ICollection<Prescription> AttendanceMedicines { get; set; }
+        public ICollection<Prescription> Prescription { get; set; }
         public Attendance() { }
         public Attendance(int id, Person doctor, Person patient, string report) {
             Id = id;

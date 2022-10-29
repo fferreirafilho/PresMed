@@ -18,10 +18,12 @@ namespace PresMed.Controllers {
 
         private readonly ISchedulingServices _schedulingServices;
         private readonly ITimeServices _timeServices;
+        private readonly IAttendanceServices _attendanceServices;
 
-        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices) {
+        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices) {
             _schedulingServices = schedulingServices;
             _timeServices = timeServices;
+            _attendanceServices = attendanceServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -123,6 +125,47 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
                 return View();
             }
+        }
+
+        public async Task<IActionResult> Attend(int? id) {
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+            Scheduling scheduling = await _schedulingServices.FindByIdAsync(id.Value);
+            if (scheduling == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+            string sessionUser = HttpContext.Session.GetString("sessionLoggedUser");
+            if (string.IsNullOrEmpty(sessionUser)) return null;
+
+            Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
+
+            if (person.Id != scheduling.Doctor.Id) {
+                TempData["ErrorMessage"] = $"Atendimento invalido";
+                return RedirectToAction("Index");
+            }
+
+            if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+                TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+                TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+                if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+                    TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient };
+            return View(scheduling);
         }
 
     }
