@@ -13,6 +13,10 @@ namespace PresMed.Data {
         public DbSet<Scheduling> Scheduling { get; set; }
         public DbSet<ClinicOpening> ClinicOpening { get; set; }
         public DbSet<Medicine> Medicine { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
+        public DbSet<Prescription> Prescription { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()

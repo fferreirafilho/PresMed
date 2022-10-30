@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221024222431_Attendance update5")]
+    partial class Attendanceupdate5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +66,7 @@ namespace PresMed.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AttendanceId")
+                    b.Property<int>("AttendanceId")
                         .HasColumnType("int");
 
                     b.Property<string>("Concentration")
@@ -190,36 +192,6 @@ namespace PresMed.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("PresMed.Models.Prescription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("AttendanceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Days")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Dosage")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("Medicineid")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttendanceId");
-
-                    b.HasIndex("Medicineid");
-
-                    b.ToTable("Prescription");
-                });
-
             modelBuilder.Entity("PresMed.Models.Procedures", b =>
                 {
                     b.Property<int>("Id")
@@ -326,22 +298,9 @@ namespace PresMed.Migrations
 
             modelBuilder.Entity("PresMed.Models.Medicine", b =>
                 {
-                    b.HasOne("PresMed.Models.Attendance", null)
-                        .WithMany("Medicines")
-                        .HasForeignKey("AttendanceId");
-                });
-
-            modelBuilder.Entity("PresMed.Models.Prescription", b =>
-                {
                     b.HasOne("PresMed.Models.Attendance", "Attendance")
-                        .WithMany("Prescription")
+                        .WithMany("Medicines")
                         .HasForeignKey("AttendanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PresMed.Models.Medicine", "Medicine")
-                        .WithMany("Prescription")
-                        .HasForeignKey("Medicineid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
