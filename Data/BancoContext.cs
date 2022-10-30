@@ -14,6 +14,7 @@ namespace PresMed.Data {
         public DbSet<ClinicOpening> ClinicOpening { get; set; }
         public DbSet<Medicine> Medicine { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Person>()
                 .HasIndex(p => p.User)
