@@ -5,6 +5,7 @@
     ViewData["Title"] = $"Atendimento do paciente {firstName[0]}";
 }
 
+
 @if (TempData["SuccessMessage"] != null) {
     <div class="alert alert-dismissible alert-success">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -24,26 +25,25 @@
         <span class="display-6">@ViewData["Title"]</span>
     </div>
 </div>
-
 <hr />
 
-<form class="row g-3" asp-action="Finalize" method="post">
-    <div class="form-group col-12">
-        <label asp-for="@Model.Report">@Html.DisplayNameFor(x => x.Report)</label>
-        <textarea asp-for="@Model.Report" class="form-control" id="report" rows="3"></textarea>
-    </div>
 
-    <div class="col-12">
-        <select class="form-select">
-            @foreach (var item in Model.Medicine) {
-                <option>@item.Name - @item.Concentration - @item.PharmaceuticalForm</option>
-            }
-        </select>
+
+<form class="row g-3" asp-action="Prescription">
+
+    <input asp-for="@Model.Doctor.Id" hidden value="@Model.Doctor.Id" />
+    <input asp-for="@Model.Patient.Id" hidden value="@Model.Patient.Id" />
+
+    <div class="col-md-6">
+
+        <input asp-for="@Model.Report" type="text" class="form-control" placeholder="Digite o relatorio do atendimento">
+        <span asp-validation-for="@Model.Report" class="text-danger"></span>
+
     </div>
 
     <div class="col-12 mb-5">
-        <button type="submit" class="btn btn-success">Finalizar atendimento</button>
+        <button type="submit" class="btn btn-success">Medicamentos</button>
         <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Attendance">Voltar</a>
     </div>
-</form>
 
+</form>

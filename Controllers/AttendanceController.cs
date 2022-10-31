@@ -20,12 +20,17 @@ namespace PresMed.Controllers {
         private readonly ITimeServices _timeServices;
         private readonly IAttendanceServices _attendanceServices;
         private readonly IMedicineService _medicineService;
+        private readonly IPatientServices _patientServices;
+        private readonly IDoctorServices _doctorServices;
 
-        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce) {
+
+        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices) {
             _schedulingServices = schedulingServices;
             _timeServices = timeServices;
             _attendanceServices = attendanceServices;
             _medicineService = medicineSerioce;
+            _patientServices = patientServices;
+            _doctorServices = doctorServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -134,6 +139,7 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 return RedirectToAction("Index");
             }
+
             Scheduling scheduling = await _schedulingServices.FindByIdAsync(id.Value);
             if (scheduling == null) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
@@ -171,10 +177,26 @@ namespace PresMed.Controllers {
             //    }
             //}
 
-            var medicines = await _medicineService.FindAllAsync();
-            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient, Medicine = medicines };
+            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient };
             return View(attendance);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Prescription(Attendance attendance) {
+
+            attendance.Doctor = await _doctorServices.FindByIdAsync(attendance.Doctor.Id);
+            attendance.Patient = await _patientServices.FindByIdAsync(attendance.Patient.Id);
+
+            if (!ModelState.IsValid) {
+                return View("Attend", attendance);
+            }
+
+            TempData["ErrorMessage"] = $"Chegou aqui";
+            PrescriptionViewModel prescriptionViewModel = new PrescriptionViewModel { Doctor = attendance.Doctor, Patient = attendance.Patient, Report = attendance.Report };
+            return View(prescriptionViewModel);
+        }
+
 
     }
 }

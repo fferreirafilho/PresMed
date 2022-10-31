@@ -1,0 +1,30 @@
+﻿@model PresMed.Models.ViewModels.PrescriptionViewModel
+
+@{
+    string[] firstName = Model.Patient.Name.Split(" ");
+    ViewData["Title"] = $"Atendimento do paciente {firstName[0]} - Receita medica";
+}
+
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+</div>
+<hr />
+
+
+
+<form class="row g-3" asp-action="Insert">
+
+    <input asp-for="@Model.Doctor.Id" hidden value="@Model.Doctor.Id" />
+    <input asp-for="@Model.Patient.Id" hidden value="@Model.Patient.Id" />
+
+    <div class="col-md-6">
+        <select></select>
+    </div>
+
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </div>
+
+</form>

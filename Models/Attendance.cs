@@ -6,14 +6,13 @@ namespace PresMed.Models {
         public int Id { get; set; }
         public Person Doctor { get; set; }
         public Person Patient { get; set; }
-        [Required(ErrorMessage = "Campo invalido")]
-        [Display(Name = "Relatorio de atendimento")]
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
+        [MinLength(3, ErrorMessage = "Campo invalido ")]
+        [MaxLength(50, ErrorMessage = "Campo invalido ")]
+        [Display(Name = "Nome")]
         public string Report { get; set; }
-
-        public ICollection<Medicine> Medicine { get; set; }
         public Attendance() { }
-        public Attendance(int id, Person doctor, Person patient, string report) {
-            Id = id;
+        public Attendance(Person doctor, Person patient, string report) {
             Doctor = doctor;
             Patient = patient;
             Report = report;
