@@ -13,10 +13,9 @@ namespace PresMed.Services {
         public AttendanceServices(BancoContext context) {
             _context = context;
         }
-
-        public async Task<Scheduling> FindByIdAsync(int id) {
-            return await _context.Scheduling.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task InsertAsync(Attendance attendance) {
+            await _context.Attendance.AddAsync(attendance);
+            await _context.SaveChangesAsync();
         }
-
     }
 }

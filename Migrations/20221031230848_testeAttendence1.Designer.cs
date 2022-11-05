@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221031230848_testeAttendence1")]
+    partial class testeAttendence1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,16 +35,11 @@ namespace PresMed.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("SchedulingId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("SchedulingId");
 
                     b.ToTable("Attendance");
                 });
@@ -323,10 +320,6 @@ namespace PresMed.Migrations
                     b.HasOne("PresMed.Models.Person", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
-
-                    b.HasOne("PresMed.Models.Scheduling", "Scheduling")
-                        .WithMany()
-                        .HasForeignKey("SchedulingId");
                 });
 
             modelBuilder.Entity("PresMed.Models.Prescription", b =>

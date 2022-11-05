@@ -177,26 +177,25 @@ namespace PresMed.Controllers {
             //    }
             //}
 
-            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient };
+            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient, Scheduling = scheduling };
             return View(attendance);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Prescription(Attendance attendance) {
-
-            attendance.Doctor = await _doctorServices.FindByIdAsync(attendance.Doctor.Id);
+        public async Task<IActionResult> Attend(Attendance attendance) {
             attendance.Patient = await _patientServices.FindByIdAsync(attendance.Patient.Id);
-
-            if (!ModelState.IsValid) {
-                return View("Attend", attendance);
+            attendance.Doctor = await _patientServices.FindByIdAsync(attendance.Doctor.Id);
+            attendance.Scheduling = await _schedulingServices.FindByIdAsync(attendance.Scheduling.Id);
+            if (string.IsNullOrEmpty(attendance.Report)) {
+                if (!ModelState.IsValid) {
+                    return View(attendance);
+                }
             }
-
-            TempData["ErrorMessage"] = $"Chegou aqui";
-            PrescriptionViewModel prescriptionViewModel = new PrescriptionViewModel { Doctor = attendance.Doctor, Patient = attendance.Patient, Report = attendance.Report };
-            return View(prescriptionViewModel);
+            attendance.Scheduling.StatusAttendence = StatusAttendence.Finalizado;
+            await _attendanceServices.InsertAsync(attendance);
+            return RedirectToAction("Index");
         }
-
 
     }
 }

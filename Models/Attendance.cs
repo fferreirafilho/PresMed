@@ -7,10 +7,9 @@ namespace PresMed.Models {
         public Person Doctor { get; set; }
         public Person Patient { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(3, ErrorMessage = "Campo invalido ")]
-        [MaxLength(50, ErrorMessage = "Campo invalido ")]
-        [Display(Name = "Nome")]
+        [Display(Name = "Relatorio de atendimento")]
         public string Report { get; set; }
+        public Scheduling Scheduling { get; set; }
         public Attendance() { }
         public Attendance(Person doctor, Person patient, string report) {
             Doctor = doctor;

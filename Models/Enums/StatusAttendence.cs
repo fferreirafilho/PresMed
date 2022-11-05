@@ -5,5 +5,6 @@
         Confirmado = 1,
         Finalizado = 2,
         Livre = 3,
+        Em_atendimento = 4,
     }
 }

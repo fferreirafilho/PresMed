@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+
 
 namespace PresMed.Models.ViewModels {
     public class AttendanceViewModel {
