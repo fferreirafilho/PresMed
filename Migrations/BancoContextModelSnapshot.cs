@@ -17,6 +17,36 @@ namespace PresMed.Migrations
                 .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("PresMed.Models.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Report")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("SchedulingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("SchedulingId");
+
+                    b.ToTable("Attendance");
+                });
+
             modelBuilder.Entity("PresMed.Models.ClinicOpening", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +62,42 @@ namespace PresMed.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClinicOpening");
+                });
+
+            modelBuilder.Entity("PresMed.Models.Medicine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Concentration")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Drug")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PharmaceuticalForm")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Record")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Medicine");
                 });
 
             modelBuilder.Entity("PresMed.Models.Person", b =>
@@ -125,6 +191,36 @@ namespace PresMed.Migrations
                     b.ToTable("Person");
                 });
 
+            modelBuilder.Entity("PresMed.Models.Prescription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AttendanceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Days")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Dosage")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttendanceId");
+
+                    b.HasIndex("MedicineId");
+
+                    b.ToTable("Prescription");
+                });
+
             modelBuilder.Entity("PresMed.Models.Procedures", b =>
                 {
                     b.Property<int>("Id")
@@ -216,6 +312,32 @@ namespace PresMed.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Time");
+                });
+
+            modelBuilder.Entity("PresMed.Models.Attendance", b =>
+                {
+                    b.HasOne("PresMed.Models.Person", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("PresMed.Models.Person", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("PresMed.Models.Scheduling", "Scheduling")
+                        .WithMany()
+                        .HasForeignKey("SchedulingId");
+                });
+
+            modelBuilder.Entity("PresMed.Models.Prescription", b =>
+                {
+                    b.HasOne("PresMed.Models.Attendance", "Attendance")
+                        .WithMany()
+                        .HasForeignKey("AttendanceId");
+
+                    b.HasOne("PresMed.Models.Medicine", "Medicine")
+                        .WithMany()
+                        .HasForeignKey("MedicineId");
                 });
 
             modelBuilder.Entity("PresMed.Models.Scheduling", b =>

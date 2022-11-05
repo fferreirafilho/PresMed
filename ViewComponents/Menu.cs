@@ -5,7 +5,8 @@ using PresMed.Models;
 using System.Threading.Tasks;
 
 namespace PresMed.ViewComponents {
-    public class Menu : ViewComponent{
+    public class Menu : ViewComponent {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IViewComponentResult> InvokeAsync() {
 
             string sessionUser = HttpContext.Session.GetString("sessionLoggedUser");
@@ -15,5 +16,6 @@ namespace PresMed.ViewComponents {
 
             return View(person);
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     }
 }

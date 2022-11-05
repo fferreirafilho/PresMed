@@ -20,7 +20,15 @@ namespace PresMed.Controllers {
             if (string.IsNullOrEmpty(sessionUser)) return null;
 
             Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
+
+            if (person.PersonType == Models.Enums.PersonType.Doctor) {
+                return RedirectToAction("Index", "Attendance");
+
+            }
+
             return View(person);
+
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

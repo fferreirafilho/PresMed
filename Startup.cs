@@ -35,6 +35,7 @@ namespace PresMed {
             services.AddScoped<SeedingService>();
             services.AddScoped<SeedingProcedure>();
             services.AddScoped<SeedingClinicOpening>();
+            services.AddScoped<SeedingMedicine>();
             services.AddScoped<IDoctorServices, DoctorServices>();
             services.AddScoped<IAssistantServices, AssistantServices>();
             services.AddScoped<IPatientServices, PatientServices>();
@@ -44,6 +45,8 @@ namespace PresMed {
             services.AddScoped<IClinicOpeningServices, ClinicOpeningServices>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<ISessionUser, Session>();
+            services.AddScoped<IMedicineService, MedicineService>();
+            services.AddScoped<IAttendanceServices, AttendanceServices>();
 
 
             services.AddSession(o => {
@@ -54,12 +57,13 @@ namespace PresMed {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingService seedingService, SeedingProcedure seedingProcedure, SeedingClinicOpening seedingClinicOpening) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingService seedingService, SeedingProcedure seedingProcedure, SeedingClinicOpening seedingClinicOpening, SeedingMedicine seedingMedicine) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 seedingService.Seed();
                 seedingProcedure.Seed();
                 seedingClinicOpening.Seed();
+                seedingMedicine.Seed();
             }
             else {
                 app.UseExceptionHandler("/Home/Error");
