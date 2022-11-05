@@ -12,7 +12,7 @@
 </div>
 <hr />
 
-<form asp-action="Attend" asp-controller="Attendance" method="post">
+<form method="post">
     <div class="row">
         <input asp-for="@Model.Doctor.Id" value="@Model.Doctor.Id" hidden />
         <input asp-for="@Model.Patient.Id" value="@Model.Patient.Id" hidden />
@@ -23,8 +23,8 @@
             <span asp-validation-for="@Model.Report" class="text-danger"></span>
         </div>
         <div class="col-md-3 mt-4">
-            <button class="btn btn-success" type="submit">Finalizar</button>
-            <button class="btn btn-info" type="submit">Receituario</button>
+            <button asp-action="Attend" asp-controller="Attendance" class="btn btn-success" type="submit">Finalizar</button>
+            <button asp-action="Prescription" asp-controller="Attendance" class="btn btn-info" type="submit">Receituario</button>
             <a asp-action="Index" asp-controller="Attendance" class="btn btn-outline-dark">
                 Voltar
             </a>

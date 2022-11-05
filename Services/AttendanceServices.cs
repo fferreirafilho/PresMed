@@ -17,5 +17,13 @@ namespace PresMed.Services {
             await _context.Attendance.AddAsync(attendance);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Attendance> FindBySchedulingId(int id) {
+            return await _context.Attendance.FirstOrDefaultAsync(x => x.Scheduling.Id == id);
+        }
+
+        public async Task<Attendance> FindByIdAsync(int id) {
+            return await _context.Attendance.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

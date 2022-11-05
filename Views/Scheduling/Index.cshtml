@@ -77,8 +77,14 @@ else {
                         <td>@item.Patient.Name</td>
                         <td>@item.HourAttendence.ToShortTimeString()</td>
                         <td>@item.HourAttendence.AddMinutes(minutes).ToShortTimeString()</td>
-                        <td>@item.StatusAttendence</td>
+                        @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Em_atendimento) {
+                            <td>Em atendimento</td>
+                        }
+                        else {
+                            <td>@item.StatusAttendence</td>
+                        }
                         <td>@item.Procedures.Name</td>
+
                         @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Agendado) {
                             <td>
                                 <div class="btn-group-sm" role="group">
@@ -94,10 +100,10 @@ else {
                                 </div>
                             </td>
                         }
-                        else {
+                        @if (item.StatusAttendence != PresMed.Models.Enums.StatusAttendence.Confirmado && item.StatusAttendence != PresMed.Models.Enums.StatusAttendence.Agendado) {
                             <td>-</td>
-
                         }
+
                     </tr>
                 }
                 else {

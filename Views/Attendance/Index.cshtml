@@ -56,11 +56,22 @@
                     <td>@item.HourAttendence.ToShortTimeString()</td>
                     <td>@item.HourAttendence.AddMinutes(minutes).ToShortTimeString()</td>
                     <td>@item.Procedures.Name</td>
-                    <td>
-                        <div class="btn-group-sm" role="group">
-                            <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Attend">Atender</a>
-                        </div>
-                    </td>
+                    @if (@item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Em_atendimento) {
+                        <td>
+                            <div class="btn-group-sm" role="group">
+                                <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Attend">Editar</a>
+                                <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Finishing">Finalizar</a>
+                                <a role="button" class="btn btn-info" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Prescription">Receituario</a>
+                            </div>
+                        </td>
+                    }
+                    else {
+                        <td>
+                            <div class="btn-group-sm" role="group">
+                                <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Attend">Atender</a>
+                            </div>
+                        </td>
+                    }
                 </tr>
             }
         }
