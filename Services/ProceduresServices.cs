@@ -16,8 +16,8 @@ namespace PresMed.Services {
         }
         public async Task<List<Procedures>> FindAllActiveAsync() {
             try {
-                var list = await _context.Procedure.ToListAsync();
-                return list.Where(x => x.Status == Status.Ativo).ToList();
+                return await _context.Procedure.Where(x => x.Status == Status.Ativo).ToListAsync();
+
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
@@ -26,8 +26,8 @@ namespace PresMed.Services {
 
         public async Task<List<Procedures>> FindAllDisableAsync() {
             try {
-                var list = await _context.Procedure.ToListAsync();
-                return list.Where(x => x.Status == Status.Desativado).ToList();
+                return await _context.Procedure.Where(x => x.Status == Status.Desativado).ToListAsync();
+
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
