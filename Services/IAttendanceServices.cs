@@ -12,6 +12,8 @@ namespace PresMed.Services {
         public Task<List<Prescription>> FindPrescriptionByAttendanceId(int id);
         public Task InsertPrescriptionAsync(Prescription prescription);
         public Task DeletePrescriptionAsync(int id);
+        public Task UpdateAsync(Attendance attendance);
+
 
     }
 }

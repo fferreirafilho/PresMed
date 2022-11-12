@@ -23,13 +23,19 @@ namespace PresMed.Services {
         }
 
         public async Task<Attendance> FindAttendanceByIdAsync(int id) {
-            return await _context.Attendance.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Attendance.Include(x => x.Scheduling).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task InsertPrescriptionAsync(Prescription prescription) {
             await _context.Prescription.AddAsync(prescription);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Attendance attendance) {
+            _context.Attendance.Update(attendance);
+            await _context.SaveChangesAsync();
+        }
+
 
         public async Task DeletePrescriptionAsync(int id) {
             var prescription = await FindPrescriptionById(id);
@@ -38,7 +44,7 @@ namespace PresMed.Services {
         }
 
         public async Task<List<Prescription>> FindPrescriptionByAttendanceId(int id) {
-            return await _context.Prescription.Include(x => x.Attendance).Where(x => x.Attendance.Id == id).ToListAsync();
+            return await _context.Prescription.Include(x => x.Attendance).Include(x => x.Medicine).Where(x => x.Attendance.Id == id).ToListAsync();
         }
 
         public Task<Prescription> FindPrescriptionById(int id) {

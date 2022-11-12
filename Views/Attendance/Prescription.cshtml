@@ -76,7 +76,7 @@
                         <tr>
 
                             <td>@item.Medicine.Name - @item.Medicine.Concentration - @item.Medicine.Drug - @item.Medicine.PharmaceuticalForm </td>
-                            <td>@item.Time</td>
+                            <td>@item.Time.ToShortTimeString()</td>
                             <td>@item.Days</td>
                             <td>@item.Dosage</td>
                             <td>
@@ -97,7 +97,9 @@
 
     <div class="row">
         <div class="col-md-3 m-4">
-            <button class="btn btn-success" type="submit">Finalizar</button>
+            <a asp-action="Index" asp-controller="Attendance" class="btn btn-success">
+                Salvar
+            </a>
             <a asp-action="Index" asp-controller="Attendance" class="btn btn-outline-dark">
                 Voltar
             </a>
