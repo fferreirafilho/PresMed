@@ -176,6 +176,13 @@ namespace PresMed.Controllers {
             //        return RedirectToAction(nameof(Index));
             //    }
             //}
+
+
+            if (scheduling.StatusAttendence != StatusAttendence.Confirmado && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
             Attendance attendance1 = await _attendanceServices.FindBySchedulingId(scheduling.Id);
             Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient, Scheduling = scheduling };
             if (attendance1 != null) {
@@ -199,13 +206,62 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 RedirectToAction("Index");
             }
-            scheduling.StatusAttendence = StatusAttendence.Finalizado;
-            await _schedulingServices.UpdateAsync(scheduling);
-            return RedirectToAction("Index");
+            Attendance attendance = await _attendanceServices.FindBySchedulingId(id.Value);
+            List<Prescription> prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(attendance.Id);
+            PrescriptionViewModel prescription = new PrescriptionViewModel { Attendance = attendance, Prescriptions = prescriptions };
+            return View(prescription);
         }
 
         public async Task<IActionResult> Prescription(int? id) {
 
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            Scheduling scheduling = await _schedulingServices.FindByIdAsync(id.Value);
+            if (scheduling == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+            if (scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+
+            Attendance attendance = await _attendanceServices.FindBySchedulingId(scheduling.Id);
+            List<Medicine> medicines = await _medicineService.FindAllAsync();
+            Person patient = await _patientServices.FindByIdAsync(attendance.Patient.Id);
+            PrescriptionViewModel prescription = new PrescriptionViewModel { AttendanceId = attendance.Id, Medicines = medicines, Patient = patient, Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(attendance.Id) };
+            return View(prescription);
+        }
+
+
+        public async Task<IActionResult> Remove(int? id) {
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+            Prescription prescription = await _attendanceServices.FindPrescriptionById(id.Value);
+
+            if (prescription == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+            if (prescription.Attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+            await _attendanceServices.DeletePrescriptionAsync(id.Value);
+
+            PrescriptionViewModel prescriptionViewModel = new PrescriptionViewModel { AttendanceId = prescription.Attendance.Id, Medicines = await _medicineService.FindAllAsync(), Patient = await _patientServices.FindByIdAsync(prescription.Attendance.Patient.Id), Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(prescription.Attendance.Id) };
+
+            return View("Prescription", prescriptionViewModel);
+        }
+
+        public async Task<IActionResult> Close(int? id) {
             if (id == null) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 RedirectToAction("Index");
@@ -220,11 +276,12 @@ namespace PresMed.Controllers {
                 RedirectToAction("Index");
             }
 
-            Attendance attendance = await _attendanceServices.FindBySchedulingId(scheduling.Id);
-            IEnumerable<Medicine> medicines = await _medicineService.FindAllAsync();
-            PrescriptionViewModel prescription = new PrescriptionViewModel { AttendanceId = attendance.Id, Medicines = medicines };
-            return View(prescription);
+            scheduling.StatusAttendence = StatusAttendence.Finalizado;
+            await _schedulingServices.UpdateAsync(scheduling);
+
+            return RedirectToAction("Index");
         }
+
 
 
         [HttpPost]
@@ -235,32 +292,54 @@ namespace PresMed.Controllers {
             attendance.Scheduling = await _schedulingServices.FindByIdAsync(attendance.Scheduling.Id);
             if (string.IsNullOrEmpty(attendance.Report)) {
                 if (!ModelState.IsValid) {
-                    return View(attendance);
+                    return View("Attend", attendance);
                 }
             }
-            attendance.Scheduling.StatusAttendence = StatusAttendence.Finalizado;
-            await _attendanceServices.InsertAsync(attendance);
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Confirmado && attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+            Attendance attendanceDB = await _attendanceServices.FindBySchedulingId(attendance.Scheduling.Id);
+
+            if (attendanceDB == null) {
+                attendance.Scheduling.StatusAttendence = StatusAttendence.Em_atendimento;
+                await _attendanceServices.InsertAttendanceAsync(attendance);
+                return RedirectToAction("Index");
+            }
+            attendanceDB.Report = attendance.Report;
+            await _attendanceServices.UpdateAsync(attendanceDB);
             return RedirectToAction("Index");
+
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Prescription(Attendance attendance) {
-            attendance.Patient = await _patientServices.FindByIdAsync(attendance.Patient.Id);
-            attendance.Doctor = await _patientServices.FindByIdAsync(attendance.Doctor.Id);
-            attendance.Scheduling = await _schedulingServices.FindByIdAsync(attendance.Scheduling.Id);
-            if (string.IsNullOrEmpty(attendance.Report)) {
+        public async Task<IActionResult> Add(PrescriptionViewModel list) {
+            list.Patient = await _patientServices.FindByIdAsync(list.Patient.Id);
+            list.Medicines = await _medicineService.FindAllAsync();
+            list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
+
+            if (list.Prescription.Days == 0 || list.Prescription.Time == null || list.Prescription.Dosage == null) {
                 if (!ModelState.IsValid) {
-                    return View("Attend", attendance);
+                    return View("Prescription", list);
                 }
             }
-            attendance.Scheduling.StatusAttendence = StatusAttendence.Em_atendimento;
-            await _attendanceServices.InsertAsync(attendance);
-            attendance = await _attendanceServices.FindBySchedulingId(attendance.Scheduling.Id);
-            IEnumerable<Medicine> medicines = await _medicineService.FindAllAsync();
-            PrescriptionViewModel prescription = new PrescriptionViewModel { AttendanceId = attendance.Id, Medicines = medicines };
-            return View(prescription);
-        }
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(list.AttendanceId);
 
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                return RedirectToAction("Index");
+            }
+
+
+            Medicine medicine = await _medicineService.FindByIdAsync(list.Prescription.Medicine.Id);
+            Prescription prescription = new Prescription { Attendance = attendance, Days = list.Prescription.Days, Dosage = list.Prescription.Dosage, Medicine = medicine, Time = list.Prescription.Time };
+
+            await _attendanceServices.InsertPrescriptionAsync(prescription);
+            list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
+            return View("Prescription", list);
+        }
     }
 }

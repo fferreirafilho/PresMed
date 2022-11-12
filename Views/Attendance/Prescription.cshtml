@@ -1,2 +1,108 @@
 ﻿@model PresMed.Models.ViewModels.PrescriptionViewModel
+@{
+    string[] title = Model.Patient.Name.Split(" ");
+    ViewData["Title"] = $"Atendimento do paciente {title[0]}";
+}
 
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+
+</div>
+<hr />
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-4 m-4">
+
+            <input asp-for="@Model.Prescriptions" value="@Model.Prescriptions" hidden />
+            <input asp-for="@Model.AttendanceId" value="@Model.AttendanceId" hidden />
+            <input asp-for="@Model.Patient.Id" value="@Model.Patient.Id" hidden />
+            <label asp-for="@Model.Prescription.Medicine">@Html.DisplayNameFor(x => x.Prescription.Medicine)</label>
+            <select class="form-select" asp-for="@Model.Prescription.Medicine.Id">
+                <option selected> Selecionar</option>
+                @foreach (var item in @Model.Medicines) {
+                    <option class="form-select" value="@item.Id">@item.Name - @item.Concentration - @item.Drug - @item.PharmaceuticalForm</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3 m-4">
+            <label asp-for="@Model.Prescription.Time">@Html.DisplayNameFor(x => x.Prescription.Time)</label>
+            <input class="form-control" type="time" asp-for="@Model.Prescription.Time" />
+        </div>
+        <div class="col-md-3 m-4">
+            <label asp-for="@Model.Prescription.Days">@Html.DisplayNameFor(x => x.Prescription.Days)</label>
+            <input class="form-control" type="number" min="1" max="120" asp-for="@Model.Prescription.Days" />
+        </div>
+        <div class="col-md-3 m-4">
+            <label asp-for="@Model.Prescription.Dosage">@Html.DisplayNameFor(x => x.Prescription.Dosage)</label>
+            <input class="form-control" asp-for="@Model.Prescription.Dosage" />
+        </div>
+        <div class="col-md-4 mt-5">
+            <button class="btn btn-info" type="submit" asp-action="Add" asp-controller="Attendance"><i class="fas fa-plus"></i> Adicionar</button>
+        </div>
+    </div>
+
+    <div class="">
+        <table class="table table-striped text-center col-4" id="table-contacts">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Medicamento</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Time)</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Days)</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Dosage)</th>
+                    <th class="text-center" scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model != null && Model.Prescriptions != null) {
+                    foreach (var item in @Model.Prescriptions) {
+                        <tr>
+
+                            <td>@item.Medicine.Name - @item.Medicine.Concentration - @item.Medicine.Drug - @item.Medicine.PharmaceuticalForm </td>
+                            <td>@item.Time.ToShortTimeString()</td>
+                            <td>@item.Days</td>
+                            <td>@item.Dosage</td>
+                            <td>
+                                <div class="btn-group-sm" role="group">
+                                    <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Remove"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else {
+                    <tr class="odd"><td valign="top" colspan="6">Nenhum registro encontrado</td></tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 m-4">
+            <a asp-action="Index" asp-controller="Attendance" class="btn btn-success">
+                Salvar
+            </a>
+            <a asp-action="Index" asp-controller="Attendance" class="btn btn-outline-dark">
+                Voltar
+            </a>
+        </div>
+    </div>
+</form>
