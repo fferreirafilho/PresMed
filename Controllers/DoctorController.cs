@@ -190,7 +190,7 @@ namespace PresMed.Controllers {
                 await _doctorService.InsertAsync(doctor);
                 Person.SendMail(doctor.Email, body, title);
                 ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
-                await _timeService.InsertAsync(new Time(clinicOpening.InitialHour, clinicOpening.EndHour, doctor, new DateTime(2022, 01, 01, 00, 30, 00), (clinicOpening.EndHour.Hour - clinicOpening.InitialHour.Hour) * 2));
+                await _timeService.InsertAsync(new Time(clinicOpening.InitialHour, clinicOpening.EndHour, doctor, new DateTime(2022, 01, 01, 00, 30, 00), (clinicOpening.EndHour.Hour - clinicOpening.InitialHour.Hour) * 2, new DateTime(0)));
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
@@ -245,31 +245,47 @@ namespace PresMed.Controllers {
                 }
 
                 ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
-                Time dbTime = await _timeService.FindByIdAsync(id);
+
+                Time dbTime = await _timeService.FindScheduleByIdAndFinalDateNullAsync(id);
+
                 double minutes = clinicOpening.EndHour.Subtract(clinicOpening.InitialHour).TotalMinutes;
+
+                Time time = new Time { FinalHour = clinicOpening.EndHour, InitialHour = clinicOpening.InitialHour, Person = doctor, ServiceTime = dbTime.ServiceTime };
+
                 int min = dbTime.ServiceTime.Minute;
 
                 switch (min) {
                     case 00:
-                        dbTime.HourPerDay = (int)minutes / 60;
+                        time.HourPerDay = (int)minutes / 60;
                         break;
                     case 15:
-                        dbTime.HourPerDay = (int)minutes / 15;
+                        time.HourPerDay = (int)minutes / 15;
                         break;
                     case 30:
-                        dbTime.HourPerDay = (int)minutes / 30;
+                        time.HourPerDay = (int)minutes / 30;
                         break;
                     case 45:
-                        dbTime.HourPerDay = (int)minutes / 45;
+                        time.HourPerDay = (int)minutes / 45;
                         break;
                 }
 
-                dbTime.FinalHour = clinicOpening.EndHour;
-                dbTime.InitialHour = clinicOpening.InitialHour;
+                if (dbTime.InitialDay > DateTime.Now) {
+                    dbTime.FinalDay = dbTime.InitialDay;
+                    time.InitialDay = dbTime.InitialDay.AddDays(1);
+                }
+
+                if (dbTime.InitialDay <= DateTime.Now) {
+                    dbTime.FinalDay = DateTime.Now;
+                    time.InitialDay = DateTime.Now;
+                }
+
                 await _timeService.UpdateAsync(dbTime);
 
+                await _timeService.InsertAsync(time);
                 doctor.Status = Status.Ativo;
+
                 await _doctorService.UpdateAsync(doctor);
+
                 TempData["SuccessMessage"] = "Usuario ativado com sucesso";
                 return RedirectToAction("Index");
             }

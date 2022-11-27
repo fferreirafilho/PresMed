@@ -63,6 +63,13 @@
         <span asp-validation-for="@Model.ServiceTime" class="text-danger"></span>
     </div>
 
+    <div class="col-md-6">
+        <label asp-for="@Model.InitialDay" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.InitialDay" type="date" class="form-control">
+        <span asp-validation-for="@Model.InitialDay" class="text-danger"></span>
+    </div>
+
+
     <div class="col-12 mb-5">
         <button type="submit" class="btn btn-success">Alterar</button>
         <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Time">Voltar</a>

@@ -37,16 +37,20 @@ namespace PresMed.Services {
         }
 
         public async Task<List<Time>> FindAllActiveAsync() {
-            return await _context.Time.Include(obj => obj.Person).Where(obj => obj.Person.Status == Status.Ativo).ToListAsync();
+            return await _context.Time.Include(obj => obj.Person).Where(obj => obj.Person.Status == Status.Ativo && obj.FinalDay == null).ToListAsync();
 
         }
 
         public async Task<Time> FindByIdAsync(int id) {
-            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id && obj.FinalDay == null);
         }
 
-        public async Task<Time> FindScheduleByIdAsync(int id) {
-            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id);
+        public async Task<IEnumerable<Time>> FindScheduleByIdAsync(int id, DateTime time) {
+            return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id && obj.InitialDay <= time).ToListAsync();
+        }
+
+        public async Task<Time> FindScheduleByIdAndFinalDateNullAsync(int id) {
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && obj.FinalDay == null);
         }
     }
 }

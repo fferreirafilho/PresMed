@@ -1,4 +1,5 @@
 ﻿using PresMed.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace PresMed.Services {
 
         public Task<Time> FindByIdAsync(int id);
 
-        public Task<Time> FindScheduleByIdAsync(int id);
+        public Task<IEnumerable<Time>> FindScheduleByIdAsync(int id, DateTime Time);
+        public Task<Time> FindScheduleByIdAndFinalDateNullAsync(int id);
+
+
     }
 }

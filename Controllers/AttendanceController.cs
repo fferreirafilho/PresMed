@@ -42,7 +42,11 @@ namespace PresMed.Controllers {
                 Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
                 AttendanceViewModel attendance = new AttendanceViewModel { Person = person };
 
-                attendance.Hour = await _timeServices.FindScheduleByIdAsync(person.Id);
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(person.Id, DateTime.Now);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= DateTime.Now && x.FinalDay >= DateTime.Now).ToList();
+
+                attendance.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(person.Id) : timeJob[0];
 
                 int minutes = attendance.Hour.ServiceTime.Minute == 0 ? 60 : attendance.Hour.ServiceTime.Minute;
 
@@ -71,7 +75,11 @@ namespace PresMed.Controllers {
                 Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
                 AttendanceViewModel attendance = new AttendanceViewModel { Person = person };
 
-                attendance.Hour = await _timeServices.FindScheduleByIdAsync(person.Id);
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(person.Id, DateTime.Now);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= DateTime.Now && x.FinalDay >= DateTime.Now).ToList();
+
+                attendance.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(person.Id) : timeJob[0];
 
                 int minutes = attendance.Hour.ServiceTime.Minute == 0 ? 60 : attendance.Hour.ServiceTime.Minute;
 
@@ -100,7 +108,11 @@ namespace PresMed.Controllers {
                 Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
                 AttendanceViewModel attendance = new AttendanceViewModel { Person = person };
 
-                attendance.Hour = await _timeServices.FindScheduleByIdAsync(person.Id);
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(person.Id, DateTime.Now);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= DateTime.Now && x.FinalDay >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)).ToList();
+
+                attendance.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(person.Id) : timeJob[0];
 
                 int minutes = attendance.Hour.ServiceTime.Minute == 0 ? 60 : attendance.Hour.ServiceTime.Minute;
 

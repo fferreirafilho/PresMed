@@ -181,12 +181,18 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Schedule(ScheduleViewModel scheduleViewModel) {
             try {
+                //return Json(scheduleViewModel);
                 scheduleViewModel.Doctors = await _doctorServices.FindAllActiveAsync();
 
                 if (scheduleViewModel.Doctors.Count == 0) {
                     return RedirectToAction(nameof(Index));
                 }
-                scheduleViewModel.Hour = await _timeServices.FindScheduleByIdAsync(scheduleViewModel.Doctor);
+
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(scheduleViewModel.Doctor, scheduleViewModel.Scheduling.DayAttendence);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= scheduleViewModel.Scheduling.DayAttendence && x.FinalDay >= scheduleViewModel.Scheduling.DayAttendence).ToList();
+
+                scheduleViewModel.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(scheduleViewModel.Doctor) : timeJob[0];
 
                 int minutes = scheduleViewModel.Hour.ServiceTime.Minute == 0 ? 60 : scheduleViewModel.Hour.ServiceTime.Minute;
 
@@ -212,11 +218,11 @@ namespace PresMed.Controllers {
 
                 scheduleViewModel.Schedulings = array.ToList();
 
-                return View("Index", scheduleViewModel);
+                return View(nameof(Index), scheduleViewModel);
             }
             catch (Exception ex) {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
+                return View(nameof(Index), scheduleViewModel);
             }
 
         }
