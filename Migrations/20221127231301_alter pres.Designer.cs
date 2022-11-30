@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221127231301_alter pres")]
+    partial class alterpres
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,30 +47,6 @@ namespace PresMed.Migrations
                     b.HasIndex("SchedulingId");
 
                     b.ToTable("Attendance");
-                });
-
-            modelBuilder.Entity("PresMed.Models.Cid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Cod")
-                        .IsRequired()
-                        .HasColumnType("varchar(3) CHARACTER SET utf8mb4")
-                        .HasMaxLength(3);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Cod")
-                        .IsUnique();
-
-                    b.ToTable("Cid");
                 });
 
             modelBuilder.Entity("PresMed.Models.ClinicOpening", b =>

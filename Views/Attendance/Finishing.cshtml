@@ -42,6 +42,7 @@
                 <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Time)</th>
                 <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Days)</th>
                 <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Dosage)</th>
+                <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Observation)</th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +55,7 @@
                         <td>@item.Time.ToShortTimeString()</td>
                         <td>@item.Days</td>
                         <td>@item.Dosage</td>
+                        <td>@item.Observation</td>
                         <td>
                     </tr>
                 }

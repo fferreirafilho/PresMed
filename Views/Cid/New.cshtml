@@ -1,0 +1,33 @@
+﻿@model PresMed.Models.Cid
+
+@{
+    ViewData["Title"] = "Cadastrar CID";
+}
+
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+
+<form class="row g-3" asp-action="New" asp-controller="Cid">
+    <div class="col-md-7">
+        <label asp-for="@Model.Cod" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Cod" type="text" class="form-control" placeholder="Digite o nome completo">
+        <span asp-validation-for="@Model.Cod" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-7">
+        <label asp-for="@Model.Description" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Description" type="text" class="form-control" placeholder="Digite o nome completo" />
+        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+    </div>
+
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Cid">Voltar</a>
+    </div>
+
+</form>
+

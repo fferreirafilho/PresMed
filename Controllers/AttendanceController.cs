@@ -333,7 +333,7 @@ namespace PresMed.Controllers {
             list.Medicines = await _medicineService.FindAllAsync();
             list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
 
-            if (list.Prescription.Days == 0 || list.Prescription.Time == null || list.Prescription.Dosage == null) {
+            if (list.Prescription.Days == 0 || list.Prescription.Time == null || list.Prescription.Dosage == null || list.Prescription.Observation == null) {
                 if (!ModelState.IsValid) {
                     return View("Prescription", list);
                 }
