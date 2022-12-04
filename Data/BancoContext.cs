@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PresMed.Models;
+using PresMed.Models.ViewModels;
 
-namespace PresMed.Data {
+namespace PresMed.Data
+{
     public class BancoContext : DbContext {
 
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) { }
@@ -16,6 +18,7 @@ namespace PresMed.Data {
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Prescription> Prescription { get; set; }
         public DbSet<Cid> Cid { get; set; }
+        public DbSet<MedicalCertificate> MedicalCertificates { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

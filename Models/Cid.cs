@@ -7,13 +7,13 @@ namespace PresMed.Models {
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [MinLength(3, ErrorMessage = "Campo invalido")]
-        [MaxLength(3, ErrorMessage = "Campo invalido")]
+        [MaxLength(5, ErrorMessage = "Campo invalido")]
         [Display(Name = "Codigo")]
         public string Cod { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(100, ErrorMessage = "Campo invalido")]
+        [MinLength(1, ErrorMessage = "Campo invalido")]
+        [MaxLength(264, ErrorMessage = "Campo invalido")]
         [Display(Name = "Descrição")]
         public string Description { get; set; }
 

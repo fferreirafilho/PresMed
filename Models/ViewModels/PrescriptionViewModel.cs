@@ -10,6 +10,8 @@ namespace PresMed.Models.ViewModels {
         public List<Medicine> Medicines { get; set; }
         public List<Prescription> Prescriptions { get; set; }
 
+        public MedicalCertificate MedicalCertificate { get; set; }
+
         public PrescriptionViewModel() { }
     }
 }

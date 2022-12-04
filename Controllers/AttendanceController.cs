@@ -22,15 +22,17 @@ namespace PresMed.Controllers {
         private readonly IMedicineService _medicineService;
         private readonly IPatientServices _patientServices;
         private readonly IDoctorServices _doctorServices;
+        private readonly ICidServices _cidServices;
 
 
-        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices) {
+        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices, ICidServices cidServices) {
             _schedulingServices = schedulingServices;
             _timeServices = timeServices;
             _attendanceServices = attendanceServices;
             _medicineService = medicineSerioce;
             _patientServices = patientServices;
             _doctorServices = doctorServices;
+            _cidServices = cidServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -220,7 +222,7 @@ namespace PresMed.Controllers {
             }
             Attendance attendance = await _attendanceServices.FindBySchedulingId(id.Value);
             List<Prescription> prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(attendance.Id);
-            PrescriptionViewModel prescription = new PrescriptionViewModel { Attendance = attendance, Prescriptions = prescriptions };
+            PrescriptionViewModel prescription = new PrescriptionViewModel { Attendance = attendance, Prescriptions = prescriptions, MedicalCertificate = await _attendanceServices.FindMedicalCertificateByAttendanceId(attendance.Id) };
             return View(prescription);
         }
 
@@ -294,6 +296,25 @@ namespace PresMed.Controllers {
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> MedicalCertificate(int? id) {
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            Attendance attendance = await _attendanceServices.FindBySchedulingId(id.Value);
+
+            if (attendance == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            MedicalCertificate medical = await _attendanceServices.FindMedicalCertificateByAttendanceId(attendance.Id);
+            MedicalCertificateViewModel certificate = new MedicalCertificateViewModel { Attendance = attendance, ListCid = await _cidServices.FindAllAsync() };
+            if (medical != null) {
+                certificate.Days = medical.Days;
+                certificate.Cid = medical.Cid.Id;
+            }
+            return View(certificate);
+        }
 
 
         [HttpPost]
@@ -329,6 +350,7 @@ namespace PresMed.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(PrescriptionViewModel list) {
+
             list.Patient = await _patientServices.FindByIdAsync(list.Patient.Id);
             list.Medicines = await _medicineService.FindAllAsync();
             list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
@@ -347,11 +369,37 @@ namespace PresMed.Controllers {
 
 
             Medicine medicine = await _medicineService.FindByIdAsync(list.Prescription.Medicine.Id);
-            Prescription prescription = new Prescription { Attendance = attendance, Days = list.Prescription.Days, Dosage = list.Prescription.Dosage, Medicine = medicine, Time = list.Prescription.Time };
+            Prescription prescription = new Prescription { Attendance = attendance, Days = list.Prescription.Days, Dosage = list.Prescription.Dosage, Medicine = medicine, Time = list.Prescription.Time, Observation = list.Prescription.Observation };
 
             await _attendanceServices.InsertPrescriptionAsync(prescription);
             list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
             return View("Prescription", list);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MedicalCertificate(MedicalCertificateViewModel medicalCertificateViewModel) {
+
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(medicalCertificateViewModel.Id);
+            IEnumerable<Cid> listCid = await _cidServices.FindAllAsync();
+            medicalCertificateViewModel.Attendance = attendance;
+            medicalCertificateViewModel.ListCid = listCid;
+            if (!ModelState.IsValid) {
+                TempData["ErrorMessage"] = "Test";
+                return View(medicalCertificateViewModel);
+            }
+
+            MedicalCertificate medical = await _attendanceServices.FindMedicalCertificateByAttendanceId(attendance.Id);
+            Cid cid = await _cidServices.FindByIdAsync(medicalCertificateViewModel.Cid);
+            if (medical != null) {
+                medical.Attendance = attendance;
+                medical.Cid = cid;
+                medical.Days = medicalCertificateViewModel.Days;
+                await _attendanceServices.UpdateMedicalCertificateAsync(medical);
+            }
+            else {
+                await _attendanceServices.InsertMedicalCertificateAsync(new MedicalCertificate { Attendance = attendance, Cid = cid, Days = medicalCertificateViewModel.Days });
+            }
+            return RedirectToAction("Index");
         }
     }
 }

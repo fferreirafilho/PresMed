@@ -1,0 +1,71 @@
+﻿@model PresMed.Models.ViewModels.MedicalCertificateViewModel
+
+@{
+    ViewData["Title"] = $"Atestado";
+}
+
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+
+</div>
+<hr />
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="MedicalCertificate" asp-controller="Attendance">
+
+    <input value="@Model.Attendance" asp-for="@Model.Attendance" hidden />
+
+    <div class="row">
+        <div class="col-6">
+
+            <label asp-for="@Model.Cid" class="form-label">@Html.DisplayNameFor(c => c.Cid)</label>
+            <select asp-for="@Model.Cid" class="form-select">
+                @foreach (var item in @Model.ListCid) {
+                    @if (item.Description.Length > 90) {
+                        var str = item.Description.Substring(0, 90);
+                        item.Description = str + "...";
+                    }
+                    <option class="form-select" value="@item.Id">
+                        @item.Cod - @item.Description
+
+                    </option>
+
+                }
+            </select>
+            <span asp-validation-for="@Model.Cid" class="text-danger"></span>
+        </div>
+        <div class="col-5">
+
+            <label asp-for="@Model.Days" class="form-label">@Html.DisplayNameFor(c => c.Days)</label>
+            <input type="number" class="form-control" asp-for="@Model.Days">
+            <span asp-validation-for="@Model.Days" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-12 mt-5 mb-5">
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Attendance">Voltar</a>
+        </div>
+
+    </div>
+</form>
+

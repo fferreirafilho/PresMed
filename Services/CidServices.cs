@@ -16,7 +16,7 @@ namespace PresMed.Services {
         }
         public async Task<List<Cid>> FindAllAsync() {
             try {
-                return await _context.Cid.ToListAsync();
+                return await _context.Cid.OrderBy(x => x.Cod).ToListAsync();
 
             }
             catch (Exception e) {
@@ -25,13 +25,13 @@ namespace PresMed.Services {
         }
 
 
-        public async Task InsertAsync(Cid procedure) {
+        public async Task InsertAsync(Cid cid) {
             try {
-                _context.Cid.Add(procedure);
+                _context.Cid.Add(cid);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e) {
-                if (e.InnerException.Message.Contains(procedure.Cod)) {
+                if (e.InnerException.Message.Contains(cid.Cod)) {
                     throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
                 throw new Exception($"Houve um erro ao salvar, ERRO: {e.InnerException.Message}");
@@ -48,13 +48,13 @@ namespace PresMed.Services {
             }
         }
 
-        public async Task UpdateAsync(Cid procedure) {
+        public async Task UpdateAsync(Cid cid) {
             try {
-                bool hasAny = await _context.Cid.AnyAsync(obj => obj.Id == procedure.Id);
+                bool hasAny = await _context.Cid.AnyAsync(obj => obj.Id == cid.Id);
                 if (!hasAny) {
                     throw new Exception("ID não encontrado");
                 }
-                _context.Cid.Update(procedure);
+                _context.Cid.Update(cid);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e) {
@@ -62,10 +62,10 @@ namespace PresMed.Services {
             }
         }
 
-        public Cid TransformUpperCase(Cid procedure) {
-            procedure.Cod = procedure.Cod.Trim().ToUpper();
-            procedure.Description = procedure.Description.Trim().ToUpper();
-            return procedure;
+        public Cid TransformUpperCase(Cid cid) {
+            cid.Cod = cid.Cod.Trim().ToUpper();
+            cid.Description = cid.Description.Trim().ToUpper();
+            return cid;
         }
 
 

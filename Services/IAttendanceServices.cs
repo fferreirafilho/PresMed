@@ -13,7 +13,9 @@ namespace PresMed.Services {
         public Task InsertPrescriptionAsync(Prescription prescription);
         public Task DeletePrescriptionAsync(int id);
         public Task UpdateAsync(Attendance attendance);
-
+        public Task InsertMedicalCertificateAsync(MedicalCertificate medicalCertificate);
+        public Task UpdateMedicalCertificateAsync(MedicalCertificate medicalCertificate);
+        public Task<MedicalCertificate> FindMedicalCertificateByAttendanceId(int id);
 
     }
 }

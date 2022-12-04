@@ -50,5 +50,20 @@ namespace PresMed.Services {
         public Task<Prescription> FindPrescriptionById(int id) {
             return _context.Prescription.Include(x => x.Attendance).Include(x => x.Attendance.Scheduling).Include(x => x.Attendance.Patient).FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task InsertMedicalCertificateAsync(MedicalCertificate medicalCertificate) {
+            await _context.MedicalCertificates.AddAsync(medicalCertificate);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<MedicalCertificate> FindMedicalCertificateByAttendanceId(int id) {
+            return await _context.MedicalCertificates.Include(i => i.Cid).FirstOrDefaultAsync(c => c.Attendance.Id == id);
+        }
+
+        public async Task UpdateMedicalCertificateAsync(MedicalCertificate medicalCertificate) {
+            _context.MedicalCertificates.Update(medicalCertificate);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

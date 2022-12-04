@@ -21,50 +21,78 @@
 }
 
 @if (Model.PersonType == PresMed.Models.Enums.PersonType.Assistant) {
-    <div class="items mb-5">
 
-        <h5>Horario de atendimento dos medicos</h5>
-        <br />
-        <a asp-controller="Time" asp-action="Index" class="btn btn-outline-primary ms-3">Horarios</a>
+
+    <div class="row">
+
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Horario de atendimento dos medicos</h5>
+            <br />
+            <a asp-controller="Time" asp-action="Index" class="btn btn-outline-primary ms-3">Horarios</a>
+        </div>
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Horario de funcionamento da clinica</h5>
+            <br />
+            <a asp-controller="ClinicOpening" asp-action="Index" class="btn btn-outline-primary ms-3">Horario de funcionamento</a>
+        </div>
     </div>
 
-    <div class="items mb-5">
+    <div class="row">
 
-        <h5>Horario de funcionamento da clinica</h5>
-        <br />
-        <a asp-controller="ClinicOpening" asp-action="Index" class="btn btn-outline-primary ms-3">Horario de funcionamento</a>
+
+
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Procedimentos</h5>
+            <br />
+            <a asp-controller="Procedures" asp-action="Index" class="btn btn-outline-primary ms-3">Procedimentos</a>
+        </div>
+
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Assistentes</h5>
+            <br />
+            <a asp-controller="Assistant" asp-action="Index" class="btn btn-outline-primary ms-3">Assistentes</a>
+        </div>
+
     </div>
 
-    <div class="items mb-5">
+    <div class="row">
 
-        <h5>Procedimentos</h5>
-        <br />
-        <a asp-controller="Procedures" asp-action="Index" class="btn btn-outline-primary ms-3">Procedimentos</a>
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Médicos</h5>
+            <br />
+            <a asp-controller="Doctor" asp-action="Index" class="btn btn-outline-primary ms-3">Médicos</a>
+        </div>
+
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>Remedios</h5>
+            <br />
+            <a asp-controller="Medicine" asp-action="Index" class="btn btn-outline-primary ms-3">Remedios</a>
+        </div>
+
     </div>
 
-    <div class="items mb-5">
+    <div class="row">
 
-        <h5>Assistentes</h5>
-        <br />
-        <a asp-controller="Assistant" asp-action="Index" class="btn btn-outline-primary ms-3">Assistentes</a>
+        <div class="items mb-5 ms-4 col-5">
+
+            <h5>CID</h5>
+            <br />
+            <a asp-controller="Cid" asp-action="Index" class="btn btn-outline-primary ms-3">Cid</a>
+        </div>
+
+
     </div>
 
-    <div class="items mb-5">
 
-        <h5>Médicos</h5>
-        <br />
-        <a asp-controller="Doctor" asp-action="Index" class="btn btn-outline-primary ms-3">Médicos</a>
-    </div>
 
-    <div class="items mb-5">
+    <br />
 
-        <h5>Remedios</h5>
-        <br />
-        <a asp-controller="Medicine" asp-action="Index" class="btn btn-outline-primary ms-3">Remedios</a>
-    </div>
+
+
 }
-
-<br />
-
-
-

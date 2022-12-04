@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221130012710_alter cid")]
+    partial class altercid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,8 +62,8 @@ namespace PresMed.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(264) CHARACTER SET utf8mb4")
-                        .HasMaxLength(264);
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -86,30 +88,6 @@ namespace PresMed.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClinicOpening");
-                });
-
-            modelBuilder.Entity("PresMed.Models.MedicalCertificate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AttendanceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CidId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Days")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttendanceId");
-
-                    b.HasIndex("CidId");
-
-                    b.ToTable("MedicalCertificates");
                 });
 
             modelBuilder.Entity("PresMed.Models.Medicine", b =>
@@ -386,19 +364,6 @@ namespace PresMed.Migrations
                     b.HasOne("PresMed.Models.Scheduling", "Scheduling")
                         .WithMany()
                         .HasForeignKey("SchedulingId");
-                });
-
-            modelBuilder.Entity("PresMed.Models.MedicalCertificate", b =>
-                {
-                    b.HasOne("PresMed.Models.Attendance", "Attendance")
-                        .WithMany()
-                        .HasForeignKey("AttendanceId");
-
-                    b.HasOne("PresMed.Models.Cid", "Cid")
-                        .WithMany()
-                        .HasForeignKey("CidId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PresMed.Models.Prescription", b =>

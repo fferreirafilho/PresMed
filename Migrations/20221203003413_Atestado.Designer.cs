@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221203003413_Atestado")]
+    partial class Atestado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,13 +62,18 @@ namespace PresMed.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(264) CHARACTER SET utf8mb4")
-                        .HasMaxLength(264);
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("MedicalCertificateId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Cod")
                         .IsUnique();
+
+                    b.HasIndex("MedicalCertificateId");
 
                     b.ToTable("Cid");
                 });
@@ -386,6 +393,13 @@ namespace PresMed.Migrations
                     b.HasOne("PresMed.Models.Scheduling", "Scheduling")
                         .WithMany()
                         .HasForeignKey("SchedulingId");
+                });
+
+            modelBuilder.Entity("PresMed.Models.Cid", b =>
+                {
+                    b.HasOne("PresMed.Models.MedicalCertificate", null)
+                        .WithMany("ListCid")
+                        .HasForeignKey("MedicalCertificateId");
                 });
 
             modelBuilder.Entity("PresMed.Models.MedicalCertificate", b =>

@@ -11,10 +11,10 @@ namespace PresMed.Models {
         [Display(Name = "Horario")]
         public DateTime Time { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [Display(Name = "Posologia")]
+        [Display(Name = "Periodo de dias")]
         public int Days { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [Display(Name = "Quantidade")]
+        [Display(Name = "Posologia")]
         public string Dosage { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
