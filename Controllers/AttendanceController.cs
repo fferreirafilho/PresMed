@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresMed.Filters;
@@ -8,8 +10,10 @@ using PresMed.Models.ViewModels;
 using PresMed.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace PresMed.Controllers {
     [PageForUserLogged]
@@ -55,7 +59,7 @@ namespace PresMed.Controllers {
                 List<Scheduling> list = await _schedulingServices.FindByIdAndDateAsync(attendance.Person.Id, DateTime.Now);
 
 
-                var newList = list.Where(x => x.StatusAttendence == StatusAttendence.Confirmado || x.StatusAttendence == StatusAttendence.Em_atendimento);
+                var newList = list.Where(x => x.StatusAttendence == StatusAttendence.Aguardando_atendimento || x.StatusAttendence == StatusAttendence.Em_atendimento);
 
                 attendance.Schedulings = newList;
 
@@ -192,7 +196,7 @@ namespace PresMed.Controllers {
             //}
 
 
-            if (scheduling.StatusAttendence != StatusAttendence.Confirmado && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+            if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 return RedirectToAction("Index");
             }
@@ -316,6 +320,127 @@ namespace PresMed.Controllers {
             return View(certificate);
         }
 
+        public async Task<IActionResult> PrintMedicalCertificate(int? id) {
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(id.Value);
+
+            if (attendance == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            MedicalCertificate certificate = await _attendanceServices.FindMedicalCertificateByAttendanceId(id.Value);
+            Document document = new Document();
+
+            MemoryStream stream = new MemoryStream();
+
+
+            try {
+                PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
+                pdfWriter.CloseStream = false;
+                var image = System.Drawing.Image.FromFile("D:\\TCC\\PresMed\\wwwroot\\images\\logo_clinica.png");
+                document.Open();
+                Image pic = Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
+                pic.ScalePercent(15);
+                Paragraph paragraph1 = new Paragraph {
+                    pic,
+                    $"Rua das Ambrosias - Nº 486 - Goianésia GO\n\n\n"
+                };
+
+                document.Add(paragraph1);
+                Paragraph paragraph2 = new Paragraph($"Atestado Medico de {attendance.Patient.Name}\n\n");
+                paragraph2.Alignment = Element.ALIGN_CENTER;
+                document.Add(paragraph2);
+
+                document.Add(new Paragraph($"Atesto para os devidos fins, a pedido, que o(a) Sr(a). {attendance.Patient.Name}, inscrito(a) no CPF sob o nº {attendance.Patient.Cpf}, paciente sob meus cuidados, foi atendido(a) no dia {DateTime.Now.ToShortDateString()} às {DateTime.Now.ToShortTimeString()}, cid {certificate.Cid.Cod} necessitando de {certificate.Days} dias de repouso.\r\n\r\n Goianésia, {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}.\r\n\r\n \r\n\r\n{attendance.Doctor.Name}\r\n\r\nCRM {attendance.Doctor.Crm}"));
+
+            }
+            catch (DocumentException de) {
+                Console.Error.WriteLine(de.Message);
+            }
+            catch (IOException ioe) {
+                Console.Error.WriteLine(ioe.Message);
+            }
+
+            document.Close();
+
+            stream.Flush(); //Always catches me out
+            stream.Position = 0; //Not sure if this is required
+
+            return File(stream, "application/pdf", $"Atestado - {attendance.Patient.Name}.pdf");
+        }
+
+
+        public async Task<IActionResult> PrintPrescription(int? id) {
+            if (id == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(id.Value);
+
+            if (attendance == null) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+            List<Prescription> prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(id.Value);
+
+            if (prescriptions.Count() == 0) {
+                TempData["ErrorMessage"] = $"ID não encontrado";
+                RedirectToAction("Index");
+            }
+
+            Document document = new Document();
+
+            MemoryStream stream = new MemoryStream();
+
+            try {
+                PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
+                pdfWriter.CloseStream = false;
+                var image = System.Drawing.Image.FromFile("D:\\TCC\\PresMed\\wwwroot\\images\\logo_clinica.png");
+                document.Open();
+                Image pic = Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
+                pic.ScalePercent(15);
+                Paragraph paragraph1 = new Paragraph {
+                    pic,
+                    $"Rua das Ambrosias - Nº 486 - Goianésia GO\n\n\n"
+                };
+
+                document.Add(paragraph1);
+                Paragraph paragraph2 = new Paragraph($"Receita Medica de {attendance.Patient.Name}\n\n");
+                paragraph2.Alignment = Element.ALIGN_CENTER;
+                document.Add(paragraph2);
+
+                foreach (var item in prescriptions) {
+                    document.Add(new Paragraph($"Tomar {item.Dosage} de {item.Medicine.Name} a cada {item.Time.ToShortTimeString()}h, observação: {item.Observation}\n----------------------------------------------------------------------------------------------------------------------------------"));
+                }
+                document.Add(new Paragraph($"\r\n\r\n Goianésia, {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}.\r\n\r\n \r\n\r\n{attendance.Doctor.Name}\r\n\r\nCRM {attendance.Doctor.Crm}"));
+            }
+            catch (DocumentException de) {
+                Console.Error.WriteLine(de.Message);
+            }
+            catch (IOException ioe) {
+                Console.Error.WriteLine(ioe.Message);
+            }
+
+            document.Close();
+
+            stream.Flush(); //Always catches me out
+            stream.Position = 0; //Not sure if this is required
+
+            return File(stream, "application/pdf", $"Receita Medica - {attendance.Patient.Name}.pdf");
+
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -328,7 +453,7 @@ namespace PresMed.Controllers {
                     return View("Attend", attendance);
                 }
             }
-            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Confirmado && attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento && attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 return RedirectToAction("Index");
             }
@@ -375,6 +500,7 @@ namespace PresMed.Controllers {
             list.Prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(list.AttendanceId);
             return View("Prescription", list);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MedicalCertificate(MedicalCertificateViewModel medicalCertificateViewModel) {

@@ -23,7 +23,7 @@ namespace PresMed.Services {
         }
 
         public async Task<Attendance> FindAttendanceByIdAsync(int id) {
-            return await _context.Attendance.Include(x => x.Scheduling).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Attendance.Include(x => x.Scheduling).Include(x => x.Doctor).Include(x => x.Patient).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task InsertPrescriptionAsync(Prescription prescription) {

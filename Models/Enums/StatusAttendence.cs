@@ -6,6 +6,6 @@
         Finalizado = 2,
         Livre = 3,
         Em_atendimento = 4,
-        Aguardando_atendimento = 4,
+        Aguardando_atendimento = 5,
     }
 }
