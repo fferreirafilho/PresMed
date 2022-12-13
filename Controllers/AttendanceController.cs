@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static iTextSharp.text.pdf.AcroFields;
 
 
 namespace PresMed.Controllers {
@@ -27,9 +28,9 @@ namespace PresMed.Controllers {
         private readonly IPatientServices _patientServices;
         private readonly IDoctorServices _doctorServices;
         private readonly ICidServices _cidServices;
+        private readonly IClinicOpeningServices _clinicOpeningServices;
 
-
-        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices, ICidServices cidServices) {
+        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices, ICidServices cidServices, IClinicOpeningServices clinicOpeningServices) {
             _schedulingServices = schedulingServices;
             _timeServices = timeServices;
             _attendanceServices = attendanceServices;
@@ -37,6 +38,7 @@ namespace PresMed.Controllers {
             _patientServices = patientServices;
             _doctorServices = doctorServices;
             _cidServices = cidServices;
+            _clinicOpeningServices = clinicOpeningServices;
         }
 
         public async Task<IActionResult> Index() {
@@ -342,6 +344,9 @@ namespace PresMed.Controllers {
 
 
             try {
+
+                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
                 var image = System.Drawing.Image.FromFile("D:\\TCC\\PresMed\\wwwroot\\images\\logo_clinica.png");
@@ -350,15 +355,19 @@ namespace PresMed.Controllers {
                 pic.ScalePercent(15);
                 Paragraph paragraph1 = new Paragraph {
                     pic,
-                    $"Rua das Ambrosias - Nº 486 - Goianésia GO\n\n\n"
+                    $"Rua {clinicOpening.Street} - Nº {clinicOpening.Number} - {clinicOpening.City} {clinicOpening.State}\n\n\n"
                 };
 
                 document.Add(paragraph1);
                 Paragraph paragraph2 = new Paragraph($"Atestado Medico de {attendance.Patient.Name}\n\n");
                 paragraph2.Alignment = Element.ALIGN_CENTER;
                 document.Add(paragraph2);
+                var str = clinicOpening.AttestedText;
+                str = str.Replace("{NOMEDOPACIENTE}", attendance.Patient.Name).Replace("{CPFDOPACIENTE}", attendance.Patient.Cpf).Replace("{DATAATUAL}", DateTime.Now.ToShortDateString()).Replace("{HORAATUAL}", DateTime.Now.ToShortTimeString()).Replace("{CID}", certificate.Cid.Cod).Replace("{DIAAFASTAMENTO}", certificate.Days.ToString());
 
-                document.Add(new Paragraph($"Atesto para os devidos fins, a pedido, que o(a) Sr(a). {attendance.Patient.Name}, inscrito(a) no CPF sob o nº {attendance.Patient.Cpf}, paciente sob meus cuidados, foi atendido(a) no dia {DateTime.Now.ToShortDateString()} às {DateTime.Now.ToShortTimeString()}, cid {certificate.Cid.Cod} necessitando de {certificate.Days} dias de repouso.\r\n\r\n Goianésia, {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}.\r\n\r\n \r\n\r\n{attendance.Doctor.Name}\r\n\r\nCRM {attendance.Doctor.Crm}"));
+                document.Add(new Paragraph(str));
+
+                document.Add(new Paragraph($"\r\n\r\n Goianésia, {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}.\r\n\r\n \r\n\r\n{attendance.Doctor.Name}\r\n\r\nCRM {attendance.Doctor.Crm}"));
 
             }
             catch (DocumentException de) {
@@ -404,6 +413,9 @@ namespace PresMed.Controllers {
             MemoryStream stream = new MemoryStream();
 
             try {
+
+                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
                 var image = System.Drawing.Image.FromFile("D:\\TCC\\PresMed\\wwwroot\\images\\logo_clinica.png");
@@ -412,7 +424,7 @@ namespace PresMed.Controllers {
                 pic.ScalePercent(15);
                 Paragraph paragraph1 = new Paragraph {
                     pic,
-                    $"Rua das Ambrosias - Nº 486 - Goianésia GO\n\n\n"
+                    $"Rua {clinicOpening.Street} - Nº {clinicOpening.Number} - {clinicOpening.City} {clinicOpening.State}\n\n\n"
                 };
 
                 document.Add(paragraph1);
@@ -421,7 +433,12 @@ namespace PresMed.Controllers {
                 document.Add(paragraph2);
 
                 foreach (var item in prescriptions) {
-                    document.Add(new Paragraph($"Tomar {item.Dosage} de {item.Medicine.Name} a cada {item.Time.ToShortTimeString()}h, observação: {item.Observation}\n----------------------------------------------------------------------------------------------------------------------------------"));
+
+                    var str = clinicOpening.RecipeText;
+                    str = str.Replace("{DOSAGEM}", item.Dosage).Replace("{MEDICAMENTO}", item.Medicine.Name).Replace("{HORA}", item.Time.ToShortTimeString()).Replace("{OBSERVACAO}", item.Observation);
+
+                    document.Add(new Paragraph(str));
+                    document.Add(new Paragraph("----------------------------------------------------------------------------------------------------------------------------------"));
                 }
                 document.Add(new Paragraph($"\r\n\r\n Goianésia, {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}.\r\n\r\n \r\n\r\n{attendance.Doctor.Name}\r\n\r\nCRM {attendance.Doctor.Crm}"));
             }

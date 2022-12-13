@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PresMed.Data;
 
 namespace PresMed.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221212001434_Alter Clinic1")]
+    partial class AlterClinic1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,9 +80,8 @@ namespace PresMed.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AttestedText")
-                        .IsRequired()
-                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -103,14 +104,12 @@ namespace PresMed.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Number")
-                        .IsRequired()
                         .HasColumnType("varchar(7) CHARACTER SET utf8mb4")
                         .HasMaxLength(7);
 
                     b.Property<string>("RecipeText")
-                        .IsRequired()
-                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("State")
                         .IsRequired()
