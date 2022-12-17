@@ -77,42 +77,35 @@
 
 </form>
 
-<h4>Historico de horarios</h4>
+<h2>Historico de horarios</h2>
 @{
     var cont = 0;
 }
 @if (Model.ListTime.Count > 0) {
-    @foreach (var time in Model.ListTime) {
-        cont++;
-        <h6>Horario @cont</h6>
-        <table class="table-striped-columns">
-            <thead>
-                <tr>
-                    <th>Dia inicial</th>
-                    <th>Dia Final</th>
-                    <th>Horario inicial de atendimento</th>
-                    <th>Horario final de atendimento </th>
-                    <th>Tempo de atendimento</th>
-                </tr>
-            </thead>
+    <table class="table table-hover" style="text-align:center;">
+        <thead>
+            <tr>
+                <th scope="col">Dia inicial</th>
+                <th scope="col">Dia Final</th>
+                <th scope="col">Horario inicial de atendimento</th>
+                <th scope="col">Horario final de atendimento </th>
+                <th scope="col">Tempo de atendimento</th>
+            </tr>
+        </thead>
+        @foreach (var time in Model.ListTime) {
+            cont++;
+
+
             <tbody>
                 <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                                <tr>
-                    <td>@time.InitialDay</td>
+                    <td>@time.InitialDay.ToShortDateString()</td>
+                    <td>@time.FinalDay?.ToShortDateString()</td>
+                    <td>@time.InitialHour.ToShortTimeString()</td>
+                    <td>@time.FinalHour.ToShortTimeString()</td>
+                    <td>@time.ServiceTime.ToShortTimeString()</td>
                 </tr>
             </tbody>
-        </table>
-        <hr>
-    }
+
+        }
+    </table>
 }

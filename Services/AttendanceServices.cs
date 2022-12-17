@@ -65,5 +65,9 @@ namespace PresMed.Services {
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Attendance>> FindAttendanceByPatientId(int id) {
+            return await _context.Attendance.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Scheduling).Where(a => a.Patient.Id == id).ToListAsync();
+        }
+
     }
 }

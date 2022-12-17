@@ -1,4 +1,4 @@
-﻿@model PresMed.Models.Time
+﻿@model PresMed.Models.ViewModels.TimeViewModel
 
 @{
     ViewData["Title"] = $"Editar horario de atendimento {Model.Person.Name}";
@@ -65,7 +65,7 @@
 
     <div class="col-md-6">
         <label asp-for="@Model.InitialDay" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.InitialDay" type="date" class="form-control">
+        <input asp-for="@Model.InitialDay" type="date" class="form-control" value="@DateTime.Now">
         <span asp-validation-for="@Model.InitialDay" class="text-danger"></span>
     </div>
 
@@ -76,3 +76,36 @@
     </div>
 
 </form>
+
+<h2>Historico de horarios</h2>
+@{
+    var cont = 0;
+}
+@if (Model.ListTime.Count > 0) {
+    <table class="table table-hover" style="text-align:center;">
+        <thead>
+            <tr>
+                <th scope="col">Dia inicial</th>
+                <th scope="col">Dia Final</th>
+                <th scope="col">Horario inicial de atendimento</th>
+                <th scope="col">Horario final de atendimento </th>
+                <th scope="col">Tempo de atendimento</th>
+            </tr>
+        </thead>
+        @foreach (var time in Model.ListTime) {
+            cont++;
+
+
+            <tbody>
+                <tr>
+                    <td>@time.InitialDay.ToShortDateString()</td>
+                    <td>@time.FinalDay?.ToShortDateString()</td>
+                    <td>@time.InitialHour.ToShortTimeString()</td>
+                    <td>@time.FinalHour.ToShortTimeString()</td>
+                    <td>@time.ServiceTime.ToShortTimeString()</td>
+                </tr>
+            </tbody>
+
+        }
+    </table>
+}

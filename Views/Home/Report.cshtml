@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = $"Relatorios";
+
+}
+
+<h3 class="display-6">@ViewData["Title"]</h3>
+<hr />
+
+<h4 class="mb-5">Horario de atendimento dos medicos<span class="ms-5"><a role="button" class="link-dark" asp-controller="Home" asp-action="PrintDoctorsTime"><i class="fas fa-print" title="Imprimir"></i></a></span></h4>
+
+<hr />
+
+<form asp-controller="Home" asp-action="PrintPrescription">
+    <h4>Relatorio de atendimentos por medico<span><button type="submit" class="btn"><i style="font-size:20px;" class="fas fa-print" title="Imprimir"></i></button></span></h4>
+    <input type="date" />
+    <input type="date" />
+    <select></select>
+</form>
+
+<hr />
+
+<form asp-controller="Home" asp-action="PrintPrescription">
+    <h4>Relatorio de agendamentos por medico<span><button type="submit" class="btn"><i style="font-size:20px;" class="fas fa-print" title="Imprimir"></i></button></span></h4>
+    <input type="date" />
+    <input type="date" />
+    <select></select>
+</form>

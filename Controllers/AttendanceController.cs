@@ -204,7 +204,7 @@ namespace PresMed.Controllers {
             }
 
             Attendance attendance1 = await _attendanceServices.FindBySchedulingId(scheduling.Id);
-            Attendance attendance = new Attendance { Doctor = scheduling.Doctor, Patient = scheduling.Patient, Scheduling = scheduling };
+            AttendViewModel attendance = new AttendViewModel { Doctor = scheduling.Doctor, Patient = scheduling.Patient, Scheduling = scheduling, listAttendance = await _attendanceServices.FindAttendanceByPatientId(scheduling.Patient.Id) };
             if (attendance1 != null) {
                 attendance.Report = attendance1.Report;
             }
@@ -477,8 +477,10 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "Medico desativado no sistema";
                     return RedirectToAction("Index");
                 }
+                List<Time> listTime = await _timeServices.FindAllByPersonId(dbTime.Person.Id);
+                TimeViewModel time = new TimeViewModel { Id = dbTime.Id, ServiceTime = dbTime.ServiceTime, FinalDay = dbTime.FinalDay, FinalHour = dbTime.FinalHour, HourPerDay = dbTime.HourPerDay, InitialDay = dbTime.InitialDay, InitialHour = dbTime.InitialHour, Person = dbTime.Person, ListTime = listTime };
 
-                return View(dbTime);
+                return View(time);
             }
             catch (Exception ex) {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
@@ -596,10 +598,12 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Attend(Attendance attendance) {
+        public async Task<IActionResult> Attend(AttendViewModel attendance) {
             attendance.Patient = await _patientServices.FindByIdAsync(attendance.Patient.Id);
             attendance.Doctor = await _patientServices.FindByIdAsync(attendance.Doctor.Id);
             attendance.Scheduling = await _schedulingServices.FindByIdAsync(attendance.Scheduling.Id);
+            attendance.listAttendance = await _attendanceServices.FindAttendanceByPatientId(attendance.Patient.Id);
+
             if (string.IsNullOrEmpty(attendance.Report)) {
                 if (!ModelState.IsValid) {
                     return View("Attend", attendance);
@@ -614,7 +618,8 @@ namespace PresMed.Controllers {
 
             if (attendanceDB == null) {
                 attendance.Scheduling.StatusAttendence = StatusAttendence.Em_atendimento;
-                await _attendanceServices.InsertAttendanceAsync(attendance);
+                Attendance att = new Attendance { Doctor = attendance.Doctor, Patient = attendance.Patient, Report = attendance.Report, Scheduling = attendance.Scheduling };
+                await _attendanceServices.InsertAttendanceAsync(att);
                 return RedirectToAction("Index");
             }
             attendanceDB.Report = attendance.Report;
