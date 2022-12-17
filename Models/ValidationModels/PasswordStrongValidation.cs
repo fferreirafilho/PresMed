@@ -23,7 +23,7 @@ namespace PresMed.Models.ValidationModels {
             int pontosPorRepeticao = GetPontoPorRepeticao(senha);
             var placar = pontosPorTamanho + pontosPorMinusculas + pontosPorMaiusculas + pontosPorDigitos + pontosPorSimbolos - pontosPorRepeticao;
 
-            if (placar > 50)
+            if (placar > 80)
                 return true;
             else
                 return false;
@@ -54,7 +54,7 @@ namespace PresMed.Models.ValidationModels {
         }
 
         private int GetPontoPorRepeticao(string senha) {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"(\w)*.*\1");
+            Regex regex = new Regex(@"(\w)*.*\1");
             bool repete = regex.IsMatch(senha);
             if (repete) {
                 return 30;

@@ -1,4 +1,4 @@
-﻿@model PresMed.Models.ViewModels.TimeViewModel
+﻿@model PresMed.Models.Time
 
 @{
     ViewData["Title"] = $"Editar horario de atendimento {Model.Person.Name}";
@@ -18,7 +18,7 @@
 <hr />
 
 
-<form class="row g-3" asp-action="Edit">
+<form class="row g-3" asp-action="DoctorSelfEdit">
 
     <input asp-for="@Model.Id" value="@Model.Id" type="hidden" />
     <div class="col-md-6">
@@ -65,54 +65,14 @@
 
     <div class="col-md-6">
         <label asp-for="@Model.InitialDay" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.InitialDay" type="date" class="form-control" value="@DateTime.Now">
+        <input asp-for="@Model.InitialDay" type="date" class="form-control">
         <span asp-validation-for="@Model.InitialDay" class="text-danger"></span>
     </div>
 
 
     <div class="col-12 mb-5">
         <button type="submit" class="btn btn-success">Alterar</button>
-        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Time">Voltar</a>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Attendance">Voltar</a>
     </div>
 
 </form>
-
-<h4>Historico de horarios</h4>
-@{
-    var cont = 0;
-}
-@if (Model.ListTime.Count > 0) {
-    @foreach (var time in Model.ListTime) {
-        cont++;
-        <h6>Horario @cont</h6>
-        <table class="table-striped-columns">
-            <thead>
-                <tr>
-                    <th>Dia inicial</th>
-                    <th>Dia Final</th>
-                    <th>Horario inicial de atendimento</th>
-                    <th>Horario final de atendimento </th>
-                    <th>Tempo de atendimento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-                                <tr>
-                    <td>@time.InitialDay</td>
-                </tr>
-            </tbody>
-        </table>
-        <hr>
-    }
-}

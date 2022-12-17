@@ -1,8 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+using iTextSharp.text;
+using System.Collections.Generic;
 
-namespace PresMed.Models {
-    public class Time {
+namespace PresMed.Models.ViewModels {
+    public class TimeViewModel {
 
         public int Id { get; set; }
 
@@ -31,15 +33,9 @@ namespace PresMed.Models {
 
         public Person Person { get; set; }
 
-        public Time() { }
+        public List<Time> ListTime { get; set; }
 
-        public Time(DateTime initialHour, DateTime finalHour, Person person, DateTime serviceTime, int hourPerDay, DateTime itinialDay) {
-            InitialHour = initialHour;
-            FinalHour = finalHour;
-            Person = person;
-            ServiceTime = serviceTime;
-            HourPerDay = hourPerDay;
-            InitialDay = itinialDay;
-        }
+        public TimeViewModel() { }
+
     }
 }

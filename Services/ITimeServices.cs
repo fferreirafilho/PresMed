@@ -13,9 +13,12 @@ namespace PresMed.Services {
         public Task<List<Time>> FindAllActiveAsync();
 
         public Task<Time> FindByIdAsync(int id);
+        public Task<Time> FindByDoctorIdAsync(int id);
 
         public Task<IEnumerable<Time>> FindScheduleByIdAsync(int id, DateTime Time);
         public Task<Time> FindScheduleByIdAndFinalDateNullAsync(int id);
+
+        public Task<List<Time>> FindAllByPersonId(int id);
 
 
     }

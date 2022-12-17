@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PresMed.Filters;
 using PresMed.Models;
 using PresMed.Models.Enums;
@@ -53,8 +55,10 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "Medico desativado no sistema";
                     return RedirectToAction("Index");
                 }
+                List<Time> listTime = await _timeServices.FindAllByPersonId(dbTime.Person.Id);
+                TimeViewModel time = new TimeViewModel { Id = dbTime.Id, ServiceTime = dbTime.ServiceTime, FinalDay = dbTime.FinalDay, FinalHour = dbTime.FinalHour, HourPerDay = dbTime.HourPerDay, InitialDay = dbTime.InitialDay, InitialHour = dbTime.InitialHour, Person = dbTime.Person, ListTime = listTime };
 
-                return View(dbTime);
+                return View(time);
             }
             catch (Exception ex) {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";

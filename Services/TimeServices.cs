@@ -45,12 +45,20 @@ namespace PresMed.Services {
             return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Id == id && obj.FinalDay == null);
         }
 
+        public async Task<Time> FindByDoctorIdAsync(int id) {
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && obj.FinalDay == null);
+        }
+
         public async Task<IEnumerable<Time>> FindScheduleByIdAsync(int id, DateTime time) {
             return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id && obj.InitialDay <= time).ToListAsync();
         }
 
         public async Task<Time> FindScheduleByIdAndFinalDateNullAsync(int id) {
             return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && obj.FinalDay == null);
+        }
+
+        public async Task<List<Time>> FindAllByPersonId(int id) {
+            return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id).ToListAsync();
         }
     }
 }
