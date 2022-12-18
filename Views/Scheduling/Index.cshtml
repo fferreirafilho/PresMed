@@ -77,8 +77,15 @@ else {
                         <td>@item.Patient.Name</td>
                         <td>@item.HourAttendence.ToShortTimeString()</td>
                         <td>@item.HourAttendence.AddMinutes(minutes).ToShortTimeString()</td>
-                        @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Em_atendimento) {
-                            <td>Em atendimento</td>
+
+
+                        @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Em_atendimento | item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Aguardando_atendimento) {
+                            @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Em_atendimento) {
+                                <td>Em atendimento</td>
+                            }
+                            @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Aguardando_atendimento) {
+                                <td>Aguardando atendimento</td>
+                            }
                         }
                         else {
                             <td>@item.StatusAttendence</td>
@@ -88,7 +95,7 @@ else {
                         @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Agendado) {
                             <td>
                                 <div class="btn-group-sm" role="group">
-                                    <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Scheduling" asp-action="Confirm">Confirmar</a>
+                                    <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Scheduling" asp-action="Confirm">Confirmar atendimento</a>
                                     <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Scheduling" asp-action="Delete">Excluir</a>
                                 </div>
                             </td>
@@ -96,8 +103,10 @@ else {
                         @if (item.StatusAttendence == PresMed.Models.Enums.StatusAttendence.Confirmado) {
                             <td>
                                 <div class="btn-group-sm" role="group">
+                                    <a role="button" class="btn btn-success" asp-route-id="@item.Id" asp-controller="Scheduling" asp-action="SendService">Enviar para atendimento</a>
                                     <a role="button" class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Scheduling" asp-action="Delete">Excluir</a>
                                 </div>
+
                             </td>
                         }
                         @if (item.StatusAttendence != PresMed.Models.Enums.StatusAttendence.Confirmado && item.StatusAttendence != PresMed.Models.Enums.StatusAttendence.Agendado) {

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 namespace PresMed.Services {
     public interface ILoginService {
 
-        Task<Person> FindByLoginAsync(string user);
+        public Task<Person> FindByLoginAsync(string user);
+        public Task ChangePasswordAsync(Person person);
 
     }
 }

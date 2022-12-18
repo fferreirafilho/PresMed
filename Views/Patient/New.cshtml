@@ -23,11 +23,6 @@
         <span asp-validation-for="@Model.Email" class="text-danger"></span>
     </div>
     <div class="col-md-6">
-        <label asp-for="@Model.User" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.User" type="text" class="form-control" placeholder="Digite o nome de usuario">
-        <span asp-validation-for="@Model.User" class="text-danger"></span>
-    </div>
-    <div class="col-md-6">
         <label asp-for="@Model.Phone" class="form-label"></label><span class="text-warning"> (Apenas numeros)</span><span class="text-danger">*</span>
         <input asp-for="@Model.Phone" type="text" class="form-control" placeholder="Digite o numero de telefone " onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.Phone" class="text-danger"></span>

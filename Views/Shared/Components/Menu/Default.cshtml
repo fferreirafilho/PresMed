@@ -7,6 +7,7 @@
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Doctor) {
                 <a asp-controller="Attendance" asp-action="Index" class="nav_link" id="agendamentos"> <i class="fas fa-briefcase"></i> <span class="nav_name">Atendimento</span> </a>
                 <a asp-controller="Attendance" asp-action="Scheduling" class="nav_link" id="agendamentos"> <i class="fas fa-calendar-alt"></i> <span class="nav_name">Agenda</span> </a>
+                <a asp-controller="Attendance" asp-action="DoctorSelfEdit" class="nav_link" id="agendamentos"> <i class="far fa-clock"></i> <span class="nav_name" title="Horario de Atendimento">Horario de Atendimento</span> </a>
             }
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Assistant) {
                 <a asp-controller="Home" asp-action="Index" class="nav_link" id="home"> <i class="fas fa-home"></i> <span class="nav_name">Página Inicial</span> </a>
@@ -16,8 +17,12 @@
             @if (Model.PersonType == PresMed.Models.Enums.PersonType.Patient) {
 
             }
+            <a asp-controller="Home" asp-action="report" class="nav_link" id="agendamentos"> <i class="fas fa-file"></i> <span class="nav_name">Relatorios</span> </a>
 
         </div>
     </div>
-    <a asp-controller="Login" asp-action="Exit" class="nav_link"> <i class="fas fa-sign-out-alt"></i> <span class="nav_name">Sair</span> </a>
+    <div class="nav_list">
+        <a asp-controller="Home" asp-action="ChangePassword" class="nav_link"><i class="fas fa-key"></i> <span class="nav_name">Trocar senha</span> </a>
+        <a asp-controller="Login" asp-action="Exit" class="nav_link"> <i class="fas fa-sign-out-alt"></i> <span class="nav_name">Sair</span> </a>
+    </div>
 </nav>

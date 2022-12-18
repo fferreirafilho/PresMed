@@ -100,7 +100,51 @@ namespace PresMed.Controllers {
                     return RedirectToAction(nameof(Index));
                 }
 
-                if (scheduling.StatusAttendence == StatusAttendence.Finalizado) {
+                if (scheduling.StatusAttendence != StatusAttendence.Agendado) {
+                    TempData["ErrorMessage"] = $"ID invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+                    TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+                    TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+                    if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+                        TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                return View(scheduling);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> SendService(int? Id) {
+            try {
+                if (Id == null) {
+                    TempData["ErrorMessage"] = $"ID invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                Scheduling scheduling = await _schedulingServices.FindByIdAsync(Id.Value);
+
+                if (scheduling == null) {
+                    TempData["ErrorMessage"] = $"ID invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (scheduling.StatusAttendence != StatusAttendence.Confirmado) {
                     TempData["ErrorMessage"] = $"ID invalido";
                     return RedirectToAction(nameof(Index));
                 }
@@ -181,12 +225,18 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Schedule(ScheduleViewModel scheduleViewModel) {
             try {
+                //return Json(scheduleViewModel);
                 scheduleViewModel.Doctors = await _doctorServices.FindAllActiveAsync();
 
                 if (scheduleViewModel.Doctors.Count == 0) {
                     return RedirectToAction(nameof(Index));
                 }
-                scheduleViewModel.Hour = await _timeServices.FindScheduleByIdAsync(scheduleViewModel.Doctor);
+
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(scheduleViewModel.Doctor, scheduleViewModel.Scheduling.DayAttendence);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= scheduleViewModel.Scheduling.DayAttendence && x.FinalDay >= scheduleViewModel.Scheduling.DayAttendence).ToList();
+
+                scheduleViewModel.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(scheduleViewModel.Doctor) : timeJob[0];
 
                 int minutes = scheduleViewModel.Hour.ServiceTime.Minute == 0 ? 60 : scheduleViewModel.Hour.ServiceTime.Minute;
 
@@ -212,11 +262,11 @@ namespace PresMed.Controllers {
 
                 scheduleViewModel.Schedulings = array.ToList();
 
-                return View("Index", scheduleViewModel);
+                return View(nameof(Index), scheduleViewModel);
             }
             catch (Exception ex) {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
+                return View(nameof(Index), scheduleViewModel);
             }
 
         }
@@ -287,7 +337,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction(nameof(Index));
                 }
 
-                if (scheduling.StatusAttendence == StatusAttendence.Finalizado) {
+                if (scheduling.StatusAttendence != StatusAttendence.Agendado) {
                     TempData["ErrorMessage"] = $"ID invalido";
                     return RedirectToAction(nameof(Index));
                 }
@@ -323,6 +373,54 @@ namespace PresMed.Controllers {
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendService(int Id) {
+            try {
+
+                Scheduling scheduling = await _schedulingServices.FindByIdAsync(Id);
+
+                if (scheduling == null) {
+                    TempData["ErrorMessage"] = $"ID invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (scheduling.StatusAttendence != StatusAttendence.Confirmado) {
+                    TempData["ErrorMessage"] = $"ID invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+
+                if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+                    TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+                    TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+                    if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+                        TempData["ErrorMessage"] = $"Data de agendamento invalido";
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                scheduling.StatusAttendence = StatusAttendence.Aguardando_atendimento;
+                await _schedulingServices.UpdateAsync(scheduling);
+                TempData["SuccessMessage"] = $"Agendamento confirmado com sucesso";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -335,7 +433,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction(nameof(Index));
                 }
 
-                if (scheduling.StatusAttendence == StatusAttendence.Finalizado) {
+                if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento || scheduling.StatusAttendence != StatusAttendence.Confirmado) {
                     TempData["ErrorMessage"] = $"ID invalido";
                     return RedirectToAction(nameof(Index));
                 }

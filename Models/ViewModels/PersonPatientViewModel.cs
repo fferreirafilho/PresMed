@@ -63,12 +63,6 @@ namespace PresMed.Models.ViewModels {
         [Display(Name = "Numero")]
         public string Number { get; set; }
 
-        [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(3, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
-        [Display(Name = "Usuario")]
-        public string User { get; set; }
-
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
@@ -85,7 +79,7 @@ namespace PresMed.Models.ViewModels {
 
 
         public static PersonPatientViewModel Parse(Person person) {
-            PersonPatientViewModel personPatient = new PersonPatientViewModel { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, User = person.User, BirthDate = person.BirthDate };
+            PersonPatientViewModel personPatient = new PersonPatientViewModel { Id = person.Id, Name = person.Name, Phone = person.Phone.Value, Email = person.Email, Cpf = person.Cpf, Street = person.Street, District = person.District, State = person.State, Complement = person.Complement, City = person.City, Number = person.Number, Status = person.Status, PersonType = person.PersonType, BirthDate = person.BirthDate };
 
             return personPatient;
         }

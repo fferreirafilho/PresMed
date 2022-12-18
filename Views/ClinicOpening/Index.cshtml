@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.ClinicOpening
 
 @{
-    ViewData["Title"] = $"Horario de atendimento da clinica";
+    ViewData["Title"] = $"Configuração da clinica";
 
 }
 
@@ -46,6 +46,76 @@
                 @Model.EndHour.ToShortTimeString()
             </div>
 
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.State)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.State)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.City)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.City)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.District)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.District)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Street)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Street)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Number)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Number)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Complement)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Complement)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.AttestedText)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.AttestedText)
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.RecipeText)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.RecipeText)
+            </div>
         </div>
 
     </div>

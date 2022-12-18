@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System;
 
 namespace PresMed.Services {
     public class AttendanceServices : IAttendanceServices {
@@ -23,7 +24,7 @@ namespace PresMed.Services {
         }
 
         public async Task<Attendance> FindAttendanceByIdAsync(int id) {
-            return await _context.Attendance.Include(x => x.Scheduling).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Attendance.Include(x => x.Scheduling).Include(x => x.Doctor).Include(x => x.Patient).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task InsertPrescriptionAsync(Prescription prescription) {
@@ -50,5 +51,32 @@ namespace PresMed.Services {
         public Task<Prescription> FindPrescriptionById(int id) {
             return _context.Prescription.Include(x => x.Attendance).Include(x => x.Attendance.Scheduling).Include(x => x.Attendance.Patient).FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task InsertMedicalCertificateAsync(MedicalCertificate medicalCertificate) {
+            await _context.MedicalCertificates.AddAsync(medicalCertificate);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<MedicalCertificate> FindMedicalCertificateByAttendanceId(int id) {
+            return await _context.MedicalCertificates.Include(i => i.Cid).FirstOrDefaultAsync(c => c.Attendance.Id == id);
+        }
+
+        public async Task UpdateMedicalCertificateAsync(MedicalCertificate medicalCertificate) {
+            _context.MedicalCertificates.Update(medicalCertificate);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Attendance>> FindAttendanceByPatientId(int id) {
+            return await _context.Attendance.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Scheduling).Where(a => a.Patient.Id == id).ToListAsync();
+        }
+
+        public async Task<List<Attendance>> FindAttendanceByDoctorIdAndDate(int id, DateTime initial, DateTime final) {
+            return await _context.Attendance.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Scheduling).Include(x => x.Scheduling.Procedures).Where(d => d.Doctor.Id == id && d.Scheduling.DayAttendence >= initial && d.Scheduling.DayAttendence <= final).ToListAsync();
+        }
+
+        public async Task<List<Scheduling>> FindSchedulingByDoctorIdAndDate(int id, DateTime initial, DateTime final) {
+            return await _context.Scheduling.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Procedures).Where(d => d.Doctor.Id == id && d.DayAttendence >= initial && d.DayAttendence <= final).ToListAsync();
+        }
+
     }
 }
