@@ -131,7 +131,7 @@ namespace PresMed.Models {
                 person.Id = assistant.Id;
             }
             if (patient != null) {
-                person = new Person(patient.Name, patient.Phone.Value, patient.Email, patient.Cpf, patient.Street, patient.District, patient.State, patient.Complement, patient.City, patient.Number, patient.Status, patient.PersonType, patient.User, "", null, null, patient.BirthDate.Value);
+                person = new Person(patient.Name, patient.Phone.Value, patient.Email, patient.Cpf, patient.Street, patient.District, patient.State, patient.Complement, patient.City, patient.Number, patient.Status, patient.PersonType, "", "", null, null, patient.BirthDate.Value);
                 person.Id = patient.Id;
             }
             return person;

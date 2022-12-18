@@ -58,7 +58,7 @@ namespace PresMed.Services {
         }
 
         public async Task<List<Time>> FindAllByPersonId(int id) {
-            return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id).ToListAsync();
+            return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id && (obj.FinalDay > DateTime.Now || obj.FinalDay == null)).ToListAsync();
         }
     }
 }

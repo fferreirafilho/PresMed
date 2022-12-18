@@ -1,4 +1,5 @@
 ﻿using PresMed.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace PresMed.Services {
         public Task UpdateMedicalCertificateAsync(MedicalCertificate medicalCertificate);
         public Task<MedicalCertificate> FindMedicalCertificateByAttendanceId(int id);
         public Task<List<Attendance>> FindAttendanceByPatientId(int id);
+        public Task<List<Attendance>> FindAttendanceByDoctorIdAndDate(int id, DateTime initial, DateTime final);
+        public Task<List<Scheduling>> FindSchedulingByDoctorIdAndDate(int id, DateTime initial, DateTime final);
 
     }
 }

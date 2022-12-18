@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PresMed.Models.ViewModels.ReportViewModel
+
+@{
     ViewData["Title"] = $"Relatorios";
 
 }
@@ -10,18 +12,55 @@
 
 <hr />
 
-<form asp-controller="Home" asp-action="PrintPrescription">
+<form asp-controller="Home" asp-action="PrintAttendanceDoctors">
     <h4>Relatorio de atendimentos por medico<span><button type="submit" class="btn"><i style="font-size:20px;" class="fas fa-print" title="Imprimir"></i></button></span></h4>
-    <input type="date" />
-    <input type="date" />
-    <select></select>
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="@Model.Initial" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Initial" type="date" class="form-control" />
+            <span asp-validation-for="@Model.Initial" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label asp-for="@Model.Final" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Final" type="date" class="form-control" />
+            <span asp-validation-for="@Model.Final" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label asp-for="@Model.ListDoctors" class="form-label"></label><span class="text-danger">*</span>
+            <select asp-for="@Model.DoctorId" class="form-select">
+                @foreach (var item in Model.ListDoctors) {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+
+        </div>
+    </div>
+
 </form>
 
 <hr />
 
-<form asp-controller="Home" asp-action="PrintPrescription">
+<form asp-controller="Home" asp-action="PrintSchedulingByDoctor">
     <h4>Relatorio de agendamentos por medico<span><button type="submit" class="btn"><i style="font-size:20px;" class="fas fa-print" title="Imprimir"></i></button></span></h4>
-    <input type="date" />
-    <input type="date" />
-    <select></select>
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="@Model.Initial" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Initial" type="date" class="form-control" />
+            <span asp-validation-for="@Model.Initial" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label asp-for="@Model.Final" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Final" type="date" class="form-control" />
+            <span asp-validation-for="@Model.Final" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label asp-for="@Model.ListDoctors" class="form-label"></label><span class="text-danger">*</span>
+            <select asp-for="@Model.DoctorId" class="form-select">
+                @foreach (var item in Model.ListDoctors) {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+
+        </div>
+    </div>
 </form>

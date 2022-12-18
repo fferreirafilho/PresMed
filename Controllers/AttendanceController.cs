@@ -98,6 +98,7 @@ namespace PresMed.Controllers {
 
                 attendance.Schedulings = newList;
 
+
                 return View(attendance);
             }
             catch (Exception ex) {
@@ -489,6 +490,31 @@ namespace PresMed.Controllers {
 
         }
 
+        public async Task<IActionResult> Details(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = $"ID não encontrado";
+                    RedirectToAction("Index");
+                }
+                Scheduling scheduling = await _schedulingServices.FindByIdAsync(id.Value);
+                if (scheduling == null) {
+                    TempData["ErrorMessage"] = $"ID não encontrado";
+                    RedirectToAction("Index");
+                }
+
+                Attendance attendance = await _attendanceServices.FindBySchedulingId(id.Value);
+                List<Prescription> prescriptions = await _attendanceServices.FindPrescriptionByAttendanceId(attendance.Id);
+                PrescriptionViewModel prescription = new PrescriptionViewModel { Attendance = attendance, Prescriptions = prescriptions, MedicalCertificate = await _attendanceServices.FindMedicalCertificateByAttendanceId(attendance.Id) };
+                return View(prescription);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+        }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -683,6 +709,45 @@ namespace PresMed.Controllers {
                 await _attendanceServices.InsertMedicalCertificateAsync(new MedicalCertificate { Attendance = attendance, Cid = cid, Days = medicalCertificateViewModel.Days });
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Attended(AttendanceViewModel attendance) {
+            try {
+
+                if (attendance.Scheduling.DayAttendence == null) {
+                    if (!ModelState.IsValid) {
+                        return View(attendance);
+                    }
+                }
+
+                string sessionUser = HttpContext.Session.GetString("sessionLoggedUser");
+                if (string.IsNullOrEmpty(sessionUser)) return null;
+
+                Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
+                AttendanceViewModel attendanceDb = new AttendanceViewModel { Person = person };
+
+                IEnumerable<Time> listTime = await _timeServices.FindScheduleByIdAsync(person.Id, DateTime.Now);
+
+                var timeJob = listTime.Where(x => x.InitialDay <= DateTime.Now && x.FinalDay >= DateTime.Now).ToList();
+
+                attendanceDb.Hour = timeJob.Count() == 0 ? await _timeServices.FindScheduleByIdAndFinalDateNullAsync(person.Id) : timeJob[0];
+
+                int minutes = attendanceDb.Hour.ServiceTime.Minute == 0 ? 60 : attendanceDb.Hour.ServiceTime.Minute;
+
+                List<Scheduling> list = await _schedulingServices.FindByIdAndDateAsync(attendanceDb.Person.Id, attendance.Scheduling.DayAttendence);
+
+
+                var newList = list.Where(x => x.StatusAttendence == StatusAttendence.Finalizado);
+
+                attendanceDb.Schedulings = newList;
+                return View(attendanceDb);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
         }
     }
 }

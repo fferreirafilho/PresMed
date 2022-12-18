@@ -4,7 +4,7 @@
 @{
     string[] firstName = Model.Person.Name.Split(" ");
     ViewData["Title"]
-         = $"Atendimentos finalizados do médico {firstName[0]} em {DateTime.Now.ToShortDateString()}";
+         = $"Atendimentos finalizados do médico {firstName[0]}";
 }
 
 
@@ -33,6 +33,17 @@
         <a asp-action="Attended" asp-controller="Attendance" class="link-dark  float-sm-end"><i class="fas fa-user d-block text-center" style="font-size:2rem; "></i><span>Atendidos</span></a>
     </div>
 
+    <form class="row g-3" asp-action="Attended" asp-controller="Attendance" method="post">
+
+        <div class="col-md-3">
+            <label asp-for="@Model.Scheduling.DayAttendence" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Scheduling.DayAttendence" type="date" class="form-control" />
+            <span asp-validation-for="@Model.Scheduling.DayAttendence" class="text-danger"></span>
+        </div>
+        <div class="col-lg-2 pt-4">
+            <button type="submit" class="btn float-sm-end"><i class="fas fa-search d-block text-center text-success" style="font-size:2rem; "></i><span>Buscar</span></button>
+        </div>
+    </form>
 </div>
 <hr />
 
@@ -44,6 +55,7 @@
             <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Scheduling.HourAttendence)</th>
             <th class="text-center" scope="col">HORARIO Final DE ATENDIMENTO</th>
             <th class="text-center" scope="col">Procedimento</th>
+            <th class="text-center" scope="col">Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -56,6 +68,10 @@
                     <td>@item.HourAttendence.ToShortTimeString()</td>
                     <td>@item.HourAttendence.AddMinutes(minutes).ToShortTimeString()</td>
                     <td>@item.Procedures.Name</td>
+                    <td>
+                        <div class="btn-group-sm" role="group">
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Attendance" asp-action="Details">Detalhes</a>
+                        </div>
                 </tr>
             }
         }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System;
 
 namespace PresMed.Services {
     public class AttendanceServices : IAttendanceServices {
@@ -67,6 +68,14 @@ namespace PresMed.Services {
 
         public async Task<List<Attendance>> FindAttendanceByPatientId(int id) {
             return await _context.Attendance.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Scheduling).Where(a => a.Patient.Id == id).ToListAsync();
+        }
+
+        public async Task<List<Attendance>> FindAttendanceByDoctorIdAndDate(int id, DateTime initial, DateTime final) {
+            return await _context.Attendance.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Scheduling).Include(x => x.Scheduling.Procedures).Where(d => d.Doctor.Id == id && d.Scheduling.DayAttendence >= initial && d.Scheduling.DayAttendence <= final).ToListAsync();
+        }
+
+        public async Task<List<Scheduling>> FindSchedulingByDoctorIdAndDate(int id, DateTime initial, DateTime final) {
+            return await _context.Scheduling.Include(x => x.Doctor).Include(x => x.Patient).Include(x => x.Procedures).Where(d => d.Doctor.Id == id && d.DayAttendence >= initial && d.DayAttendence <= final).ToListAsync();
         }
 
     }

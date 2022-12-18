@@ -29,19 +29,6 @@ namespace PresMed.Controllers {
 
         }
 
-        public async Task<IActionResult> Inactive() {
-            try {
-                ViewData["Title"] = "Listagem de pacientes desativados";
-                var list = await _patientService.FindAllDisableAsync();
-                return View("Index", list);
-            }
-            catch (Exception ex) {
-                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
-            }
-
-        }
-
         public IActionResult New() {
             return View();
         }
@@ -69,48 +56,6 @@ namespace PresMed.Controllers {
 
         }
 
-        public async Task<IActionResult> Disable(int? id) {
-            try {
-
-                if (id == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                Person patient = await _patientService.FindByIdAsync(id.Value);
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                return View(patient);
-            }
-            catch (Exception ex) {
-                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
-            }
-
-        }
-
-
-        public async Task<IActionResult> Enabled(int? id) {
-            try {
-                if (id == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                Person patient = await _patientService.FindByIdAsync(id.Value);
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                return View("Disable", patient);
-            }
-            catch (Exception ex) {
-                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
-            }
-
-
-        }
 
         public async Task<IActionResult> Details(int? id) {
             try {
@@ -133,31 +78,6 @@ namespace PresMed.Controllers {
 
         }
 
-        public async Task<IActionResult> Password(int? id) {
-            try {
-                if (id == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                Person patient = await _patientService.FindByIdAsync(id.Value);
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                if (patient.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Usuário desativado";
-                    return RedirectToAction("Index");
-                }
-                return View(patient);
-
-            }
-            catch (Exception ex) {
-                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return View();
-            }
-
-
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -177,11 +97,7 @@ namespace PresMed.Controllers {
 
                 Person person = Person.Parse(null, patient);
                 person = _patientService.TransformUpperCase(person);
-                person.Password = Person.PasswordGenerate();
-                string title = "Senha de acesso so sitema PresMed";
-                string body = $"Olá, sua senha de acesso ao sistema presmed é: {person.Password}";
                 await _patientService.InsertAsync(person);
-                Person.SendMail(person.Email, body, title);
 
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
@@ -194,52 +110,8 @@ namespace PresMed.Controllers {
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Disable(int id) {
-
-            try {
-                Person patient = await _patientService.FindByIdAsync(id);
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                patient.Status = Status.Desativado;
-                await _patientService.UpdateAsync(patient);
-                TempData["SuccessMessage"] = "Usuário desativado com sucesso";
-                return RedirectToAction("Index");
-            }
-            catch (Exception e) {
-                TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Index");
-            }
 
 
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Enable(int id) {
-
-            try {
-                Person patient = await _patientService.FindByIdAsync(id);
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                patient.Status = Status.Ativo;
-                await _patientService.UpdateAsync(patient);
-                TempData["SuccessMessage"] = "Usuario ativado com sucesso";
-                return RedirectToAction("Index");
-            }
-            catch (Exception e) {
-                TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Index");
-            }
-
-
-        }
 
 
         [HttpPost]
@@ -289,38 +161,5 @@ namespace PresMed.Controllers {
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Password(Person person) {
-            try {
-
-                Person patient = await _patientService.FindByIdAsync(person.Id);
-
-                if (patient == null) {
-                    TempData["ErrorMessage"] = "ID não encontrado";
-                    return RedirectToAction("Index");
-                }
-                if (patient.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Usuário desativado";
-                    return RedirectToAction("Index");
-                }
-
-                patient.Password = Person.PasswordGenerate();
-                string title = "Nova senha de acesso so sitema PresMed";
-                string body = $"Olá, sua nova senha de acesso ao sistema presmed é: {patient.Password}";
-                Person.SendMail(patient.Email, body, title);
-                await _patientService.UpdateAsync(patient);
-                TempData["SuccessMessage"] = "Senha enviada com sucesso";
-                return RedirectToAction("Index");
-
-
-            }
-            catch (Exception ex) {
-                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
-                return RedirectToAction("Index");
-            }
-
-
-        }
     }
 }
