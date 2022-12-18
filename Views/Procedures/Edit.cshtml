@@ -23,7 +23,7 @@
 
     <div class="col-md-7">
         <label asp-for="@Model.Tuss" class="form-label"></label><span class="text-danger">*</span>
-        <input asp-for="@Model.Tuss" type="text" class="form-control" placeholder="Digite o TUSS completo">
+        <input asp-for="@Model.Tuss" type="text" class="form-control" readonly placeholder="Digite o TUSS completo" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
         <span asp-validation-for="@Model.Tuss" class="text-danger"></span>
     </div>
 

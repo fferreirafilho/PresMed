@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PresMed.Filters;
 using PresMed.Models;
 using PresMed.Models.Enums;
@@ -53,8 +55,10 @@ namespace PresMed.Controllers {
                     TempData["ErrorMessage"] = "Medico desativado no sistema";
                     return RedirectToAction("Index");
                 }
+                List<Time> listTime = await _timeServices.FindAllByPersonId(dbTime.Person.Id);
+                TimeViewModel time = new TimeViewModel { Id = dbTime.Id, ServiceTime = dbTime.ServiceTime, FinalDay = dbTime.FinalDay, FinalHour = dbTime.FinalHour, HourPerDay = dbTime.HourPerDay, InitialDay = dbTime.InitialDay, InitialHour = dbTime.InitialHour, Person = dbTime.Person, ListTime = listTime };
 
-                return View(dbTime);
+                return View(time);
             }
             catch (Exception ex) {
                 TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
@@ -67,23 +71,37 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Time time) {
             try {
+
                 Time name = await _timeServices.FindByIdAsync(time.Id);
                 time.Person = name.Person;
+
+                if (time.InitialDay.ToShortDateString() == DateTime.Now.ToShortDateString()) {
+                    TempData["ErrorMessage"] = "Data tem que ser maior que hoje";
+                    return View(time);
+                }
+
+
+                if (time.InitialDay < DateTime.Now) {
+                    TempData["ErrorMessage"] = "Data tem que ser maior que hoje";
+                    return View(time);
+                }
+
 
                 ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 if (time.InitialHour.Hour < clinicOpening.InitialHour.Hour || time.FinalHour.Hour > clinicOpening.EndHour.Hour) {
                     TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";
-                    return RedirectToAction("Index");
+                    return View(time);
                 }
 
                 if (clinicOpening.InitialHour.Hour == time.InitialHour.Hour || time.FinalHour.Hour == clinicOpening.EndHour.Hour) {
 
                     if (clinicOpening.InitialHour.Minute > time.InitialHour.Minute || time.FinalHour.Minute > clinicOpening.EndHour.Minute) {
                         TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";
-                        return RedirectToAction("Index");
+                        return View(time);
                     }
                 }
+
 
                 if (!ModelState.IsValid) {
                     time = await _timeServices.FindByIdAsync(time.Id);
@@ -107,10 +125,17 @@ namespace PresMed.Controllers {
                     return RedirectToAction("Index");
                 }
 
-                var list = await _schedulingServices.FindBylargerDate(time.Person.Id, DateTime.Now);
+
+                if (dbTime.InitialDay >= time.InitialDay) {
+                    TempData["ErrorMessage"] = "Data inicial tem que ser maior que a data inicial da ultima alteração ";
+                    return View(time);
+                }
+
+
+                var list = await _schedulingServices.FindBylargerDate(time.Person.Id, time.InitialDay);
                 if (list.Count > 0) {
                     TempData["ErrorMessage"] = "Existem agendas marcadas para o futuro";
-                    return RedirectToAction("Index");
+                    return View(time);
                 }
 
                 double minutes = time.FinalHour.Subtract(time.InitialHour).TotalMinutes;
@@ -118,24 +143,25 @@ namespace PresMed.Controllers {
 
                 switch (min) {
                     case 00:
-                        dbTime.HourPerDay = (int)minutes / 60;
+                        time.HourPerDay = (int)minutes / 60;
                         break;
                     case 15:
-                        dbTime.HourPerDay = (int)minutes / 15;
+                        time.HourPerDay = (int)minutes / 15;
                         break;
                     case 30:
-                        dbTime.HourPerDay = (int)minutes / 30;
+                        time.HourPerDay = (int)minutes / 30;
                         break;
                     case 45:
-                        dbTime.HourPerDay = (int)minutes / 45;
+                        time.HourPerDay = (int)minutes / 45;
                         break;
                 }
 
-                dbTime.FinalHour = time.FinalHour;
-                dbTime.InitialHour = time.InitialHour;
-                dbTime.ServiceTime = time.ServiceTime;
-
+                dbTime.FinalDay = time.InitialDay.Subtract(TimeSpan.FromDays(1));
+                time.Id = 0;
                 await _timeServices.UpdateAsync(dbTime);
+
+                await _timeServices.InsertAsync(time);
+
                 TempData["SuccessMessage"] = "Horario Alterado com sucesso";
                 return RedirectToAction("Index");
             }

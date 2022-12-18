@@ -52,7 +52,7 @@ namespace PresMed.Services {
 
             try {
                 var list = await _context.Person.ToListAsync();
-                return list.Where(x => x.Status == Status.Ativo && x.PersonType == PersonType.Patient).ToList();
+                return list.Where(x => x.PersonType == PersonType.Patient).ToList();
             }
             catch (Exception e) {
                 throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
@@ -107,7 +107,6 @@ namespace PresMed.Services {
             patient.District = patient.District.Trim().ToUpper();
             patient.State = patient.State.Trim().ToUpper();
             patient.City = patient.City.Trim().ToUpper();
-            patient.User = patient.User.Trim().ToUpper();
 
             if (patient.Number != null && patient.Number != "") {
                 patient.Number = patient.Number.Trim().ToUpper();

@@ -1,7 +1,7 @@
 ﻿@model PresMed.Models.ClinicOpening
 
 @{
-    ViewData["Title"] = $"Editar horario de funcionamento da clinica";
+    ViewData["Title"] = $"Editar informações da clinica";
 }
 
 @if (TempData["ErrorMessage"] != null) {
@@ -30,6 +30,65 @@
         <label asp-for="@Model.EndHour" class="form-label"></label><span class="text-danger">*</span>
         <input asp-for="@Model.EndHour" type="time" class="form-control" placeholder="Digite o horario inicial de trabalho do medico">
         <span asp-validation-for="@Model.EndHour" class="text-danger"></span>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <label for="cep" class="form-label">CEP</label><span class="text-warning"> (Apenas numeros)</span>
+            <input type="text" class="form-control" id="cep1" placeholder="Digite o numero do CEP" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        </div>
+        <div class="col-md-1">
+            <label for="cep" class="form-label">Pesquisar </label>
+            <a class="btn btn-info pesquisar"><i class="fas fa-search"></i></a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <label asp-for="@Model.Street" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.Street" class="form-control" type="text" id="logradouro">
+        <span asp-validation-for="@Model.Street" class="text-danger"></span>
+
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="@Model.Complement" class="form-label"></label>
+        <input asp-for="@Model.Complement" class="form-control" type="text" id="complemento" placeholder="Digite o complemento">
+        <span asp-validation-for="@Model.Complement" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.District" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.District" class="form-control" type="text" id="bairro">
+        <span asp-validation-for="@Model.District" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.City" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.City" class="form-control" type="text" id="localidade">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.State" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.State" class="form-control" type="text" id="uf">
+        <span asp-validation-for="@Model.State" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.Number" class="form-label"></label>
+        <input asp-for="@Model.Number" class="form-control" type="text" id="complemento" placeholder="Digite o número do endereço" onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+        <span asp-validation-for="@Model.Street" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="@Model.AttestedText" class="form-label"></label>
+        <p style="font-size:12px; color:#1A84B0">Para personalizar o texto utilize: {NOMEDOPACIENTE}, {CPFDOPACIENTE}, {DATAATUAL}, {HORAATUAL}, {CID}, {DIAAFASTAMENTO}</p>
+        <textarea asp-for="@Model.AttestedText" class="form-control"></textarea>
+        <span asp-validation-for="@Model.AttestedText" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="@Model.RecipeText" class="form-label"></label>
+        <p style="font-size:12px; color:#1A84B0">Para personalizar o texto utilize: {DOSAGEM} - dosagem do remedio, {MEDICAMENTO} - nome do remedio, {HORA} - periodicidade, {OBSERVACAO} </p>
+        <textarea asp-for="@Model.RecipeText" class="form-control"></textarea>
+        <span asp-validation-for="@Model.RecipeText" class="text-danger"></span>
     </div>
 
     <div class="col-12 mb-5">

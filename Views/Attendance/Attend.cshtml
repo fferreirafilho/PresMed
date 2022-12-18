@@ -1,0 +1,58 @@
+﻿@model PresMed.Models.ViewModels.AttendViewModel
+@{
+    string[] title = Model.Patient.Name.Split(" ");
+    ViewData["Title"] = $"Atendimento do paciente {title[0]}";
+}
+
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+
+</div>
+<hr />
+
+<form method="post">
+    <div class="row">
+        <input asp-for="@Model.Doctor.Id" value="@Model.Doctor.Id" hidden />
+        <input asp-for="@Model.Patient.Id" value="@Model.Patient.Id" hidden />
+        <input asp-for="@Model.Scheduling.Id" value="@Model.Scheduling.Id" hidden />
+        <div class="col-md-11">
+            <label class="form-label" asp-for="@Model.Report">@Html.DisplayNameFor(x=> x.Report)</label>
+            <textarea class="form-control" rows="4" asp-for="@Model.Report"></textarea>
+            <span asp-validation-for="@Model.Report" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mt-4">
+            <button asp-action="Attend" asp-controller="Attendance" class="btn btn-success" type="submit">Salvar</button>
+            <a asp-action="Index" asp-controller="Attendance" class="btn btn-outline-dark">
+                Voltar
+            </a>
+        </div>
+
+    </div>
+</form>
+<hr />
+
+<h4>Historico de atendimento</h4>
+
+@if (Model.listAttendance.Count > 0) {
+    <table class="table table-hover" style="text-align:center;">
+        <thead>
+            <tr>
+                <th scope="col">Medico</th>
+                <th scope="col">Prontuario</th>
+                <th scope="col">Data</th>
+            </tr>
+        </thead>
+        @foreach (var time in Model.listAttendance) {
+            <tbody>
+                <tr>
+                    <td>@time.Doctor.Name</td>
+                    <td>@time.Report</td>
+                    <td>@time.Scheduling.DayAttendence.ToShortDateString()</td>
+                </tr>
+            </tbody>
+
+        }
+    </table>
+}

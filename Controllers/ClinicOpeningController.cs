@@ -79,9 +79,17 @@ namespace PresMed.Controllers {
 
                 clinicDb.EndHour = clinic.EndHour;
                 clinicDb.InitialHour = clinic.InitialHour;
+                clinicDb.City = clinic.City;
+                clinicDb.Street = clinic.Street;
+                clinicDb.Number = clinic.Number;
+                clinicDb.Complement = clinic.Complement;
+                clinicDb.District = clinic.District;
+                clinicDb.State = clinic.State;
+                clinicDb.AttestedText = clinic.AttestedText;
+                clinicDb.RecipeText = clinic.RecipeText;
 
                 await _clinicalOpeningServices.UpdateAsync(clinicDb);
-                TempData["SuccessMessage"] = "Horario Alterado com sucesso";
+                TempData["SuccessMessage"] = "Informações da clinica alteradas com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {

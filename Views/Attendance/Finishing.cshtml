@@ -1,0 +1,88 @@
+﻿@model PresMed.Models.ViewModels.PrescriptionViewModel
+@{
+    string[] title = Model.Attendance.Patient.Name.Split(" ");
+    ViewData["Title"] = $"Atendimento do paciente {title[0]}";
+}
+
+<div class="row me-5">
+    <div class="col-lg-8">
+        <span class="display-6">@ViewData["Title"]</span>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <h6 class="display-6 mb-5">Relatorio do atendimento</h6>
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-8">
+            <textarea readonly type="text" class="form-control" rows="4" id="nome">@Html.DisplayFor(model => model.Attendance.Report)</textarea>
+        </div>
+
+    </div>
+
+</div>
+
+@if (Model.MedicalCertificate != null) {
+    <div class="row">
+        <div class="col-lg-12">
+            <h6 class="display-6 mb-5">Atestado <span class="ms-5"><a role="button" class="link-dark" asp-route-id="@Model.Attendance.Id" asp-controller="Attendance" asp-action="PrintMedicalCertificate"><i class="fas fa-print" title="Imprimir"></i></a></span></h6>
+        </div>
+        <div class="row mb-4">
+
+            <div class="col-md-12 form-label">
+                <p class="fw-bold">@Model.MedicalCertificate.Days dias de atestado. Cid: Cod - @Model.MedicalCertificate.Cid.Cod, Descrição - @Model.MedicalCertificate.Cid.Description </p>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+@if (Model.Prescriptions.Count != 0) {
+    <div class="row">
+        <div class="col-lg-12">
+            <h6 class="display-6 mb-5">Receituario<span class="ms-5"><a role="button" class="link-dark" asp-route-id="@Model.Attendance.Id" asp-controller="Attendance" asp-action="PrintPrescription"><i class="fas fa-print" title="Imprimir"></i></a></span></h6>
+        </div>
+        <table class="table table-striped text-center col-md-8">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Medicamento</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Time)</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Days)</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Dosage)</th>
+                    <th class="text-center" scope="col">@Html.DisplayNameFor(x=> x.Prescription.Observation)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Prescriptions != null) {
+                    foreach (var item in @Model.Prescriptions) {
+                        <tr>
+                            <td>@item.Medicine.Name - @item.Medicine.Concentration - @item.Medicine.Drug - @item.Medicine.PharmaceuticalForm </td>
+                            <td>@item.Time.ToShortTimeString()</td>
+                            <td>@item.Days</td>
+                            <td>@item.Dosage</td>
+                            <td>@item.Observation</td>
+                            <td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+
+
+<div class="row">
+
+    <div class="col-12 mt-5 mb-5">
+        <a role="button" asp-route-id="@Model.Attendance.Id" asp-action="Close" asp-controller="Attendance" class="btn btn-success">Finalizar</a>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Attendance">Voltar</a>
+    </div>
+
+</div>

@@ -1,0 +1,141 @@
+﻿@model PresMed.Models.Scheduling
+
+@{
+    ViewData["Title"] = $"Enviar para atendimento";
+}
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados do Paciente</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Name)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Patient.Name)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.BirthDate)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Patient.BirthDate)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Phone)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Patient.Phone)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Cpf)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Patient.Cpf)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados do Medico</h6>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Doctor.Name)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Doctor.Name)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Crm)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Doctor.Crm)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Phone)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Doctor.Phone)
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Patient.Speciality)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Doctor.Speciality)
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6 class="display-6 mb-5">Dados da agenda</h6>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.DayAttendence)</span>
+            </div>
+            <div class="col-md-7">
+                @Model.DayAttendence.ToShortDateString()
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.HourAttendence)</span>
+            </div>
+            <div class="col-md-7">
+                @Model.HourAttendence.ToShortTimeString()
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.Procedures.Name)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Procedures.Name)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <span class="fw-bold">@Html.DisplayNameFor(model => model.StatusAttendence)</span>
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.StatusAttendence)
+            </div>
+
+        </div>
+    </div>
+
+    <form asp-action="SendService" asp-controller="Scheduling" method="post" class="mb-5 mt-5">
+        <input hidden asp-for="Id" />
+        <input type="submit" value="Enviar para atendimento" class="btn btn-info" />
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Scheduling">Voltar</a>
+    </form>
+
+
+</div>

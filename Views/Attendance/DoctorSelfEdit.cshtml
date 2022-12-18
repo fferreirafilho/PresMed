@@ -1,0 +1,111 @@
+﻿@model PresMed.Models.ViewModels.TimeViewModel
+
+@{
+    ViewData["Title"] = $"Editar horario de atendimento {Model.Person.Name}";
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+<div class="">
+    <h3 class="display-6">@ViewData["TItle"]</h3>
+</div>
+<hr />
+
+
+<form class="row g-3" asp-action="DoctorSelfEdit">
+
+    <input asp-for="@Model.Id" value="@Model.Id" type="hidden" />
+    <div class="col-md-6">
+        <label asp-for="@Model.InitialHour" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.InitialHour" type="time" class="form-control" id="nome" placeholder="Digite o horario inicial de trabalho do medico">
+        <span asp-validation-for="@Model.InitialHour" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="@Model.FinalHour" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.FinalHour" type="time" class="form-control" placeholder="Digite o horario inicial de trabalho do medico">
+        <span asp-validation-for="@Model.FinalHour" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="@Model.ServiceTime" class="form-label"></label><span class="text-danger">*</span>
+        <select asp-for="@Model.ServiceTime" class="form-select">
+            @if (@Model.ServiceTime.Minute == 15) {
+                <option selected value="00:15">00:15 min</option>
+            }
+            else {
+                <option value="00:15">00:15 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 30) {
+                <option selected value="00:30">00:30 min</option>
+            }
+            else {
+                <option value="00:30">00:30 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 45) {
+                <option selected value="00:45">00:45 min</option>
+            }
+            else {
+                <option value="00:45">00:45 min</option>
+            }
+            @if (@Model.ServiceTime.Minute == 0) {
+                <option selected value="01:00">01:00 min</option>
+            }
+            else {
+                <option value="01:00">01:00 min</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.ServiceTime" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="@Model.InitialDay" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="@Model.InitialDay" type="date" class="form-control" value="@DateTime.Now">
+        <span asp-validation-for="@Model.InitialDay" class="text-danger"></span>
+    </div>
+
+
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-success">Alterar</button>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Attendance">Voltar</a>
+    </div>
+
+</form>
+
+<h2>Historico de horarios</h2>
+@{
+    var cont = 0;
+}
+@if (Model.ListTime.Count > 0) {
+    <table class="table table-hover" style="text-align:center;">
+        <thead>
+            <tr>
+                <th scope="col">Dia inicial</th>
+                <th scope="col">Dia Final</th>
+                <th scope="col">Horario inicial de atendimento</th>
+                <th scope="col">Horario final de atendimento </th>
+                <th scope="col">Tempo de atendimento</th>
+            </tr>
+        </thead>
+        @foreach (var time in Model.ListTime) {
+            cont++;
+
+
+            <tbody>
+                <tr>
+                    <td>@time.InitialDay.ToShortDateString()</td>
+                    <td>@time.FinalDay?.ToShortDateString()</td>
+                    <td>@time.InitialHour.ToShortTimeString()</td>
+                    <td>@time.FinalHour.ToShortTimeString()</td>
+                    <td>@time.ServiceTime.ToShortTimeString()</td>
+                </tr>
+            </tbody>
+
+        }
+    </table>
+}

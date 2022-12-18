@@ -11,6 +11,12 @@ namespace PresMed.Services {
         public LoginService(BancoContext context) {
             _context = context;
         }
+
+        public async Task ChangePasswordAsync(Person person) {
+            _context.Person.Update(person);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Person> FindByLoginAsync(string user) {
             return await _context.Person.FirstOrDefaultAsync(x => x.User.ToUpper() == user.ToUpper());
         }

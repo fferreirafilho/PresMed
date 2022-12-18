@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PresMed.Models.Cid>
+
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="row me-5">
+    <div class="col-lg-6">
+        <span class="display-4">@ViewData["Title"]</span>
+    </div>
+
+
+    <div class="col-lg-2">
+        <a asp-action="New" asp-controller="Cid" class="link-dark  float-sm-end"><i class="fas fa-plus d-block text-center text-success" style="font-size:2rem; "></i><span>Novo</span></a>
+    </div>
+
+
+</div>
+<br />
+
+<table class="table table-striped text-center" id="table-contacts">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Cod)</th>
+            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description)</th>
+
+            @if (Model != null && Model.Any()) {
+                <th class="text-center" scope="col">Ações</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any()) {
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Cod</td>
+
+                    @if (item.Description.Length > 60) {
+                        <td>@item.Description.Substring(0,60)...</td>
+                    }
+                    else {
+                        <td>@item.Description</td>
+                    }
+
+                    <td>
+                        <div class="btn-group-sm" role="group">
+                            <a role="button" class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Cid" asp-action="Edit">Editar</a>
+                            <a role="button" class="btn btn-dark" asp-route-id="@item.Id" asp-controller="Cid" asp-action="Details">Detalhes</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else {
+            <tr class="odd"><td valign="top" colspan="5">Nenhum registro encontrado</td></tr>
+        }
+
+    </tbody>
+</table>

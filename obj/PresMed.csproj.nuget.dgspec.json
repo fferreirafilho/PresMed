@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\TCC\\presmed\\PresMed.csproj": {}
+    "D:\\TCC\\PresMed\\PresMed.csproj": {}
   },
   "projects": {
-    "D:\\TCC\\presmed\\PresMed.csproj": {
+    "D:\\TCC\\PresMed\\PresMed.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\TCC\\presmed\\PresMed.csproj",
+        "projectUniqueName": "D:\\TCC\\PresMed\\PresMed.csproj",
         "projectName": "PresMed",
-        "projectPath": "D:\\TCC\\presmed\\PresMed.csproj",
+        "projectPath": "D:\\TCC\\PresMed\\PresMed.csproj",
         "packagesPath": "C:\\Users\\Fernandovisky\\.nuget\\packages\\",
-        "outputPath": "D:\\TCC\\presmed\\obj\\",
+        "outputPath": "D:\\TCC\\PresMed\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -71,6 +72,14 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.1.2, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.3, )"
             }
           },
           "imports": [
@@ -79,7 +88,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -91,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
