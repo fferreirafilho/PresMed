@@ -19,7 +19,7 @@ namespace PresMed.Services {
         public Task<Time> FindScheduleByIdAndFinalDateNullAsync(int id);
 
         public Task<List<Time>> FindAllByPersonId(int id);
-
+        public Task<Time> FindByDoctorDateIdAsync(int id, DateTime date);
 
     }
 }

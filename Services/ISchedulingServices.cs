@@ -1,4 +1,5 @@
 ﻿using PresMed.Models;
+using PresMed.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,5 +15,6 @@ namespace PresMed.Services {
         public Task<Scheduling> FindByIdAsync(int id);
         public Task UpdateAsync(Scheduling scheduling);
         public Task Delete(Scheduling scheduling);
+        public Task<List<Scheduling>> FindStatusDateAsync(StatusAttendence status);
     }
 }

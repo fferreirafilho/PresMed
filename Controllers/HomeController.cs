@@ -43,7 +43,7 @@ namespace PresMed.Controllers {
             Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
 
             if (person.PersonType == PersonType.Doctor) {
-                return RedirectToAction("Index", "Attendance");
+                return RedirectToAction("Dash", "Attendance");
 
             }
 
@@ -349,7 +349,7 @@ namespace PresMed.Controllers {
                 document.Add(paragraph1);
 
                 document.Add(new Paragraph($"Agendamentos do medico: {doctor.Name}\n\n"));
-                PdfPTable table = new PdfPTable(3);
+                PdfPTable table = new PdfPTable(5);
 
                 Paragraph p1 = new Paragraph("Paciente");
                 PdfPCell H1 = new PdfPCell(p1);
@@ -366,11 +366,24 @@ namespace PresMed.Controllers {
                 H3.BackgroundColor = new BaseColor(189, 189, 189);
                 H3.HorizontalAlignment = Element.ALIGN_CENTER;
 
+                Paragraph p4 = new Paragraph("Hora inicial");
+                PdfPCell H4 = new PdfPCell(p4);
+                H4.BackgroundColor = new BaseColor(189, 189, 189);
+                H4.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                Paragraph p5 = new Paragraph("Hora final");
+                PdfPCell H5 = new PdfPCell(p5);
+                H5.BackgroundColor = new BaseColor(189, 189, 189);
+                H5.HorizontalAlignment = Element.ALIGN_CENTER;
+
                 table.AddCell(H1);
                 table.AddCell(H2);
                 table.AddCell(H3);
+                table.AddCell(H4);
+                table.AddCell(H5);
 
                 foreach (var item in scheduling) {
+                    var time = await _timeServices.FindByDoctorDateIdAsync(report.DoctorId, item.DayAttendence.Date);
 
                     PdfPCell cell1 = new PdfPCell(new Paragraph($"{item.Patient.Name}"));
                     cell1.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -378,11 +391,17 @@ namespace PresMed.Controllers {
                     cell2.HorizontalAlignment = Element.ALIGN_CENTER;
                     PdfPCell cell3 = new PdfPCell(new Paragraph($"{item.Procedures.Name}"));
                     cell3.HorizontalAlignment = Element.ALIGN_CENTER;
+                    PdfPCell cell4 = new PdfPCell(new Paragraph($"{item.HourAttendence.ToShortTimeString()}"));
+                    cell4.HorizontalAlignment = Element.ALIGN_CENTER;
+                    PdfPCell cell5 = new PdfPCell(new Paragraph($"{item.HourAttendence.AddMinutes(time.ServiceTime.Minute == 0 ? 60 : time.ServiceTime.Minute).ToShortTimeString()}"));
+                    cell5.HorizontalAlignment = Element.ALIGN_CENTER;
 
 
                     table.AddCell(cell1);
                     table.AddCell(cell2);
                     table.AddCell(cell3);
+                    table.AddCell(cell4);
+                    table.AddCell(cell5);
                 }
 
                 table.SpacingAfter = 10f;

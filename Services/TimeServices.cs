@@ -46,7 +46,7 @@ namespace PresMed.Services {
         }
 
         public async Task<Time> FindByDoctorIdAsync(int id) {
-            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && obj.FinalDay == null);
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && (obj.FinalDay > DateTime.Now || obj.FinalDay == null));
         }
 
         public async Task<IEnumerable<Time>> FindScheduleByIdAsync(int id, DateTime time) {
@@ -59,6 +59,10 @@ namespace PresMed.Services {
 
         public async Task<List<Time>> FindAllByPersonId(int id) {
             return await _context.Time.Include(Obj => Obj.Person).Where(obj => obj.Person.Id == id && (obj.FinalDay > DateTime.Now || obj.FinalDay == null)).ToListAsync();
+        }
+
+        public async Task<Time> FindByDoctorDateIdAsync(int id, DateTime date) {
+            return await _context.Time.Include(Obj => Obj.Person).FirstOrDefaultAsync(obj => obj.Person.Id == id && (obj.FinalDay > date || obj.FinalDay == null));
         }
     }
 }

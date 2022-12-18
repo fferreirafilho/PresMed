@@ -5,6 +5,7 @@ using PresMed.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PresMed.Models.Enums;
 
 namespace PresMed.Services {
     public class SchedulingServices : ISchedulingServices {
@@ -69,5 +70,10 @@ namespace PresMed.Services {
                 throw new Exception($"Erro ao listar, Erro: {ex.Message}");
             }
         }
+
+        public async Task<List<Scheduling>> FindStatusDateAsync(StatusAttendence status) {
+            return await _context.Scheduling.Include(i => i.Procedures).Include(i => i.Doctor).Include(i => i.Patient).Where(s => s.StatusAttendence == status && s.DayAttendence.Date >= DateTime.Now.Date).ToListAsync();
+        }
+
     }
 }

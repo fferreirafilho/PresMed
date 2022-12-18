@@ -74,6 +74,26 @@ namespace PresMed.Controllers {
 
         }
 
+        public async Task<IActionResult> Dash() {
+            try {
+
+                string sessionUser = HttpContext.Session.GetString("sessionLoggedUser");
+                if (string.IsNullOrEmpty(sessionUser)) return null;
+
+                Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
+                AttendanceViewModel attendance = new AttendanceViewModel { Person = person };
+
+                DashViewModel dash = new DashViewModel { Agendado = await _schedulingServices.FindStatusDateAsync(StatusAttendence.Agendado), Aguardando_atendimento = await _schedulingServices.FindStatusDateAsync(StatusAttendence.Aguardando_atendimento), Confirmado = await _schedulingServices.FindStatusDateAsync(StatusAttendence.Confirmado), Em_atendimento = await _schedulingServices.FindStatusDateAsync(StatusAttendence.Em_atendimento), Finalizado = await _schedulingServices.FindStatusDateAsync(StatusAttendence.Finalizado) };
+
+                return View(dash);
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+        }
+
         public async Task<IActionResult> Attended() {
             try {
 
@@ -177,26 +197,26 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
 
-            //if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
-            //    TempData["ErrorMessage"] = $"Data de atendimento invalido";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+                TempData["ErrorMessage"] = $"Data de atendimento invalido";
+                return RedirectToAction(nameof(Index));
+            }
 
-            //if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
-            //    TempData["ErrorMessage"] = $"Data de atendimento invalido";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+                TempData["ErrorMessage"] = $"Data de atendimento invalido";
+                return RedirectToAction(nameof(Index));
+            }
 
-            //if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
-            //    if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
-            //        TempData["ErrorMessage"] = $"Horario de atendimento invalido";
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
-            //        TempData["ErrorMessage"] = $"Horario de atendimento futuro";
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //}
+            if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+                if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+                    TempData["ErrorMessage"] = $"Horario de atendimento invalido";
+                    return RedirectToAction(nameof(Index));
+                }
+                if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
+                    TempData["ErrorMessage"] = $"Horario de atendimento futuro";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
 
 
             if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
