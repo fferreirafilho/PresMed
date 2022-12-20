@@ -2,8 +2,7 @@
 using PresMed.Models;
 using PresMed.Models.ViewModels;
 
-namespace PresMed.Data
-{
+namespace PresMed.Data {
     public class BancoContext : DbContext {
 
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) { }
@@ -13,7 +12,7 @@ namespace PresMed.Data
 
         public DbSet<Time> Time { get; set; }
         public DbSet<Scheduling> Scheduling { get; set; }
-        public DbSet<ClinicOpening> ClinicOpening { get; set; }
+        public DbSet<ClinicSetings> ClinicSetings { get; set; }
         public DbSet<Medicine> Medicine { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Prescription> Prescription { get; set; }

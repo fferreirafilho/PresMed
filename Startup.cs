@@ -43,7 +43,7 @@ namespace PresMed {
             services.AddScoped<IProceduresServices, ProceduresServices>();
             services.AddScoped<ITimeServices, TimeServices>();
             services.AddScoped<ISchedulingServices, SchedulingServices>();
-            services.AddScoped<IClinicOpeningServices, ClinicOpeningServices>();
+            services.AddScoped<IClinicSetingsServices, ClinicSetingsServices>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<ISessionUser, Session>();
             services.AddScoped<IMedicineService, MedicineService>();

@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 namespace PresMed.Controllers {
     [PageForUserLogged]
     [PageOnlyAssistant]
-    public class ClinicOpeningController : Controller {
+    public class ClinicSetingsController : Controller {
 
-        private readonly IClinicOpeningServices _clinicalOpeningServices;
+        private readonly IClinicSetingsServices _clinicalOpeningServices;
         private readonly ITimeServices _timeServices;
 
-        public ClinicOpeningController(IClinicOpeningServices clinicalOpeningServices, ITimeServices timeServices) {
+        public ClinicSetingsController(IClinicSetingsServices clinicalOpeningServices, ITimeServices timeServices) {
             _clinicalOpeningServices = clinicalOpeningServices;
             _timeServices = timeServices;
         }
 
         public async Task<IActionResult> Index() {
             try {
-                ClinicOpening clinicOpening = await _clinicalOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicalOpeningServices.ListAsync();
                 return View(clinicOpening);
             }
             catch (Exception e) {
@@ -33,7 +33,7 @@ namespace PresMed.Controllers {
 
         public async Task<IActionResult> Edit() {
             try {
-                ClinicOpening clinicOpening = await _clinicalOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicalOpeningServices.ListAsync();
                 return View(clinicOpening);
             }
             catch (Exception e) {
@@ -45,7 +45,7 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ClinicOpening clinic) {
+        public async Task<IActionResult> Edit(ClinicSetings clinic) {
             try {
 
                 if (!ModelState.IsValid) {
@@ -75,7 +75,7 @@ namespace PresMed.Controllers {
 
                 }
 
-                ClinicOpening clinicDb = await _clinicalOpeningServices.ListAsync();
+                ClinicSetings clinicDb = await _clinicalOpeningServices.ListAsync();
 
                 clinicDb.EndHour = clinic.EndHour;
                 clinicDb.InitialHour = clinic.InitialHour;

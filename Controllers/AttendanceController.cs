@@ -28,9 +28,9 @@ namespace PresMed.Controllers {
         private readonly IPatientServices _patientServices;
         private readonly IDoctorServices _doctorServices;
         private readonly ICidServices _cidServices;
-        private readonly IClinicOpeningServices _clinicOpeningServices;
+        private readonly IClinicSetingsServices _clinicOpeningServices;
 
-        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices, ICidServices cidServices, IClinicOpeningServices clinicOpeningServices) {
+        public AttendanceController(ISchedulingServices schedulingServices, ITimeServices timeServices, IAttendanceServices attendanceServices, IMedicineService medicineSerioce, IPatientServices patientServices, IDoctorServices doctorServices, ICidServices cidServices, IClinicSetingsServices clinicOpeningServices) {
             _schedulingServices = schedulingServices;
             _timeServices = timeServices;
             _attendanceServices = attendanceServices;
@@ -367,7 +367,7 @@ namespace PresMed.Controllers {
 
             try {
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
@@ -436,7 +436,7 @@ namespace PresMed.Controllers {
 
             try {
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
@@ -556,7 +556,7 @@ namespace PresMed.Controllers {
                 }
 
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 if (time.InitialHour.Hour < clinicOpening.InitialHour.Hour || time.FinalHour.Hour > clinicOpening.EndHour.Hour) {
                     TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";

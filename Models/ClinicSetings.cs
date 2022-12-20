@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using static iTextSharp.text.pdf.AcroFields;
 
 namespace PresMed.Models {
-    public class ClinicOpening {
+    public class ClinicSetings {
         public int Id { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Horario de abertura da clinica")]
@@ -60,9 +60,9 @@ namespace PresMed.Models {
         [Display(Name = "Texto do atestado")]
         public string AttestedText { get; set; }
 
-        public ClinicOpening() { }
+        public ClinicSetings() { }
 
-        public ClinicOpening(DateTime initialHour, DateTime endHour, string street, string district, string state, string complement, string city, string number, string recipeText, string attestedText) {
+        public ClinicSetings(DateTime initialHour, DateTime endHour, string street, string district, string state, string complement, string city, string number, string recipeText, string attestedText) {
             InitialHour = initialHour;
             EndHour = endHour;
             Street = street;

@@ -24,10 +24,10 @@ namespace PresMed.Controllers {
         private readonly ILoginService _loginService;
         private readonly ITimeServices _timeServices;
         private readonly IDoctorServices _doctorServices;
-        private readonly IClinicOpeningServices _clinicOpeningServices;
+        private readonly IClinicSetingsServices _clinicOpeningServices;
         private readonly IAttendanceServices _attendanceServices;
 
-        public HomeController(ILoginService loginService, ITimeServices timeServices, IDoctorServices doctorServices, IClinicOpeningServices clinicOpeningServices, IAttendanceServices attendanceServices) {
+        public HomeController(ILoginService loginService, ITimeServices timeServices, IDoctorServices doctorServices, IClinicSetingsServices clinicOpeningServices, IAttendanceServices attendanceServices) {
             _loginService = loginService;
             _timeServices = timeServices;
             _doctorServices = doctorServices;
@@ -78,7 +78,7 @@ namespace PresMed.Controllers {
 
             try {
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
@@ -232,7 +232,7 @@ namespace PresMed.Controllers {
 
             try {
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;
@@ -333,7 +333,7 @@ namespace PresMed.Controllers {
 
             try {
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 PdfWriter pdfWriter = PdfWriter.GetInstance(document, stream);
                 pdfWriter.CloseStream = false;

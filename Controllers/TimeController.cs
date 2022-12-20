@@ -18,9 +18,9 @@ namespace PresMed.Controllers {
 
         private readonly ITimeServices _timeServices;
         private readonly ISchedulingServices _schedulingServices;
-        private readonly IClinicOpeningServices _clinicOpeningServices;
+        private readonly IClinicSetingsServices _clinicOpeningServices;
 
-        public TimeController(ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicOpeningServices clinicOpeningServices) {
+        public TimeController(ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicSetingsServices clinicOpeningServices) {
             _timeServices = timeServices;
             _schedulingServices = schedulingServices;
             _clinicOpeningServices = clinicOpeningServices;
@@ -87,7 +87,7 @@ namespace PresMed.Controllers {
                 }
 
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 if (time.InitialHour.Hour < clinicOpening.InitialHour.Hour || time.FinalHour.Hour > clinicOpening.EndHour.Hour) {
                     TempData["ErrorMessage"] = "Fora do horário de funcionamento da clínica";

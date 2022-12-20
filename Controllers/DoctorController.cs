@@ -19,9 +19,9 @@ namespace PresMed.Controllers {
         private readonly IDoctorServices _doctorService;
         private readonly ITimeServices _timeService;
         private readonly ISchedulingServices _schedulingServices;
-        private readonly IClinicOpeningServices _clinicOpeningServices;
+        private readonly IClinicSetingsServices _clinicOpeningServices;
 
-        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicOpeningServices clinicOpeningServices) {
+        public DoctorController(IDoctorServices doctorService, ITimeServices timeServices, ISchedulingServices schedulingServices, IClinicSetingsServices clinicOpeningServices) {
             _doctorService = doctorService;
             _timeService = timeServices;
             _schedulingServices = schedulingServices;
@@ -189,7 +189,7 @@ namespace PresMed.Controllers {
                 string body = $"Olá, sua senha de acesso ao sistema presmed é: {doctor.Password}";
                 await _doctorService.InsertAsync(doctor);
                 Person.SendMail(doctor.Email, body, title);
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
                 await _timeService.InsertAsync(new Time(clinicOpening.InitialHour, clinicOpening.EndHour, doctor, new DateTime(2022, 01, 01, 00, 30, 00), (clinicOpening.EndHour.Hour - clinicOpening.InitialHour.Hour) * 2, new DateTime(0)));
                 TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
                 return RedirectToAction("Index");
@@ -244,7 +244,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction("Index");
                 }
 
-                ClinicOpening clinicOpening = await _clinicOpeningServices.ListAsync();
+                ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
 
                 Time dbTime = await _timeService.FindScheduleByIdAndFinalDateNullAsync(id);
 
