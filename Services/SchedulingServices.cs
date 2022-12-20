@@ -72,7 +72,7 @@ namespace PresMed.Services {
         }
 
         public async Task<List<Scheduling>> FindStatusDateAsync(StatusAttendence status) {
-            return await _context.Scheduling.Include(i => i.Procedures).Include(i => i.Doctor).Include(i => i.Patient).Where(s => s.StatusAttendence == status && s.DayAttendence.Date >= DateTime.Now.Date).ToListAsync();
+            return await _context.Scheduling.Include(i => i.Procedures).Include(i => i.Doctor).Include(i => i.Patient).Where(s => s.StatusAttendence == status && s.DayAttendence.Date == DateTime.Now.Date).ToListAsync();
         }
 
     }
