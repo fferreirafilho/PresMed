@@ -99,7 +99,7 @@ namespace PresMed.Controllers {
                 person = _patientService.TransformUpperCase(person);
                 await _patientService.InsertAsync(person);
 
-                TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
+                TempData["SuccessMessage"] = "Usuário cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -151,7 +151,7 @@ namespace PresMed.Controllers {
                 dbPerson.BirthDate = patient.BirthDate;
                 dbPerson = _patientService.TransformUpperCase(dbPerson);
                 await _patientService.UpdateAsync(dbPerson);
-                TempData["SuccessMessage"] = "Usuario alterado com sucesso";
+                TempData["SuccessMessage"] = "Usuário alterado com sucesso";
 
                 return RedirectToAction("Index");
             }

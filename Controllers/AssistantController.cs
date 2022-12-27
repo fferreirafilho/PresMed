@@ -189,7 +189,7 @@ namespace PresMed.Controllers {
                 await _assistantService.InsertAsync(person);
                 Person.SendMail(person.Email, body, title);
 
-                TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
+                TempData["SuccessMessage"] = "Usuário cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -236,7 +236,7 @@ namespace PresMed.Controllers {
                 }
                 assistant.Status = Status.Ativo;
                 await _assistantService.UpdateAsync(assistant);
-                TempData["SuccessMessage"] = "Usuario ativado com sucesso";
+                TempData["SuccessMessage"] = "Usuário ativado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -283,7 +283,7 @@ namespace PresMed.Controllers {
                 dbPerson.BirthDate = assistant.BirthDate;
                 dbPerson = _assistantService.TransformUpperCase(dbPerson);
                 await _assistantService.UpdateAsync(dbPerson);
-                TempData["SuccessMessage"] = "Usuario alterado com sucesso";
+                TempData["SuccessMessage"] = "Usuário alterado com sucesso";
 
                 return RedirectToAction("Index");
             }

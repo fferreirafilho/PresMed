@@ -2,7 +2,6 @@
 using iTextSharp.text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PresMed.Filters;
 using PresMed.Models;
@@ -13,9 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using static iTextSharp.text.pdf.AcroFields;
 
 namespace PresMed.Controllers {
     [PageForUserLogged]
@@ -215,12 +212,12 @@ namespace PresMed.Controllers {
             Person doctor = await _doctorServices.FindByIdAsync(report.DoctorId);
 
             if (doctor == null) {
-                TempData["ErrorMessage"] = $"Id invalido";
+                TempData["ErrorMessage"] = $"ID invalido";
                 return RedirectToAction(nameof(Index));
             }
 
             if (doctor.Status != Status.Ativo) {
-                TempData["ErrorMessage"] = $"Id invalido";
+                TempData["ErrorMessage"] = $"ID invalido";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -316,12 +313,12 @@ namespace PresMed.Controllers {
             Person doctor = await _doctorServices.FindByIdAsync(report.DoctorId);
 
             if (doctor == null) {
-                TempData["ErrorMessage"] = $"Id invalido";
+                TempData["ErrorMessage"] = $"ID invalido";
                 return RedirectToAction(nameof(Index));
             }
 
             if (doctor.Status != Status.Ativo) {
-                TempData["ErrorMessage"] = $"Id invalido";
+                TempData["ErrorMessage"] = $"ID invalido";
                 return RedirectToAction(nameof(Index));
             }
 

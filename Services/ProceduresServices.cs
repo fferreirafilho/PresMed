@@ -20,7 +20,7 @@ namespace PresMed.Services {
 
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -30,7 +30,7 @@ namespace PresMed.Services {
 
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -44,7 +44,7 @@ namespace PresMed.Services {
                 if (e.InnerException.Message.Contains(procedure.Name)) {
                     throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
-                throw new Exception($"Houve um erro ao salvar, ERRO: {e.InnerException.Message}");
+                throw new Exception($"Houve um erro ao salvar, erro: {e.InnerException.Message}");
 
             }
         }
@@ -54,7 +54,7 @@ namespace PresMed.Services {
                 return await _context.Procedure.FirstOrDefaultAsync(obj => obj.Id == id);
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para encontrar tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para encontrar tente mais tarde, erro: {e.Message}");
             }
         }
         public async Task UpdateAsync(Procedures procedure) {

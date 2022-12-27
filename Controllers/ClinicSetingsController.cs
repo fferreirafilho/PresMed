@@ -53,7 +53,7 @@ namespace PresMed.Controllers {
                 }
 
                 if (clinic.InitialHour > clinic.EndHour) {
-                    TempData["ErrorMessage"] = "Horario invalido";
+                    TempData["ErrorMessage"] = "Horário invalido";
                     return View(clinic);
                 }
 
@@ -89,7 +89,7 @@ namespace PresMed.Controllers {
                 clinicDb.RecipeText = clinic.RecipeText;
 
                 await _clinicalOpeningServices.UpdateAsync(clinicDb);
-                TempData["SuccessMessage"] = "Informações da clinica alteradas com sucesso";
+                TempData["SuccessMessage"] = "Informações da clínica alteradas com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {

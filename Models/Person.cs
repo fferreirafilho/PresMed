@@ -15,83 +15,83 @@ namespace PresMed.Models {
 
         public int Id { get; set; }
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(3, ErrorMessage = "Campo invalido ")]
-        [MaxLength(50, ErrorMessage = "Campo invalido ")]
+        [MinLength(3, ErrorMessage = "Campo inválido ")]
+        [MaxLength(50, ErrorMessage = "Campo inválido ")]
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Campo invalido")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Campo inválido")]
         [Display(Name = "Telefone")]
 
         public long? Phone { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Campo invalido")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Campo inválido")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [CpfValidation(ErrorMessage = "Campo invalido")]
+        [CpfValidation(ErrorMessage = "Campo inválido")]
         [Display(Name = "CPF")]
         public string Cpf { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(2, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(2, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Display(Name = "Rua")]
         public string Street { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(2, ErrorMessage = "Campo invalido")]
-        [MaxLength(40, ErrorMessage = "Campo invalido")]
+        [MinLength(2, ErrorMessage = "Campo inválido")]
+        [MaxLength(40, ErrorMessage = "Campo inválido")]
         [Display(Name = "Bairro")]
         public string District { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(2, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(2, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Display(Name = "UF")]
         public string State { get; set; }
 
-        [MinLength(4, ErrorMessage = "Campo invalido")]
-        [MaxLength(40, ErrorMessage = "Campo invalido")]
+        [MinLength(4, ErrorMessage = "Campo inválido")]
+        [MaxLength(40, ErrorMessage = "Campo inválido")]
         [Display(Name = "Complemento")]
         public string Complement { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(4, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(4, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Display(Name = "Cidade")]
         public string City { get; set; }
 
-        [MinLength(1, ErrorMessage = "Campo invalido")]
-        [MaxLength(7, ErrorMessage = "Campo invalido")]
+        [MinLength(1, ErrorMessage = "Campo inválido")]
+        [MaxLength(7, ErrorMessage = "Campo inválido")]
         [Display(Name = "Numero")]
         public string Number { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(3, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(3, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Display(Name = "Usuario")]
         public string User { get; set; }
 
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [MinLength(4, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(4, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Display(Name = "CRM")]
         public string Crm { get; set; }
 
-        [MinLength(4, ErrorMessage = "Campo invalido")]
-        [MaxLength(20, ErrorMessage = "Campo invalido")]
+        [MinLength(4, ErrorMessage = "Campo inválido")]
+        [MaxLength(20, ErrorMessage = "Campo inválido")]
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Especialidade")]
         public string Speciality { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [DataType(DataType.Date, ErrorMessage = "Data invalida favor inserir novamente")]
+        [DataType(DataType.Date, ErrorMessage = "Data inválida favor inserir novamente")]
         [Display(Name = "Data de nascimento")]
         [BirthDateValidation(ErrorMessage = "O usuário deve ter mais de 18 anos e menos de 130 anos")]
         public DateTime? BirthDate { get; set; }

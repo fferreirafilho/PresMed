@@ -44,7 +44,7 @@ namespace PresMed.Services {
 
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -55,7 +55,7 @@ namespace PresMed.Services {
                 return list.Where(x => x.Status == Status.Ativo && x.PersonType == PersonType.Assistant).ToList();
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace PresMed.Services {
                 return await _context.Person.FirstOrDefaultAsync(obj => obj.Id == id);
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para encontrar tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para encontrar tente mais tarde, erro: {e.Message}");
             }
         }
 

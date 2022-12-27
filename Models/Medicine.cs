@@ -8,32 +8,32 @@ namespace PresMed.Models {
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Nome")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(50, ErrorMessage = "Campo invalido")]
+        [MinLength(5, ErrorMessage = "Campo inválido")]
+        [MaxLength(50, ErrorMessage = "Campo inválido")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Medicamento")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(50, ErrorMessage = "Campo invalido")]
+        [MinLength(5, ErrorMessage = "Campo inválido")]
+        [MaxLength(50, ErrorMessage = "Campo inválido")]
         public string Drug { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Registro")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(50, ErrorMessage = "Campo invalido")]
+        [MinLength(5, ErrorMessage = "Campo inválido")]
+        [MaxLength(50, ErrorMessage = "Campo inválido")]
         public string Record { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Concentração")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(50, ErrorMessage = "Campo invalido")]
+        [MinLength(5, ErrorMessage = "Campo inválido")]
+        [MaxLength(50, ErrorMessage = "Campo inválido")]
         public string Concentration { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Forma farmacêutica")]
-        [MinLength(5, ErrorMessage = "Campo invalido")]
-        [MaxLength(50, ErrorMessage = "Campo invalido")]
+        [MinLength(5, ErrorMessage = "Campo inválido")]
+        [MaxLength(50, ErrorMessage = "Campo inválido")]
         public string PharmaceuticalForm { get; set; }
 
         public Medicine() { }

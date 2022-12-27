@@ -31,7 +31,7 @@ namespace PresMed.Services {
                 if (e.InnerException.Message.Contains(patient.Crm)) {
                     throw new Exception($"Houve um erro ao salvar, registro duplicado");
                 }
-                throw new Exception($"Houve um erro ao salvar, ERRO: {e.InnerException.Message}");
+                throw new Exception($"Houve um erro ao salvar, erro: {e.InnerException.Message}");
 
             }
         }
@@ -44,7 +44,7 @@ namespace PresMed.Services {
 
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -55,7 +55,7 @@ namespace PresMed.Services {
                 return list.Where(x => x.PersonType == PersonType.Patient).ToList();
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace PresMed.Services {
                 return await _context.Person.OrderBy(x => x.Name).ToListAsync();
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para listar, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para listar, erro: {e.Message}");
             }
         }
 
@@ -75,7 +75,7 @@ namespace PresMed.Services {
                 return await _context.Person.FirstOrDefaultAsync(obj => obj.Id == id);
             }
             catch (Exception e) {
-                throw new Exception($"Houve um erro para encontrar tente mais tarde, ERRO: {e.Message}");
+                throw new Exception($"Houve um erro para encontrar tente mais tarde, erro: {e.Message}");
             }
         }
 

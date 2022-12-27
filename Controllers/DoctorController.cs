@@ -30,7 +30,7 @@ namespace PresMed.Controllers {
 
         public async Task<IActionResult> Index() {
             try {
-                ViewData["Title"] = "Listagem de medicos ativos";
+                ViewData["Title"] = "Listagem de médicos ativos";
                 var list = await _doctorService.FindAllActiveAsync();
                 return View(list);
             }
@@ -43,7 +43,7 @@ namespace PresMed.Controllers {
 
         public async Task<IActionResult> Inactive() {
             try {
-                ViewData["Title"] = "Listagem de medicos desativados";
+                ViewData["Title"] = "Listagem de médicos desativados";
                 var list = await _doctorService.FindAllDisableAsync();
                 return View("Index", list);
             }
@@ -191,7 +191,7 @@ namespace PresMed.Controllers {
                 Person.SendMail(doctor.Email, body, title);
                 ClinicSetings clinicOpening = await _clinicOpeningServices.ListAsync();
                 await _timeService.InsertAsync(new Time(clinicOpening.InitialHour, clinicOpening.EndHour, doctor, new DateTime(2022, 01, 01, 00, 30, 00), (clinicOpening.EndHour.Hour - clinicOpening.InitialHour.Hour) * 2, new DateTime(0)));
-                TempData["SuccessMessage"] = "Usuario cadastrado com sucesso";
+                TempData["SuccessMessage"] = "Usuário cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -286,7 +286,7 @@ namespace PresMed.Controllers {
 
                 await _doctorService.UpdateAsync(doctor);
 
-                TempData["SuccessMessage"] = "Usuario ativado com sucesso";
+                TempData["SuccessMessage"] = "Usuário ativado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -330,7 +330,7 @@ namespace PresMed.Controllers {
                 dbPerson.BirthDate = doctor.BirthDate;
                 dbPerson = _doctorService.TransformUpperCase(dbPerson);
                 await _doctorService.UpdateAsync(dbPerson);
-                TempData["SuccessMessage"] = "Usuario alterado com sucesso";
+                TempData["SuccessMessage"] = "Usuário alterado com sucesso";
 
                 return RedirectToAction("Index");
             }

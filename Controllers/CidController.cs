@@ -87,7 +87,7 @@ namespace PresMed.Controllers {
                 cid = _cidServices.TransformUpperCase(cid);
                 await _cidServices.InsertAsync(cid);
 
-                TempData["SuccessMessage"] = "Procedimento cadastrado com sucesso";
+                TempData["SuccessMessage"] = "CID cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {
@@ -114,7 +114,7 @@ namespace PresMed.Controllers {
                 dbCid.Description = cid.Description;
                 cid = _cidServices.TransformUpperCase(dbCid);
                 await _cidServices.UpdateAsync(dbCid);
-                TempData["SuccessMessage"] = "Procedimento alterado com sucesso";
+                TempData["SuccessMessage"] = "CID alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception e) {

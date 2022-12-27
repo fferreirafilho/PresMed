@@ -6,21 +6,21 @@ namespace PresMed.Models {
 
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Time)]
         [Display(Name = "Horario inicial de atendimento")]
         public DateTime InitialHour { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Time)]
         [Display(Name = "Horario final de atendimento")]
         public DateTime FinalHour { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Tempo de atendimento")]
         public DateTime ServiceTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "Dia inicial")]
         public DateTime InitialDay { get; set; }
 

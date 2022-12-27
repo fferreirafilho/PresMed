@@ -193,30 +193,30 @@ namespace PresMed.Controllers {
             Person person = JsonConvert.DeserializeObject<Person>(sessionUser);
 
             if (person.Id != scheduling.Doctor.Id) {
-                TempData["ErrorMessage"] = $"Atendimento invalido";
+                TempData["ErrorMessage"] = $"Atendimento inválido";
                 return RedirectToAction("Index");
             }
 
-            if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
-                TempData["ErrorMessage"] = $"Data de atendimento invalido";
-                return RedirectToAction(nameof(Index));
-            }
+            //if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+            //    TempData["ErrorMessage"] = $"Data de atendimento inválido";
+            //    return RedirectToAction(nameof(Index));
+            //}
 
-            if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
-                TempData["ErrorMessage"] = $"Data de atendimento invalido";
-                return RedirectToAction(nameof(Index));
-            }
+            //if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+            //    TempData["ErrorMessage"] = $"Data de atendimento inválido";
+            //    return RedirectToAction(nameof(Index));
+            //}
 
-            if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
-                if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
-                    TempData["ErrorMessage"] = $"Horario de atendimento invalido";
-                    return RedirectToAction(nameof(Index));
-                }
-                if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
-                    TempData["ErrorMessage"] = $"Horario de atendimento futuro";
-                    return RedirectToAction(nameof(Index));
-                }
-            }
+            //if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+            //    if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+            //        TempData["ErrorMessage"] = $"Horário  de atendimento inválido";
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
+            //        TempData["ErrorMessage"] = $"Horário  de atendimento futuro";
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //}
 
 
             if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
@@ -307,18 +307,19 @@ namespace PresMed.Controllers {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 RedirectToAction("Index");
             }
-            Scheduling scheduling = await _schedulingServices.FindByIdAsync(id.Value);
-            if (scheduling == null) {
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(id.Value);
+
+            if (attendance == null) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 RedirectToAction("Index");
             }
-            if (scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
+            if (attendance.Scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {
                 TempData["ErrorMessage"] = $"ID não encontrado";
                 RedirectToAction("Index");
             }
 
-            scheduling.StatusAttendence = StatusAttendence.Finalizado;
-            await _schedulingServices.UpdateAsync(scheduling);
+            attendance.Scheduling.StatusAttendence = StatusAttendence.Finalizado;
+            await _schedulingServices.UpdateAsync(attendance.Scheduling);
 
             return RedirectToAction("Index");
         }
@@ -381,7 +382,7 @@ namespace PresMed.Controllers {
                 };
 
                 document.Add(paragraph1);
-                Paragraph paragraph2 = new Paragraph($"Atestado Medico de {attendance.Patient.Name}\n\n");
+                Paragraph paragraph2 = new Paragraph($"Atestado Médico de {attendance.Patient.Name}\n\n");
                 paragraph2.Alignment = Element.ALIGN_CENTER;
                 document.Add(paragraph2);
                 var str = clinicOpening.AttestedText;
@@ -495,7 +496,7 @@ namespace PresMed.Controllers {
                 }
 
                 if (dbTime.Person.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    TempData["ErrorMessage"] = "Médico desativado no sistema";
                     return RedirectToAction("Index");
                 }
                 List<Time> listTime = await _timeServices.FindAllByPersonId(dbTime.Person.Id);
@@ -578,7 +579,7 @@ namespace PresMed.Controllers {
                 }
 
                 if (time.InitialHour > time.FinalHour) {
-                    TempData["ErrorMessage"] = "Horario invalido";
+                    TempData["ErrorMessage"] = "Horário inválido";
                     return View(time);
                 }
 
@@ -590,13 +591,13 @@ namespace PresMed.Controllers {
                 }
 
                 if (dbTime.Person.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    TempData["ErrorMessage"] = "Médico desativado no sistema";
                     return RedirectToAction("Index");
                 }
 
 
                 if (dbTime.InitialDay >= time.InitialDay) {
-                    TempData["ErrorMessage"] = "Data inicial tem que ser maior que a data inicial da ultima alteração ";
+                    TempData["ErrorMessage"] = "Data inicial tem que ser maior que a data inicial da última alteração";
                     return View(time);
                 }
 
@@ -631,7 +632,7 @@ namespace PresMed.Controllers {
 
                 await _timeServices.InsertAsync(time);
 
-                TempData["SuccessMessage"] = "Horario Alterado com sucesso";
+                TempData["SuccessMessage"] = "Horário  Alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
@@ -670,6 +671,7 @@ namespace PresMed.Controllers {
             }
             attendanceDB.Report = attendance.Report;
             await _attendanceServices.UpdateAsync(attendanceDB);
+            TempData["SuccessMessage"] = "Receituário salvo com sucesso";
             return RedirectToAction("Index");
 
 
@@ -708,16 +710,19 @@ namespace PresMed.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MedicalCertificate(MedicalCertificateViewModel medicalCertificateViewModel) {
 
-            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(medicalCertificateViewModel.Id);
+            Attendance attendance = await _attendanceServices.FindAttendanceByIdAsync(medicalCertificateViewModel.Attendance.Id);
             IEnumerable<Cid> listCid = await _cidServices.FindAllAsync();
             medicalCertificateViewModel.Attendance = attendance;
             medicalCertificateViewModel.ListCid = listCid;
-            if (!ModelState.IsValid) {
-                TempData["ErrorMessage"] = "Test";
-                return View(medicalCertificateViewModel);
+
+            if (medicalCertificateViewModel.Cid == 0 || medicalCertificateViewModel.Days == 0) {
+                if (!ModelState.IsValid) {
+                    return View(medicalCertificateViewModel);
+                }
             }
 
             MedicalCertificate medical = await _attendanceServices.FindMedicalCertificateByAttendanceId(attendance.Id);
+
             Cid cid = await _cidServices.FindByIdAsync(medicalCertificateViewModel.Cid);
             if (medical != null) {
                 medical.Attendance = attendance;
@@ -728,10 +733,12 @@ namespace PresMed.Controllers {
             else {
                 await _attendanceServices.InsertMedicalCertificateAsync(new MedicalCertificate { Attendance = attendance, Cid = cid, Days = medicalCertificateViewModel.Days });
             }
+            TempData["SuccessMessage"] = "Atestado salvo com sucesso";
             return RedirectToAction("Index");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Attended(AttendanceViewModel attendance) {
             try {
 

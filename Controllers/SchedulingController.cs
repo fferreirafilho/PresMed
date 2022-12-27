@@ -410,7 +410,7 @@ namespace PresMed.Controllers {
 
                 scheduling.StatusAttendence = StatusAttendence.Aguardando_atendimento;
                 await _schedulingServices.UpdateAsync(scheduling);
-                TempData["SuccessMessage"] = $"Agendamento confirmado com sucesso";
+                TempData["SuccessMessage"] = $"Paciente movido para aguardando atendimento com sucesso";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex) {
@@ -433,7 +433,7 @@ namespace PresMed.Controllers {
                     return RedirectToAction(nameof(Index));
                 }
 
-                if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento || scheduling.StatusAttendence != StatusAttendence.Confirmado) {
+                if (scheduling.StatusAttendence != StatusAttendence.Agendado && scheduling.StatusAttendence != StatusAttendence.Confirmado) {
                     TempData["ErrorMessage"] = $"ID invalido";
                     return RedirectToAction(nameof(Index));
                 }
@@ -457,7 +457,7 @@ namespace PresMed.Controllers {
                 }
 
                 await _schedulingServices.Delete(scheduling);
-                TempData["SuccessMessage"] = $"Agendamento excluido com sucesso";
+                TempData["SuccessMessage"] = $"Agendamento excluído com sucesso";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex) {

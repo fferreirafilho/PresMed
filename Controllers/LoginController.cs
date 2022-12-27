@@ -56,13 +56,13 @@ namespace PresMed.Controllers {
                     }
 
                 }
-                TempData["ErrorMessage"] = $"Usuário ou senha invalido";
+                TempData["ErrorMessage"] = $"Usuário ou senha inválido";
                 return View("Index");
 
 
             }
             catch (Exception e) {
-                TempData["ErrorMessage"] = $"Erro ao fazer login, ERRO: {e.Message}";
+                TempData["ErrorMessage"] = $"Erro ao fazer login, erro: {e.Message}";
                 return RedirectToAction("Index");
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using iTextSharp.text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresMed.Filters;
@@ -52,7 +53,7 @@ namespace PresMed.Controllers {
                 }
 
                 if (dbTime.Person.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    TempData["ErrorMessage"] = "Médico desativado no sistema";
                     return RedirectToAction("Index");
                 }
                 List<Time> listTime = await _timeServices.FindAllByPersonId(dbTime.Person.Id);
@@ -69,11 +70,12 @@ namespace PresMed.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Time time) {
+        public async Task<IActionResult> Edit(TimeViewModel time) {
             try {
 
                 Time name = await _timeServices.FindByIdAsync(time.Id);
                 time.Person = name.Person;
+                time.ListTime = await _timeServices.FindAllByPersonId(time.Person.Id);
 
                 if (time.InitialDay.ToShortDateString() == DateTime.Now.ToShortDateString()) {
                     TempData["ErrorMessage"] = "Data tem que ser maior que hoje";
@@ -81,7 +83,7 @@ namespace PresMed.Controllers {
                 }
 
 
-                if (time.InitialDay < DateTime.Now) {
+                if (time.InitialDay.Date < DateTime.Now.Date) {
                     TempData["ErrorMessage"] = "Data tem que ser maior que hoje";
                     return View(time);
                 }
@@ -104,12 +106,20 @@ namespace PresMed.Controllers {
 
 
                 if (!ModelState.IsValid) {
-                    time = await _timeServices.FindByIdAsync(time.Id);
+                    Time timedb = await _timeServices.FindByIdAsync(time.Id);
+
+                    time.InitialHour = timedb.InitialHour;
+                    time.InitialDay = timedb.InitialDay;
+                    time.HourPerDay = timedb.HourPerDay;
+                    time.FinalDay = timedb.FinalDay;
+                    time.FinalHour = timedb.FinalHour;
+                    time.Person = timedb.Person;
+
                     return View(time);
                 }
 
                 if (time.InitialHour > time.FinalHour) {
-                    TempData["ErrorMessage"] = "Horario invalido";
+                    TempData["ErrorMessage"] = "Horário invalido";
                     return View(time);
                 }
 
@@ -121,13 +131,12 @@ namespace PresMed.Controllers {
                 }
 
                 if (dbTime.Person.Status == Status.Desativado) {
-                    TempData["ErrorMessage"] = "Medico desativado no sistema";
+                    TempData["ErrorMessage"] = "Médico desativado no sistema";
                     return RedirectToAction("Index");
                 }
 
-
                 if (dbTime.InitialDay >= time.InitialDay) {
-                    TempData["ErrorMessage"] = "Data inicial tem que ser maior que a data inicial da ultima alteração ";
+                    TempData["ErrorMessage"] = "Data inicial tem que ser maior que a data inicial da última alteração ";
                     return View(time);
                 }
 
@@ -159,10 +168,18 @@ namespace PresMed.Controllers {
                 dbTime.FinalDay = time.InitialDay.Subtract(TimeSpan.FromDays(1));
                 time.Id = 0;
                 await _timeServices.UpdateAsync(dbTime);
+                Time insertTime = new Time {
+                    InitialHour = time.InitialHour,
+                    InitialDay = time.InitialDay,
+                    HourPerDay = time.HourPerDay,
+                    FinalDay = time.FinalDay,
+                    FinalHour = time.FinalHour,
+                    Person = time.Person,
+                };
 
-                await _timeServices.InsertAsync(time);
+                await _timeServices.InsertAsync(insertTime);
 
-                TempData["SuccessMessage"] = "Horario Alterado com sucesso";
+                TempData["SuccessMessage"] = "Horário Alterado com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
