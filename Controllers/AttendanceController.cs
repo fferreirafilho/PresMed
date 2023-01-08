@@ -197,26 +197,26 @@ namespace PresMed.Controllers {
                 return RedirectToAction("Index");
             }
 
-            //if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
-            //    TempData["ErrorMessage"] = $"Data de atendimento inválido";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (DateTime.Now.Month > scheduling.DayAttendence.Month) {
+                TempData["ErrorMessage"] = $"Data de atendimento inválido";
+                return RedirectToAction(nameof(Index));
+            }
 
-            //if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
-            //    TempData["ErrorMessage"] = $"Data de atendimento inválido";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (DateTime.Now.Day > scheduling.DayAttendence.Day) {
+                TempData["ErrorMessage"] = $"Data de atendimento inválido";
+                return RedirectToAction(nameof(Index));
+            }
 
-            //if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
-            //    if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
-            //        TempData["ErrorMessage"] = $"Horário  de atendimento inválido";
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
-            //        TempData["ErrorMessage"] = $"Horário  de atendimento futuro";
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //}
+            if (DateTime.Now.Day == scheduling.DayAttendence.Day) {
+                if (DateTime.Now.Hour > scheduling.HourAttendence.Hour) {
+                    TempData["ErrorMessage"] = $"Horário  de atendimento inválido";
+                    return RedirectToAction(nameof(Index));
+                }
+                if (DateTime.Now.Hour < scheduling.HourAttendence.Hour) {
+                    TempData["ErrorMessage"] = $"Horário  de atendimento futuro";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
 
 
             if (scheduling.StatusAttendence != StatusAttendence.Aguardando_atendimento && scheduling.StatusAttendence != StatusAttendence.Em_atendimento) {

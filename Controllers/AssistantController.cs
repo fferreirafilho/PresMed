@@ -165,6 +165,33 @@ namespace PresMed.Controllers {
 
         }
 
+        public async Task<IActionResult> Profile(int? id) {
+            try {
+                if (id == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                Person assistant = await _assistantService.FindByIdAsync(id.Value);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                if (assistant.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Usuário desativado";
+                    return RedirectToAction("Index");
+                }
+                ProfileViewModel profile = new ProfileViewModel { id = id.Value };
+                return View(profile);
+
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(PersonAssistantViewModel assistant) {
@@ -327,5 +354,40 @@ namespace PresMed.Controllers {
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(ProfileViewModel profile) {
+            try {
+                if (!ModelState.IsValid) {
+                    return View(profile);
+                }
+                Person assistant = await _assistantService.FindByIdAsync(profile.id);
+                if (assistant == null) {
+                    TempData["ErrorMessage"] = "ID não encontrado";
+                    return RedirectToAction("Index");
+                }
+                if (assistant.Status == Status.Desativado) {
+                    TempData["ErrorMessage"] = "Usuário desativado";
+                    return RedirectToAction("Index");
+                }
+                assistant.Crm = profile.Crm.Trim().ToUpper();
+                assistant.Speciality = profile.Speciality.Trim().ToUpper();
+                assistant.PersonType = PersonType.Doctor;
+
+                await _assistantService.UpdateAsync(assistant);
+
+                TempData["SuccessMessage"] = "Perfil alterado com sucesso";
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex) {
+                TempData["ErrorMessage"] = $"Erro ao listar, erro: {ex.Message}";
+                return View();
+            }
+
+
+        }
+
     }
+
 }

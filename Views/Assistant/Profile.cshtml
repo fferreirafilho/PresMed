@@ -1,0 +1,46 @@
+﻿@model PresMed.Models.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Alteração de assistente para médico";
+}
+
+@if (TempData["SuccessMessage"] != null) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h6 class="display-6">@ViewData["Title"]</h6>
+<hr />
+<form asp-action="Profile" asp-controller="Assistant">
+    <div class="row">
+        <div class="col-md-6">
+            <label asp-for="@Model.Crm" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Crm" type="text" class="form-control" placeholder="Digite o numero do CRM do médico">
+            <span asp-validation-for="@Model.Crm" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.Speciality" class="form-label"></label><span class="text-danger">*</span>
+            <input asp-for="@Model.Speciality" type="text" class="form-control" placeholder="Digite a especialidade do médico">
+            <span asp-validation-for="@Model.Speciality" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+    <div class="col-12 mt-5">
+        <button type="submit" class="btn btn-success">Alterar</button>
+        <a role="button" class="btn btn-outline-secondary" asp-action="Index" asp-controller="Assistant">Voltar</a>
+    </div>
+
+
+</form>
+

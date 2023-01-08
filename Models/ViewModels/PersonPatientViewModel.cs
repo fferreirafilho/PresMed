@@ -68,7 +68,7 @@ namespace PresMed.Models.ViewModels {
         [Required(ErrorMessage = "O campo não pode ser vazio")]
         [DataType(DataType.Date, ErrorMessage = "Data invalida favor inserir novamente")]
         [Display(Name = "Data de nascimento")]
-        [BirthDatePatientValidation(ErrorMessage = "O usuário deve ter mais de 18 anos e menos de 130 anos")]
+        [BirthDatePatientValidation(ErrorMessage = "Data inválida favor inserir novamente")]
         public DateTime? BirthDate { get; set; }
 
 
